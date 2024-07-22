@@ -12,9 +12,9 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <h1>Next js 12.3.4</h1>
+        <h1 style={{color: 'violet'}}>Next js 12.3.4</h1>
         {[...Array(100).keys()].map((_, index) => (
-          <div key={index} style={{ height: '100px' }}>
+          <div key={index} style={{ height: '100px', color: 'red' }}>
             <h1>Content = {index}</h1>
           </div>
         ))}
