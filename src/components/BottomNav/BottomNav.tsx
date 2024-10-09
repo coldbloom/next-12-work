@@ -1,7 +1,7 @@
 import React, { Key, ReactNode } from 'react';
 import s from './BottomNav.module.scss';
 import cn from 'classnames';
-import { pages } from '../../utils/const';
+import { pages } from '@/utils/const';
 
 import { mdiClipboardTextClockOutline, mdiTextBoxSearchOutline, mdiPlusBoxOutline, mdiAccountBoxOutline } from '@mdi/js';
 import Icon from '@mdi/react';

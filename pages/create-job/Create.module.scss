@@ -1,0 +1,61 @@
+@use '@/utils/variables' as variables;
+
+.container {
+  padding: 0 24px;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .formWrapper {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+      color: variables.$color-theme-one;
+    }
+
+    .buttonInput {
+      border: none;
+      border-radius: variables.$rounded;
+
+      background-color: rgb(237, 237, 237);
+      color: variables.$text-secondary;
+
+      font-size: 16px;
+      text-align: start;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+
+      margin-bottom: 20px;
+
+      svg {
+        color: variables.$text-secondary;
+        margin-right: 10px;
+      }
+
+      span {
+        color: variables.$text-secondary;
+        margin-right: 4px;
+      }
+
+      &.filled {
+        color: variables.$color-theme-one;
+      }
+    }
+  }
+}
+
+.modalWrapper {
+  width: 100%;
+  height: 100%;
+
+  background-color: white;
+}

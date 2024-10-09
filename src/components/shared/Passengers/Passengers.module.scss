@@ -1,0 +1,43 @@
+@use '@/utils/variables' as variables;
+
+.wrapper {
+  padding: 24px 24px 48px 24px;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    color: variables.$color-theme-one;
+    margin: 0;
+  }
+
+  .counterWrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 24px;
+
+    p {
+      font-size: 56px;
+    }
+
+    button {
+      background-color: transparent;
+      border: none;
+    }
+
+    .icon {
+      color: variables.$main-color;
+
+      &.disabled {
+        color: variables.$color-disabled;
+      }
+    }
+  }
+}

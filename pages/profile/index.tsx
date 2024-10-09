@@ -1,35 +1,23 @@
-import React, {useState} from 'react';
+import { mdiPlusCircleOutline } from '@mdi/js';
+import Icon from '@mdi/react';
+
+import React, {useEffect, useMemo, useState} from 'react';
+import {MainForm} from "@/components/shared/MainForm";
+import "react-day-picker/style.css";
+import s from './profile.module.scss'
+import Link from "next/link";
+import { pages } from '@/utils/const';
 
 const Profile = () => {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
-
-  const handleSearch = async () => {
-    try {
-      const response = await fetch(`http://localhost:3233/api/search?query=${query}`);
-      const data = await response.json();
-      setResults(data.result || []);
-    } catch (error) {
-      console.error('Ошибка при поиске адреса:', error);
-    }
-  };
 
   return (
     <div>
       <h1>Профиль</h1>
-      <div>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Введите адрес"
-        />
-        <button onClick={handleSearch}>Поиск</button>
-        <ul>
-          {results.map((result: any, index) => (
-            <li key={index}>{result.name}</li>
-          ))}
-        </ul>
+      <MainForm />
+      <div className={s.createTravelWrapper}>
+        <Link href={pages.createJob.link} className={s.createTravelLink}>
+          Создать поездку
+        </Link>
       </div>
     </div>
   );
