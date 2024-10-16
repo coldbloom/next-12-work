@@ -15,7 +15,7 @@ const Profile = () => {
       <h1>Профиль</h1>
       <MainForm />
       <div className={s.createTravelWrapper}>
-        <Link href={pages.createJob.link} className={s.createTravelLink}>
+        <Link href={pages.createTrip.link} className={s.createTravelLink}>
           Создать поездку
         </Link>
       </div>

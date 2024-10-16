@@ -23,9 +23,9 @@ const tabs: TabItemType[] = [
     icon: <Icon path={mdiTextBoxSearchOutline} size="24px" />,
   },
   {
-    id: 'create-job',
-    label: pages.createJob.title,
-    href: pages.createJob.link,
+    id: 'create-trip',
+    label: pages.createTrip.title,
+    href: pages.createTrip.link,
     icon: <Icon path={mdiPlusBoxOutline} size="24px" />,
   },
   {

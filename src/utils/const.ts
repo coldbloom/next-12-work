@@ -4,10 +4,10 @@ export const pages = {
     //component: 'FindJobPage', // Имя компонента для страницы "Найти работу"
     title: 'Найти работу',
   },
-  createJob: {
-    link: '/create-job',
+  createTrip: {
+    link: '/create-trip',
     //component: 'CreateApplicationPage', // Имя компонента для страницы "Создать заявку"
-    title: 'Создать заявку',
+    title: 'Создать поездку',
   },
   myJobs: {
     link: '/my-jobs',
