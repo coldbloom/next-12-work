@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Date = () => {
+const Info = () => {
   return (
     <div>
-
+      <h1>Description</h1>
     </div>
   );
 };
 
-export default Date;
+export default Info;

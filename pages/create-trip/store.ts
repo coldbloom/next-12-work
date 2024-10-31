@@ -28,7 +28,8 @@ class CreateTripStore {
     this.description = value;
   }
 
-  updateDate(value: Date): void {
+  updateDate(value: Date | null): void {
+    console.log(value);
     this.dateTime = value;
   };
 
@@ -37,9 +38,10 @@ class CreateTripStore {
   }
 
   // Метод для обновления местоположения
-  updateLocation(field: locationField, location: Location | null): void {
+  updateLocation(location: Location, field: string): void {
+    // @ts-ignore
     this[field] = location; // Отдельное обновление местоположения
-    console.log('updateLocation store method = ' ,this, field, location)
+    console.log('updateLocation store method = ' ,this, `\n${field}`)
   };
 }
 

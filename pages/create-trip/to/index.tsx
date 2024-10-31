@@ -1,11 +1,70 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { LayoutContainer } from '../index';
+import { LocationCreateForm } from '@/components/shared/LocationCreateForm';
+import { ModalPageWindow } from '@/components/kit/ModalPageWindow';
+import { LocationSelect } from '@/components/shared/LocationSelect';
+import { observer } from 'mobx-react-lite';
+import Store from '../store';
+import { Location } from '@/utils/types';
 
-const To = () => {
+import s from '../Create.module.scss';
+import { useRouter } from "next/router";
+
+const To = observer(() => {
+  const router = useRouter();
+  const [activeField, setActiveField] = useState<number | null>(null);
+
+  const closeModal = () => setActiveField(null);
+
+  const handleLocation = (value: Location, fieldName: string) => {
+    Store.updateLocation(value, fieldName);
+    closeModal();
+  };
+
+  const { cityTo: city, streetTo: street, buildingTo: building, cityFrom } = Store;
+
+  useEffect(() => {
+    if (!cityFrom) {
+      router.push('/create-trip');
+    }
+  }, []);
+
   return (
-    <div>
-      <h1>To</h1>
-    </div>
+    <LayoutContainer>
+      <LocationCreateForm mode="to" city={city} street={street} building={building} setActiveField={setActiveField} />
+      <ModalPageWindow isOpen={!!activeField}>
+        <div className={s.modalWrapper}>
+          {activeField === 1 && (
+            <LocationSelect
+              fieldName="cityTo"
+              initialValue={city?.name}
+              onClose={closeModal}
+              handleFormChange={handleLocation}
+              params={{ limit: 25 }}
+            />
+          )}
+          {activeField === 2 && (
+            <LocationSelect
+              fieldName="streetTo"
+              initialValue={street?.name}
+              onClose={closeModal}
+              handleFormChange={handleLocation}
+              params={{ contentType: 'street', limit: 50, cityId: city?.id }}
+            />
+          )}
+          {activeField === 3 && (
+            <LocationSelect
+              fieldName="buildingTo"
+              initialValue={building?.name}
+              onClose={closeModal}
+              handleFormChange={handleLocation}
+              params={{ contentType: 'building', limit: 10, streetId: street?.id, withParent: 0 }}
+            />
+          )}
+        </div>
+      </ModalPageWindow>
+    </LayoutContainer>
   );
-};
+});
 
 export default To;

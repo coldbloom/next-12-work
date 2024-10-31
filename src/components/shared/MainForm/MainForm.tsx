@@ -1,4 +1,4 @@
-import { mdiCalendarMonthOutline, mdiAccountMultipleOutline, mdiMapMarkerRadiusOutline, mdiSwapVerticalCircleOutline } from '@mdi/js';
+import { mdiCalendarMonthOutline, mdiAccountMultipleOutline, mdiMapMarkerRadiusOutline, mdiSwapVerticalCircleOutline, mdiSwapVertical } from '@mdi/js';
 import Icon from '@mdi/react';
 
 import s from './MainForm.module.scss';
@@ -7,7 +7,7 @@ import cn from 'classnames';
 import { useEffect, useState } from 'react';
 
 import { ModalPageWindow } from '@/components/kit/ModalPageWindow';
-import { Calendar } from '@/components/kit/Calendar';
+import { DatePicker } from "../../kit/Calendar";
 import { LocationSelect } from '../LocationSelect';
 
 import { getPassengerString, formatDate } from '@/utils/functions'
@@ -27,16 +27,17 @@ type ButtonInputProps = {
   onClick?: () => void;
   className?: string;
   value?: string | number;
+  error?: boolean;
 };
 
-const ButtonInput = ({ iconPath, placeholder, onClick, className, value }: ButtonInputProps) => {
+const ButtonInput = ({ iconPath, placeholder, onClick, className, value, error = false }: ButtonInputProps) => {
   // Логика для отображения значения на кнопке
   const displayValue = typeof value === 'number'
     ? getPassengerString(value) // Если value - число, отображаем с правильным склонением
     : (value ?? placeholder); // Иначе, если есть значение, отображаем его, или показываем placeholder
 
   return (
-    <button onClick={onClick} className={cn(s.buttonInput, {[s.disabledColor]: !value}, className)}>
+    <button onClick={onClick} className={cn(s.buttonInput, {[s.disabledColor]: !value}, {[s.error]: error}, className)}>
       {iconPath && <Icon path={iconPath} className={s.icon} />}
       <span>{displayValue}</span>
     </button>
@@ -52,20 +53,30 @@ export const MainForm = () => {
     passengers: 1,
   });
 
+  const [errorFrom, setErrorFrom] = useState(false);
+  const [errorTo, setErrorTo] = useState(false);
+
+  const { from, to, date, passengers} = formData;
+
+  const swapVisible = !errorTo && !errorFrom && (!!from || !!to);
+
   const closeModal = (num?: number) => setActiveField(num ?? null);
 
-  useEffect(() => {
-    console.log(activeField, ' 999')
-  }, [activeField]);
-
-  const handleFormChange = (value: Location | Date | number, fieldName: string) => {
-    // Обновляем состояние, используя предыдущее значение
+  const handleLocation = (value: Location, fieldName: string) => {
     setFormData((prevData) => ({
       ...prevData,
       [fieldName]: value, // Обновляем только нужное поле
     }));
     closeModal();
-  };
+  }
+
+  const handleDate = (selectedDate: Date) => {
+    setFormData(prevState => ({
+      ...prevState,
+      date: selectedDate,
+    }));
+    closeModal(0);
+  }
 
   const swap = () => {
     setFormData(prevFormData => ({
@@ -75,14 +86,31 @@ export const MainForm = () => {
     }));
   };
 
-  const handleClearInput = (name: string) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: '', // Очищаем значение для конкретного поля
-    }));
+  //@fixme потребуется ли мне эта функция или выпилить?
+  // const handleClearInput = (name: string) => {
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     [name]: '', // Очищаем значение для конкретного поля
+  //   }));
+  // };
+
+  const handleSearchInput = () => {
+    if (!from) {
+      setErrorFrom(true);
+    }
+    if (!to) {
+      setErrorTo(true);
+    }
   };
 
-  const { from, to, date, passengers} = formData;
+  useEffect(() => {
+    if (from && errorFrom) {
+      setErrorFrom(false);
+    }
+    if (to && errorTo) {
+      setErrorTo(false);
+    }
+  }, [from, to]);
 
   return (
     <>
@@ -96,12 +124,13 @@ export const MainForm = () => {
               iconPath={mdiMapMarkerRadiusOutline}
               onClick={() => setActiveField(1)}
               value={from?.name}
+              error={errorFrom}
             />
             <div className={s.swapWrapper}>
-              <hr className={cn({[s.hr]: !!from || !!to})}/>
-              {(!!from || !!to) && (
+              <hr className={cn({[s.hr]: swapVisible})}/>
+              {swapVisible && (
                 <button onClick={swap}>
-                  <Icon path={mdiSwapVerticalCircleOutline} size="30px" className={s.iconSwap} />
+                  <Icon path={mdiSwapVertical} size="30px" className={s.iconSwap} />
                 </button>
               )}
             </div>
@@ -110,10 +139,10 @@ export const MainForm = () => {
               iconPath={mdiMapMarkerRadiusOutline}
               onClick={() => setActiveField(2)}
               value={to?.name}
+              error={errorTo}
             />
             <hr/>
             <ButtonInput
-              placeholder="Сегодня"
               iconPath={mdiCalendarMonthOutline}
               onClick={() => setActiveField(3)}
               value={formatDate(date)}
@@ -125,14 +154,14 @@ export const MainForm = () => {
               onClick={() => setActiveField(4)}
               value={passengers}
             />
-            <button className={s.searchButton}>Поиск</button>
+            <button className={s.searchButton} onClick={handleSearchInput}>Поиск</button>
           </div>
         </div>
       </div>
       <ModalPageWindow
         isOpen={!!activeField}
         onClose={() => closeModal(0)}
-        style={{ ...((activeField === 3 || activeField === 4 || activeField === 0) && { height: '345px' }) }}
+        style={{ ...((activeField === 3 || activeField === 4 || activeField === 0) && { height: '380px' }) }}
         exitActiveFast={(activeField === 3 || activeField === 4 || activeField === 0) && true}
       >
         <div className={s.modalWrapper}>
@@ -141,7 +170,7 @@ export const MainForm = () => {
               fieldName="from"
               initialValue={from?.name}
               onClose={() => closeModal()}
-              handleFormChange={handleFormChange}
+              handleFormChange={handleLocation}
               params={{ contentType: 'city', limit: 25 }}
               // handleClear={handleClearInput}
             />
@@ -151,15 +180,14 @@ export const MainForm = () => {
               fieldName="to"
               initialValue={to?.name}
               onClose={() => closeModal()}
-              handleFormChange={handleFormChange}
+              handleFormChange={handleLocation}
               params={{ contentType: 'city', limit: 25 }}
             />
           )}
           {activeField === 3 && (
-            <Calendar
+            <DatePicker
               selectedDate={formData.date}
-              handleFormChange={handleFormChange}
-              onCloseModal={() => closeModal(0)}
+              onChangeDate={handleDate}
             />
           )}
           {activeField === 4 && (

@@ -58,12 +58,21 @@
       background-color: white;
       color: variables.$color-theme-one;
 
-      &hover {
+      &:hover {
         background-color: #EDEDED;
       }
 
       &:active {
         background-color: #EDEDED;
+      }
+
+      &.error {
+        background-color: #EDEDED;
+        outline: 1px solid variables.$error-color;
+
+        span {
+          color: variables.$error-color;
+        }
       }
 
       .icon {
@@ -98,6 +107,12 @@
       border: none;
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
+
+      &:enabled:active {
+        //border-radius: calc(10px - 1px);
+        transform: scale(0.990);
+        //background-color: variables.$color-theme-third;
+      }
     }
 
     hr {
@@ -147,6 +162,10 @@
     background-color: transparent;
     padding: 0;
     height: 30px;
+
+    &:active {
+      transform: scale(0.950);
+    }
   }
 
   .iconSwap {

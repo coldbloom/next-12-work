@@ -9,7 +9,7 @@ import { extractLocationData, formatComma } from "@/utils/functions";
 type OptionFieldProps = {
   option: Location;
   fieldName: string;
-  handleFormChange: (value: Location | Date | number, name: string) => void;
+  handleFormChange: (value: Location, name: string) => void;
 }
 
 export const OptionField = ({ option, fieldName, handleFormChange }: OptionFieldProps) => {

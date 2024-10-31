@@ -1,0 +1,134 @@
+@use '@/utils/variables' as variables;
+
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .formWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    //@fixme может стоит continueButton создать отдельной компонентой чтобы не дублировать стили
+    .buttonInput {
+      border: none;
+      border-radius: variables.$rounded;
+
+      background-color: rgb(237, 237, 237);
+      color: variables.$text-secondary;
+
+      font-size: 16px;
+      text-align: start;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+
+      margin-top: 20px;
+
+      box-shadow: 0 1px 8px 0 hsla(0, 0, 0, 0.16);
+
+      svg {
+        color: variables.$text-secondary;
+        margin-right: 10px;
+      }
+
+      span {
+        color: variables.$text-secondary;
+        margin-right: 4px;
+      }
+
+      &.filled {
+        color: variables.$color-theme-one;
+      }
+
+      &:active {
+        transform: scale(0.990);
+      }
+
+      &:first-of-type  {
+        margin-top: 0;
+      }
+    }
+  }
+
+  //@fixme может стоит continueButton создать отдельной компонентой чтобы не дублировать стили
+  .continueButton {
+    border: none;
+    border-radius: variables.$rounded;
+    background-color: variables.$main-color;
+    font-size: 16px;
+    height: 56px;
+
+    margin-bottom: 20px;
+
+    &.disabled {
+      opacity: 0.6; // Уменьшение яркости
+      color: #a1a1a1;
+      //background-color: variables.$color-disabled;
+    }
+  }
+}
+
+.modalWrapper {
+  width: 100%;
+  height: 100%;
+
+  background-color: white;
+
+  .calendarWrapper {
+    --rdp-accent-color: #{variables.$main-color} !important;
+
+    padding-top: 15px;
+    div {
+      margin: auto;
+    };
+
+    .today:not(.outside) {
+      font-weight: bold;
+      color: variables.$main-color;
+    }
+
+    .disabledDates {
+      color: variables.$color-disabled-lighter;
+    }
+
+    .weekday {
+      color: variables.$color-theme-one;
+    }
+
+    .selected {
+      color: variables.$color-theme-one!important;
+    }
+
+    .month {
+      color: variables.$main-color;
+      div {
+        height: 64px!important;
+      }
+      span {
+        color: variables.$color-theme-one;
+        //margin: 0 0 12px 10px ;
+        margin-left: 12px;
+        margin-bottom: 20px;
+      }
+    }
+  };
+}
+
+.timePicker {
+  height: 200px;
+  width: 220px;
+  //background-color: rgba(34, 36, 41, 0.6);
+  //opacity: 0.6;
+  background-color: hsla(0, 0%, 93%, 1);
+}
+
+.timePickerWrapper {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

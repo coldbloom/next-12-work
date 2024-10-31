@@ -13,7 +13,7 @@ import { Location, LocationReqParams } from '@/utils/types';
 type LocationSelectProps = {
   fieldName: string;
   onClose: () => void;
-  handleFormChange: (value: Location | Date | number, name: string) => void;
+  handleFormChange: (value: Location, name: string) => void;
   initialValue?: string;
   params: LocationReqParams;
 };

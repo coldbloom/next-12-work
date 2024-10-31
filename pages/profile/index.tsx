@@ -1,14 +1,14 @@
 import { mdiPlusCircleOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 
-import React, {useEffect, useMemo, useState} from 'react';
+import {useState} from 'react';
 import {MainForm} from "@/components/shared/MainForm";
-import "react-day-picker/style.css";
 import s from './profile.module.scss'
 import Link from "next/link";
 import { pages } from '@/utils/const';
 
 const Profile = () => {
+  const [date, setDate] = useState(new Date())
 
   return (
     <div>

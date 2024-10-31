@@ -36,7 +36,7 @@
       color: variables.$main-color;
 
       &.disabled {
-        color: variables.$color-disabled;
+        color: variables.$color-disabled-lighter;
       }
     }
   }

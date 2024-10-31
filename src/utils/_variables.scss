@@ -2,6 +2,7 @@ $background: #ffffff;
 $main-text: #000000;
 
 // z-index styles
+$z-index-header: 10;
 $z-index-fixed: 30;
 $z-index-modal-page-backdrop: 40;
 $z-index-modal-page: 45;
@@ -14,7 +15,8 @@ $text-secondary: #6F8B90;
 $text-primary: #054562;
 $text-input: #054652;
 $placeholder-color: #708b90;
-$color-disabled: #EBEBE4;
+$color-disabled-lighter: #EBEBE4; /* Lighter gray */
+$color-disabled: #d3d3d3; /* Light gray */
 $error-color: #f44336;
 
 $main-color: #3B945E;

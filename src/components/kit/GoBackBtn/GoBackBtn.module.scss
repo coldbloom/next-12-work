@@ -1,0 +1,14 @@
+@use '@/utils/variables' as variables;
+
+.goBackWrapper {
+  margin-top: 20px;
+  height: 36px;
+
+  &:active {
+    transform: scale(0.990);
+  }
+
+  svg {
+    color: variables.$main-color;
+  }
+}
