@@ -30,8 +30,8 @@ a {
 .react-calendar {
   width: 350px;
   max-width: 100%;
-  background-color: #1d1d1d;
-  //background-color: hsla(0, 0%, 93%, 1);
+  //background-color: #1d1d1d;
+  background-color: hsla(0, 0%, 93%, 1);
   //background: whitesmoke;
   //background-color: rgb(237, 237, 237);
   font-family: Arial, Helvetica, sans-serif;
@@ -39,7 +39,8 @@ a {
 
   margin: 20px auto 0;
   border-radius: 8px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  //box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 11px 15px rgba(0, 0, 0, 0.3333333333);
   padding: 10px;
 
   .react-calendar__month-view__days__day {
