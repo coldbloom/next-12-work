@@ -20,9 +20,8 @@ import {MyTimePicker} from "@/components/kit/MyTimePicker";
 
 const DateTime = observer(() => {
   const [activeField, setActiveField] = useState<number | null>(null)
-  const [time, setTime] = useState<string>('')
 
-  const { dateTime } = Store;
+  const { date, time } = Store;
 
   const router = useRouter();
   const handleContinue = () => router.push('/create-trip/description');
@@ -31,6 +30,11 @@ const DateTime = observer(() => {
 
   const onChangeDate = (selectedDate: Date) => {
     Store.updateDate(selectedDate);
+    closeModal(0);
+  };
+
+  const onChangeTime = (selectedTime: string) => {
+    Store.updateTime(selectedTime);
     closeModal(0);
   };
 
@@ -44,23 +48,19 @@ const DateTime = observer(() => {
     setValue(timeValue);
   }
 
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
   return (
     <LayoutContainer>
       <div className={s.wrapper}>
         <div className={s.formWrapper}>
           <GoBackBtn/>
           <h1>Выберите дату и время поездки</h1>
-          <button onClick={() => setActiveField(1)} className={cn(s.buttonInput, {[s.filled]: dateTime})}>
+          <button onClick={() => setActiveField(1)} className={cn(s.buttonInput, {[s.filled]: date})}>
             <Icon path={mdiCalendarMonthOutline} size="24px"/>
-            {!dateTime ? 'Дата' : formatDate(dateTime)}
+            {!date ? 'Дата' : formatDate(date)}
           </button>
           <button onClick={() => setActiveField(2)} className={cn(s.buttonInput)}>
             <Icon path={mdiClockTimeFourOutline} size="24px"/>
-            {'Время'}
+            {time ?? 'Время'}
           </button>
         </div>
         {/*<input*/}
@@ -103,15 +103,15 @@ const DateTime = observer(() => {
         <div className={s.modalWrapper}>
           {activeField === 1 && (
             <DatePicker
-              selectedDate={dateTime}
+              selectedDate={date}
               onChangeDate={(newDate) => onChangeDate(newDate)}
             />
           )}
           {activeField === 2 && (
             <div className={s.timePickerWrapper}>
               <MyTimePicker
-                value={value}
-                onChange={(value) => console.log(value)}
+                value={time}
+                onChange={(value) => onChangeTime(value)}
                 onFocus={(value) => console.log(value, 'focus')}
                 onSave={(value) => console.log(value, ' onSave')}
               />

@@ -16,7 +16,8 @@ class CreateTripStore {
   cityTo: Location | null = null;
   streetTo: Location | null = null;
   buildingTo: Location | null = null;
-  dateTime: Date | null = null;
+  date: Date | null = null;
+  time: string | null = null;
   passengers: number = 3;
   description: string = '';
 
@@ -29,9 +30,12 @@ class CreateTripStore {
   }
 
   updateDate(value: Date | null): void {
-    console.log(value);
-    this.dateTime = value;
+    this.date = value;
   };
+
+  updateTime(time: string): void {
+    this.time = time;
+  }
 
   updatePassengers(value: number): void {
     this.passengers = value;
