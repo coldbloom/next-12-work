@@ -58,7 +58,7 @@ const DateTime = observer(() => {
             <Icon path={mdiCalendarMonthOutline} size="24px"/>
             {!date ? 'Дата' : formatDate(date)}
           </button>
-          <button onClick={() => setActiveField(2)} className={cn(s.buttonInput)}>
+          <button onClick={() => setActiveField(2)} className={cn(s.buttonInput, {[s.filled]: time})}>
             <Icon path={mdiClockTimeFourOutline} size="24px"/>
             {time ?? 'Время'}
           </button>
@@ -114,6 +114,7 @@ const DateTime = observer(() => {
                 onChange={(value) => onChangeTime(value)}
                 onFocus={(value) => console.log(value, 'focus')}
                 onSave={(value) => console.log(value, ' onSave')}
+                onCancel={() => closeModal(0)}
               />
             </div>
           )}
