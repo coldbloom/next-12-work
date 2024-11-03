@@ -180,7 +180,7 @@
 .react-ios-time-picker-cell-inner-hour:hover,
 .react-ios-time-picker-cell-inner-minute:hover,
 .react-ios-time-picker-cell-inner-hour-format:hover {
-  background-color: #ff9d0ac9;
+  background-color: variables.$color-theme-one;
   color: white;
 }
 
@@ -188,6 +188,7 @@
   /* font-weight: 500; */
   font-weight: bold;
   color: #f7f7f7;
+  font-size: 16px;
   font-size: 16px;
 }
 

@@ -4,9 +4,9 @@ import Icon from "@mdi/react";
 import { LayoutContainer } from "../index";
 import { GoBackBtn } from "@/components/kit/GoBackBtn";
 import cn from "classnames";
-import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
-import {observer} from "mobx-react-lite";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { observer } from "mobx-react-lite";
 import Store from '../store';
 
 import s from './DateTime.module.scss'
@@ -14,8 +14,6 @@ import {ModalPageWindow} from "@/components/kit/ModalPageWindow";
 import {DatePicker} from "@/components/kit/Calendar";
 import {formatDate} from "@/utils/functions";
 
-// @ts-ignore
-// import { TimePicker } from 'react-ios-time-picker';
 import {MyTimePicker} from "@/components/kit/MyTimePicker";
 
 const DateTime = observer(() => {
@@ -38,16 +36,6 @@ const DateTime = observer(() => {
     closeModal(0);
   };
 
-  useEffect(() => {
-    console.log(activeField, ' activeField')
-  }, [activeField]);
-
-  const [value, setValue] = useState('10:00');
-
-  const onChange = (timeValue: any) => {
-    setValue(timeValue);
-  }
-
   return (
     <LayoutContainer>
       <div className={s.wrapper}>
@@ -63,30 +51,9 @@ const DateTime = observer(() => {
             {time ?? 'Время'}
           </button>
         </div>
-        {/*<input*/}
-        {/*  type="time"*/}
-        {/*  value={time}*/}
-        {/*  onChange={(e) => setTime(e.target.value)}*/}
-        {/*/>*/}
 
-        {/*<div className={s.timePicker}>*/}
-        {/*  <div className={s.buttonsWrapper}>*/}
-        {/*    <button>Отмена</button>*/}
-        {/*    <button>Сохранить</button>*/}
-        {/*  </div>*/}
-        {/*  <div>*/}
-
-        {/*  </div>*/}
-        {/*</div>*/}
-
-        <MyTimePicker
-          value={value}
-          onChange={(value) => console.log(value)}
-          onFocus={(value) => console.log(value, 'focus')}
-          onSave={(value) => console.log(value, ' onSave')}
-        />
         <button
-          //disabled={!city}
+          disabled={!date || !time}
           className={cn(s.continueButton, {[s.disabled]: false})}
           onClick={handleContinue}
         >
@@ -112,7 +79,6 @@ const DateTime = observer(() => {
               <MyTimePicker
                 value={time}
                 onChange={(value) => onChangeTime(value)}
-                onFocus={(value) => console.log(value, 'focus')}
                 onSave={(value) => console.log(value, ' onSave')}
                 onCancel={() => closeModal(0)}
               />

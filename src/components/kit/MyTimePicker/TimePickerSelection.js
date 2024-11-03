@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import HourFormat from './HourFormat';
 import HourWheel from './HourWheel';
 import MinuteWheel from './MinuteWheel';
 
@@ -49,8 +48,6 @@ function TimePickerSelection({
       value,
       setValue,
       controllers,
-      // use12Hours,
-      // onAmPmChange,
       setHourFormat,
       hourFormat,
    };
