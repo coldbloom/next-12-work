@@ -1,36 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import TimePickerSelection from './TimePickerSelection';
 
-// type MyTimePickerProps = {
-//   value: Date | null;
-//   cellHeight: number;
-//   pickerDefaultValue: string;
-//   onChange: (value: Date) => void;
-// }
+type MyTimePickerProps = {
+  value: string | null;
+  cellHeight?: number;
+  pickerDefaultValue?: string;
+  onChange: (value: string) => void;
+  onSave?: (value: string) => void;
+  onCancel: () => void;
+  cancelButtonText?: string;
+  saveButtonText?: string;
+  controllers?: boolean;
+  seperator?: boolean;
+}
 
 export function MyTimePicker({
   value: initialValue = null,
   cellHeight = 28,
   pickerDefaultValue = '10:00',
   onChange = () => {},
-  onFocus = () => {},
   onSave = () => {},
   onCancel = () => {},
-  //disabled = false,
-  //isOpen: initialIsOpenValue = false,
-  //required = false,
   cancelButtonText = 'Отмена',
   saveButtonText = 'Сохранить',
   controllers = true,
   seperator = true,
-  //id = null,
-  //use12Hours = false,
-  onAmPmChange = () => {},
-  //name = null,
-  onOpen = () => {},
-  //popupClassName = null,
-  //inputClassName = null,
-}) {
+}: MyTimePickerProps) {
   const [inputValue, setInputValue] = useState(initialValue);
   const height = cellHeight;
 
@@ -39,10 +34,6 @@ export function MyTimePicker({
   if (initialValue === null) {
     finalValue = pickerDefaultValue;
   }
-
-  // useEffect(() => {
-  //   console.log(value, ' value');
-  // }, [value]);
 
   const params = {
     onChange,

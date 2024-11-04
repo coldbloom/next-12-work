@@ -7,7 +7,7 @@ import {useRouter} from "next/router";
 import {Location} from "@/utils/types";
 import {GoBackBtn} from "@/components/kit/GoBackBtn";
 import s from './LocationCreateForm.module.scss';
-import {DatePicker} from "@/components/kit/Calendar";
+import {Button} from "@/components/kit/Button";
 
 type LocationCreateFormProps = {
   mode: 'from' | 'to';
@@ -15,9 +15,10 @@ type LocationCreateFormProps = {
   street: Location | null;
   building: Location | null;
   setActiveField: Dispatch<SetStateAction<number | null>>
+  arrivalCityError?: boolean; // ошибка в случае если город отправления совпадает с городом прибытия
 };
 
-export const LocationCreateForm = ({ mode, city, street, building, setActiveField }: LocationCreateFormProps) => {
+export const LocationCreateForm = ({ mode, city, street, building, setActiveField, arrivalCityError }: LocationCreateFormProps) => {
   const [streetError, setStreetError] = useState(false);
   const [buildingError, setBuildingError] = useState(false);
 
@@ -47,49 +48,49 @@ export const LocationCreateForm = ({ mode, city, street, building, setActiveFiel
     buildingError && setBuildingError(false);
   }, [city, street]);
 
-  const [date, setDate] = useState<Date>(new Date());
-  const onChangeDate = (newDate: Date) => setDate(newDate);
+  console.log(arrivalCityError, ' arrivalCityError')
 
   return (
     <div className={s.wrapper}>
       <div className={s.formWrapper}>
         <GoBackBtn/>
         <h1>{isFromMode ? 'Откуда вы выезжаете?' : 'Куда вы едете?'}</h1>
-        <button onClick={() => setActiveField(1)} className={cn(s.buttonInput, s.active, {[s.filled]: city})}>
-          <Icon path={mdiMapMarkerRadiusOutline} size="24px"/>
-          {/*{city && <span>{city?.typeShort}.</span>}*/}
+        <Button
+          variant="input"
+          onClick={() => setActiveField(1)}
+          error={arrivalCityError}
+          errorText="Город прибытия совпадает с городом отправления! Выберетие другой город прибытия."
+          className={cn({[s.filled]: city})}
+          iconLeft={<Icon path={mdiMapMarkerRadiusOutline} size="24px"/>}
+        >
           {city?.name ?? (isFromMode ? 'Город отправления' : 'Город прибытия')}
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="input"
           onClick={handleStreet}
-          className={cn(s.buttonInput, {[s.filled]: street}, {[s.error]: streetError}, {[s.active]: city})}
+          active={!!city}
+          error={streetError}
+          errorText="Укажите город перед выбором улицы!"
+          iconLeft={<Icon path={mdiMapSearchOutline} size="24px"/>}
         >
-          <Icon path={mdiMapSearchOutline} size="24px"/>
-          {street && <span>{street?.typeShort}. </span>}
-          {street?.name ?? 'Улица'}
-        </button>
-        {streetError && (
-          <p className={s.errorMessage}>Укажите город перед выбором улицы!</p>
-        )}
-        <button
+          {street && <span>{street?.typeShort}.&nbsp;</span>}
+          <span className={cn({[s.filled]: street})}>{street?.name ?? 'Улица'}</span>
+        </Button>
+        <Button
+          variant="input"
           onClick={handleBuilding}
-          className={cn(s.buttonInput, {[s.filled]: building}, {[s.error]: buildingError}, {[s.active]: street})}
+          active={!!street}
+          error={buildingError}
+          errorText="Укажите улицу перед выбором дома!"
+          iconLeft={<Icon path={mdiHomeSearchOutline} size="24px"/>}
         >
-          <Icon path={mdiHomeSearchOutline} size="24px"/>
-          {building && <span>{building?.typeShort}. </span>}
-          {building?.name ?? 'Дом'}
-        </button>
-        {buildingError && (
-          <p className={s.errorMessage}>Укажите улицу перед выбором дома!</p>
-        )}
+          {building && <span>{building?.typeShort}.&nbsp;</span>}
+          <span className={cn({[s.filled]: building})}>{building?.name ?? 'Дом'}</span>
+        </Button>
       </div>
-      <button
-        disabled={!city}
-        className={cn(s.continueButton, {[s.disabled]: !city})}
-        onClick={handleContinue}
-      >
+      <Button variant="continue" disabled={!city || arrivalCityError} onClick={handleContinue}>
         Далее
-      </button>
+      </Button>
     </div>
   );
 };

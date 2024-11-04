@@ -37,12 +37,6 @@ function TimePickerSelection({
       }
    }, [value]);
 
-   // useEffect(() => {
-   //    if (hourFormat.mount) {
-   //       onAmPmChange(hourFormat.hourFormat);
-   //    }
-   // }, [hourFormat]);
-
    const params = {
       height,
       value,
@@ -91,7 +85,6 @@ function TimePickerSelection({
             <HourWheel {...params} />
             { seperator && <div className={s['react-ios-time-picker-colon']}> : </div> }
             <MinuteWheel {...params} />
-            {/*{ use12Hours && <HourFormat {...params} /> }*/}
          </div>
       </div>
    );

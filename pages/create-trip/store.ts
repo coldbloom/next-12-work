@@ -18,7 +18,8 @@ class CreateTripStore {
   buildingTo: Location | null = null;
   date: Date | null = null;
   time: string | null = null;
-  passengers: number = 3;
+  passengers: number = 4;
+  price: number | null = null;
   description: string = '';
 
   constructor() {

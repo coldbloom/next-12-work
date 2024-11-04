@@ -5,24 +5,25 @@ import { LayoutContainer } from "../index";
 import { GoBackBtn } from "@/components/kit/GoBackBtn";
 import cn from "classnames";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import Store from '../store';
 
 import s from './DateTime.module.scss'
-import {ModalPageWindow} from "@/components/kit/ModalPageWindow";
-import {DatePicker} from "@/components/kit/Calendar";
+import { ModalPageWindow } from "@/components/kit/ModalPageWindow";
+import { DatePicker } from "@/components/kit/Calendar";
+import { Button } from "@/components/kit/Button";
 import {formatDate} from "@/utils/functions";
 
-import {MyTimePicker} from "@/components/kit/MyTimePicker";
+import { MyTimePicker } from "@/components/kit/MyTimePicker";
 
 const DateTime = observer(() => {
   const [activeField, setActiveField] = useState<number | null>(null)
 
-  const { date, time } = Store;
+  const { date, time, cityTo } = Store;
 
   const router = useRouter();
-  const handleContinue = () => router.push('/create-trip/description');
+  const handleContinue = () => router.push('/create-trip/seats');
 
   const closeModal = (num?: number) => setActiveField(num ?? null);
 
@@ -36,29 +37,37 @@ const DateTime = observer(() => {
     closeModal(0);
   };
 
+  useEffect(() => {
+    if (!cityTo) {
+      router.push('/create-trip');
+    }
+  }, []);
+
   return (
     <LayoutContainer>
       <div className={s.wrapper}>
         <div className={s.formWrapper}>
           <GoBackBtn/>
           <h1>Выберите дату и время поездки</h1>
-          <button onClick={() => setActiveField(1)} className={cn(s.buttonInput, {[s.filled]: date})}>
-            <Icon path={mdiCalendarMonthOutline} size="24px"/>
+          <Button
+            variant="input"
+            onClick={() => setActiveField(1)}
+            iconLeft={<Icon path={mdiCalendarMonthOutline} size="24px"/>}
+            className={cn({[s.filled]: date})}
+          >
             {!date ? 'Дата' : formatDate(date)}
-          </button>
-          <button onClick={() => setActiveField(2)} className={cn(s.buttonInput, {[s.filled]: time})}>
-            <Icon path={mdiClockTimeFourOutline} size="24px"/>
+          </Button>
+          <Button
+            variant="input"
+            onClick={() => setActiveField(2)}
+            className={cn({[s.filled]: time})}
+            iconLeft={<Icon path={mdiClockTimeFourOutline} size="24px"/>}
+          >
             {time ?? 'Время'}
-          </button>
+          </Button>
         </div>
 
-        <button
-          disabled={!date || !time}
-          className={cn(s.continueButton, {[s.disabled]: false})}
-          onClick={handleContinue}
-        >
-          Далее
-        </button>
+        <Button variant="continue" onClick={handleContinue} disabled={!date || !time}>Далее</Button>
       </div>
 
       <ModalPageWindow

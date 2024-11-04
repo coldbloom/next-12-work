@@ -29,9 +29,18 @@ const To = observer(() => {
     }
   }, []);
 
+  const arrivalCityError = city?.id === cityFrom?.id;
+
   return (
     <LayoutContainer>
-      <LocationCreateForm mode="to" city={city} street={street} building={building} setActiveField={setActiveField} />
+      <LocationCreateForm
+        mode="to"
+        city={city}
+        street={street}
+        building={building}
+        setActiveField={setActiveField}
+        arrivalCityError={arrivalCityError}
+      />
       <ModalPageWindow isOpen={!!activeField}>
         <div className={s.modalWrapper}>
           {activeField === 1 && (

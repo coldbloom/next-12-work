@@ -30,6 +30,10 @@
     button {
       background-color: transparent;
       border: none;
+
+      &:enabled:active {
+        transform: scale(0.950);
+      }
     }
 
     .icon {
