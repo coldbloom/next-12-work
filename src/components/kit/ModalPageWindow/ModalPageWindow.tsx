@@ -11,8 +11,10 @@ type ModalPageWindowProps = {
   isOpen: boolean;
   onClose?: () => void;
   exitActiveFast?: boolean;
+  slidePosition?: 'x' | 'y';
 
   className?: string;
+  backdropClassName?: string;
   style?: CSSProperties;
 };
 
@@ -21,32 +23,49 @@ export const ModalPageWindow = ({
   isOpen,
   onClose,
   exitActiveFast = false,
+  slidePosition = 'y',
   className,
+  backdropClassName,
   style = {}
 }: ModalPageWindowProps) => {
   const container = usePortalContainer('modal-window');
 
-  useEffect(() => {
-    if (document) {
-      document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+  const transitionClasses = slidePosition === 'x'
+    ? {
+      enter: s['slide-in-enter-x'],
+      enterActive: s['slide-in-enter-active-x'],
+      exit: s['slide-out-x'],
+      exitActive: exitActiveFast ? s['side-out-active-fast-x'] : s['slide-out-active-x']
     }
+    : {
+      enter: s['slide-in-enter'],
+      enterActive: s['slide-in-enter-active'],
+      exit: s['slide-out'],
+      exitActive: exitActiveFast ? s['side-out-active-fast'] : s['slide-out-active']
+    };
+
+  useEffect(() => {
+    const handleBodyOverflow = () => {
+      document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+    };
+
+    handleBodyOverflow();
+
+    return () => {
+      document.body.style.overflow = 'auto'; // Reset on component unmount
+    };
   }, [isOpen]);
 
   return (
     container &&
     createPortal(
       <>
-        {isOpen && <div className={s.backdrop} onClick={onClose ?? onClose} />}
+        {isOpen && <div className={cn(s.backdrop, backdropClassName)} onClick={onClose ?? onClose} />}
         <CSSTransition
           in={isOpen}
           timeout={300}
           unmountOnExit
-          classNames={{
-            enter: s['slide-in-enter'],
-            enterActive: s['slide-in-enter-active'],
-            exit: s['slide-out'],
-            exitActive: exitActiveFast ? s['side-out-active-fast'] : s['slide-out-active'],
-          }}
+          classNames={transitionClasses}
         >
           <div className={cn(s.modal, className)} style={{ ...style }}>
             {children}

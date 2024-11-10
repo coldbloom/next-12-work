@@ -37,11 +37,11 @@ const DateTime = observer(() => {
     closeModal(0);
   };
 
-  useEffect(() => {
-    if (!cityTo) {
-      router.push('/create-trip');
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!cityTo) {
+  //     router.push('/create-trip');
+  //   }
+  // }, []);
 
   return (
     <LayoutContainer>
