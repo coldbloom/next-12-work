@@ -4,7 +4,7 @@ import { LocationCreateForm } from '@/components/shared/LocationCreateForm';
 import { ModalPageWindow } from '@/components/kit/ModalPageWindow';
 import { LocationSelect } from '@/components/shared/LocationSelect';
 import { observer } from 'mobx-react-lite';
-import Store from '../store';
+import Store from '@/store/create-trip';
 import { Location } from '@/utils/types';
 
 import s from '../Create.module.scss';
