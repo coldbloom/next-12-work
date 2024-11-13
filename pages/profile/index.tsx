@@ -23,7 +23,7 @@ const Profile = () => {
       </div>
       <div className={s.createTravelWrapper}>
         <TelegramLoginButton
-          botName="auth-get-there-bot"
+          botName="authGetThereBot"
           buttonSize="large"
           cornerRadius={3}
           usePic={false}
