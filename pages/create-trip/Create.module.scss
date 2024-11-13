@@ -3,7 +3,7 @@
 .container {
   padding: 0 24px;
   width: 100%;
-  height: 100%; //@fixme возможно не нужен
+  height: 100vh; //@fixme возможно не нужен
   z-index: variables.$z-index-fixed;
   position: fixed;
   background-color: whitesmoke;
