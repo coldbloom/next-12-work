@@ -88,7 +88,7 @@ export const LocationCreateForm = ({ mode, city, street, building, setActiveFiel
           <span className={cn({[s.filled]: building})}>{building?.name ?? 'Дом'}</span>
         </Button>
       </div>
-      <Button variant="continue" disabled={!city || arrivalCityError} onClick={handleContinue} style={{ marginBottom: '100px'}} >
+      <Button variant="continue" disabled={!city || arrivalCityError} onClick={handleContinue}>
         Далее
       </Button>
     </div>
