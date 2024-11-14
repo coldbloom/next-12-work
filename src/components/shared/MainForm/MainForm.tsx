@@ -1,4 +1,4 @@
-import { mdiCalendarMonthOutline, mdiAccountMultipleOutline, mdiMapMarkerRadiusOutline, mdiSwapVerticalCircleOutline, mdiSwapVertical } from '@mdi/js';
+import { mdiCalendarMonthOutline, mdiAccountMultipleOutline, mdiMapMarkerRadiusOutline, mdiSwapVertical } from '@mdi/js';
 import Icon from '@mdi/react';
 
 import s from './MainForm.module.scss';
@@ -7,7 +7,8 @@ import cn from 'classnames';
 import { useEffect, useState } from 'react';
 
 import { ModalPageWindow } from '@/components/kit/ModalPageWindow';
-import { DatePicker } from "../../kit/Calendar";
+import { HeadingText } from "@/components/kit/HeadingText/HeadingText";
+import { DatePicker } from "@/components/kit/Calendar";
 import { LocationSelect } from '../LocationSelect';
 
 import { getPassengerString, formatDate } from '@/utils/functions'
@@ -86,7 +87,7 @@ export const MainForm = () => {
     }));
   };
 
-  //@fixme потребуется ли мне эта функция или выпилить?
+  // @fixme потребуется ли мне эта функция или выпилить?
   // const handleClearInput = (name: string) => {
   //   setFormData((prevData) => ({
   //     ...prevData,
@@ -116,7 +117,7 @@ export const MainForm = () => {
     <>
       <div className={s.wrapper}>
         <div className={s.backgroundColorWrapper}/>
-        <h1>Находите попутчиков и путешествуйте по самым выгодным ценам!</h1>
+        <HeadingText style={{ zIndex: 2 }}>Находите попутчиков и путешествуйте по самым выгодным ценам!</HeadingText>
         <div className={s.paddingWrapper}>
           <div className={s.formWrapper}>
             <ButtonInput

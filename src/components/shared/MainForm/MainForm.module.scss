@@ -10,18 +10,6 @@
   flex-grow: 1;
   //padding: 0 24px;
 
-  h1 {
-    z-index: 2;
-    text-align: center;
-
-    font-size: 30px;
-    font-weight: 500;
-    color: white;
-
-    padding-inline-end: 0;
-    padding-inline-start: 0;
-  }
-
   .backgroundColorWrapper {
     position: absolute;
     background-color: variables.$main-color;
