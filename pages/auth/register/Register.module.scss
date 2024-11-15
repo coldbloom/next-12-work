@@ -1,32 +1,58 @@
 @use '@/utils/variables' as variables;
 
 .wrapper {
-  padding: 0 24px;
+  width: 100%;
+  height: calc(100dvh - 56px); // 56px высота header
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
 
-  h1 {
-    margin-bottom: 10px;
-  }
+  overflow-y: hidden;
 
-  p {
-    text-align: center;
-    margin: 0 0 20px;
-    color: variables.$text-secondary;
-  }
-
-  button {
+  .contentContainer {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 12px;
-    background-color: transparent;
-    border-radius: variables.$rounded;
-    border: 1px solid variables.$text-secondary;
 
-    min-width: 300px;
-    height: 44px;
+    padding: 0 24px;
 
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    p {
+      text-align: center;
+      margin: 0 0 20px;
+      color: variables.$text-secondary;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      margin-bottom: 18px;
+      background-color: transparent;
+      border-radius: variables.$rounded;
+      border: 1px solid variables.$text-secondary;
+
+      min-width: 300px;
+      height: 44px;
+
+      color: variables.$color-theme-one;
+    }
+  }
+
+  .footer {
+    height: 56px;
+    line-height: 56px;
+    text-align: center;
+    border-top: 0.5px solid rgba(22, 24, 35, 0.12);
+    background-color: rgba(22, 24, 35, 0.03);;
     color: variables.$color-theme-one;
+
+    .link {
+      color: variables.$main-color;
+      font-weight: bold;
+      text-decoration: underline;
+    }
   }
 }

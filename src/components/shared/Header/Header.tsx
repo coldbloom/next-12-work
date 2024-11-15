@@ -26,7 +26,8 @@ export const Header = () => {
 
         {/*@fixme изменить урл на главную в будущем*/}
         <Link href={pages.profile.link} className={s.logoWrapper}>
-          <span>доедешь-пиши.рф</span>
+          {/*<span>доедешь-пиши.рф</span>*/}
+          <span>БлаБлаАвто</span>
           <div className={s.iconWrapper}>
             <Icon path={mdiCarLimousine} size="40px" />
           </div>

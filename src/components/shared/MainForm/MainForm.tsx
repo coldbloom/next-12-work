@@ -117,7 +117,9 @@ export const MainForm = () => {
     <>
       <div className={s.wrapper}>
         <div className={s.backgroundColorWrapper}/>
-        <HeadingText style={{ zIndex: 2 }}>Находите попутчиков и путешествуйте по самым выгодным ценам!</HeadingText>
+        {/*Проработать заголовок главной*/}
+        {/*<HeadingText style={{ zIndex: 2 }}>Находите попутчиков и путешествуйте по самым выгодным ценам!</HeadingText>*/}
+        <HeadingText style={{ zIndex: 2 }}>Сервис поиска автомобильных попутчиков без комиссии!</HeadingText>
         <div className={s.paddingWrapper}>
           <div className={s.formWrapper}>
             <ButtonInput
