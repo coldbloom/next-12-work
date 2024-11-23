@@ -1,16 +1,29 @@
+@use '@/utils/variables' as variables;
+
 .formInput {
   position: relative;
   width: 100%;
+  outline: none;
+  border: 1px solid variables.$text-secondary;
+  border-radius: variables.$rounded;
+  display: flex;
+
+  &:focus-within {
+    outline: 2px solid variables.$main-color; // Изменяем границу при фокусе на вложенном input
+    border: 1px solid transparent;
+  }
 
   input {
     width: 100%;
-    height: 60px;
-    font-size: 1.2rem;
+    height: 48px;
+    font-size: 16px;
     padding: 10px;
     outline: none;
-    border: 1px solid gray;
+    border: none;
+    border-radius: 12px;
+    //border: 1px solid variables.$text-secondary;
     box-sizing: border-box;
-    border-radius: 5px;
+    //border-radius: variables.$rounded;
     background-color: white;
     color: black;
 
@@ -18,22 +31,10 @@
       opacity: 0;
     }
 
-    &:focus {
-      border: 2px solid indigo;
-
-      + label {
-        top: 0;
-        font-size: 0.8rem;
-        color: indigo;
-        background: #fff;
-        padding: 7px;
-      }
-    }
-
     &:not(:placeholder-shown) + label {
       top: 0;
       font-size: 0.8rem;
-      color: indigo;
+      //color: variables.$main-color;
       background: #fff;
       padding: 7px;
     }
@@ -44,11 +45,22 @@
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 1.2rem;
-    color: gray;
+    font-size: 16px;
+    color: variables.$text-secondary;
     letter-spacing: 1px;
     transition: .3s;
     font-family: 'Roboto', sans-serif;
-    font-weight: 600;
+    font-weight: normal;
+  }
+
+  .focus {
+    color: variables.$main-color;
+  }
+
+  .eyesButton {
+    color: variables.$text-secondary;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
   }
 }

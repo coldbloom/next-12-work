@@ -17,17 +17,17 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 export const Button = ({
-                  children,
-                  variant,
-                  disabled = false,
-                  error = false,
-                  active = true,
-                  errorText,
-                  className,
-                  style,
-                  iconLeft,
-                  iconRight,
-                  ...commonButtonProps
+  children,
+  variant,
+  disabled = false,
+  error = false,
+  active = true,
+  errorText,
+  className,
+  style,
+  iconLeft,
+  iconRight,
+  ...commonButtonProps
 }: ButtonProps) => {
   return (
     <>

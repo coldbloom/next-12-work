@@ -53,7 +53,7 @@ export const LocationCreateForm = ({ mode, city, street, building, setActiveFiel
   return (
     <div className={s.wrapper}>
       <div className={s.formWrapper}>
-        <GoBackBtn/>
+        <GoBackBtn />
         <h1>{isFromMode ? 'Откуда вы выезжаете?' : 'Куда вы едете?'}</h1>
         <Button
           variant="input"

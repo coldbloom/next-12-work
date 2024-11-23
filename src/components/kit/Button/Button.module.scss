@@ -29,8 +29,15 @@
     }
   }
 
+  //@fixme hover зачем?
+  //&.active {
+  //  &:enabled:hover {
+  //    transform: scale(0.990);
+  //  }
+  //}
+
   &.active {
-    &:enabled:hover {
+    &:enabled:active {
       transform: scale(0.990);
     }
   }
