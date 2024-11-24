@@ -17,7 +17,7 @@
     padding: 0 24px;
 
     h1 {
-      margin-bottom: 10px;
+      margin-bottom: 0;
     }
 
     p {
@@ -38,21 +38,6 @@
       height: 44px;
 
       color: variables.$color-theme-one;
-    }
-  }
-
-  .footer {
-    height: 56px;
-    line-height: 56px;
-    text-align: center;
-    border-top: 0.5px solid rgba(22, 24, 35, 0.12);
-    background-color: rgba(22, 24, 35, 0.03);;
-    color: variables.$color-theme-one;
-
-    .link {
-      color: variables.$main-color;
-      font-weight: bold;
-      text-decoration: underline;
     }
   }
 }

@@ -1,13 +1,12 @@
 import { mdiEmailOutline } from '@mdi/js';
 import Icon from "@mdi/react";
 
-import Link from "next/link";
 import { MainLayout2 } from "@/components/MainLayout2";
 import { HeadingText } from "@/components/kit/HeadingText/HeadingText";
 import {useRouter} from "next/router";
 
 import s from './Register.module.scss';
-import cn from 'classnames';
+import AuthFooter from "@/components/shared/AuthFooter";
 
 const Register = () => {
   const router = useRouter();
@@ -32,9 +31,7 @@ const Register = () => {
           </button>
         </div>
 
-        <div className={s.footer}>
-          Уже есть аккаунт? <Link href="login" className={s.link}>Войти</Link>
-        </div>
+        <AuthFooter />
       </div>
     </MainLayout2>
   );

@@ -36,9 +36,7 @@
     outline: none;
     border: none;
     border-radius: 12px;
-    //border: 1px solid variables.$text-secondary;
     box-sizing: border-box;
-    //border-radius: variables.$rounded;
     background-color: white;
     color: black;
 
@@ -49,7 +47,6 @@
     &:not(:placeholder-shown) + label {
       top: 0;
       font-size: 0.8rem;
-      //color: variables.$main-color;
       background: #fff;
       padding: 7px;
     }
@@ -66,10 +63,14 @@
     transition: .3s;
     font-family: 'Roboto', sans-serif;
     font-weight: normal;
-  }
 
-  .focus {
-    color: variables.$main-color;
+    &.error {
+      color: variables.$error-color;
+    }
+
+    &.focus {
+      color: variables.$main-color;
+    }
   }
 
   .eyesButton {

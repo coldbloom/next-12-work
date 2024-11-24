@@ -39,14 +39,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
 
   const handleFocus = () => {
     setIsFocused(true);
-    console.log('onFocus')
-    //onFocus?.();
+    onFocus?.();
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setIsFocused(false);
-    console.log('onBlur')
-    //onBlur?.(e);
+    onBlur?.(e);
   };
 
   const inputId = useRef(`input-${Math.random().toString(36).substr(2, 9)}`).current;
@@ -64,7 +62,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
           {...props}
         />
         {isLabel &&
-          <label htmlFor={inputId} className={cn({[s.focus]: isFocused && value?.length !== 0})}>{placeholder}</label>}
+          <label
+            htmlFor={inputId}
+            className={cn({[s.focus]: isFocused && value?.length !== 0, [s.error]: error && value?.length !== 0})}
+          >
+            {placeholder}
+          </label>
+        }
         {type === 'password' && (
           <div
             onClick={onPasswordVisible}
