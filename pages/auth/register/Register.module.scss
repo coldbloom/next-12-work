@@ -56,3 +56,19 @@
     }
   }
 }
+
+
+//@fixme перенести в стили для страницы mail
+.submitButton {
+  background-color: variables.$main-color;
+  border: none;
+  border-radius: variables.$rounded;
+  height: 56px;
+  padding: 16px;
+  font-size: 16px;
+  width: 100%;
+
+  &:active {
+    transform: scale(0.990);
+  }
+}

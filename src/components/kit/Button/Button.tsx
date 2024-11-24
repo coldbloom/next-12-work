@@ -1,4 +1,4 @@
-import React, { ReactNode, CSSProperties, ButtonHTMLAttributes } from 'react';
+import React, {ReactNode, CSSProperties, ButtonHTMLAttributes, forwardRef} from 'react';
 
 import cn from 'classnames';
 import s from './Button.module.scss';
@@ -16,36 +16,40 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   iconRight?: ReactNode;
 };
 
-export const Button = ({
-  children,
-  variant,
-  disabled = false,
-  error = false,
-  active = true,
-  errorText,
-  className,
-  style,
-  iconLeft,
-  iconRight,
-  ...commonButtonProps
-}: ButtonProps) => {
-  return (
-    <>
-      <button
-        {...commonButtonProps}
-        disabled={disabled}
-        style={style}
-        className={cn(
-          s.button, className,
-          s[`variant-${variant}`],
-          {[s.disabled]: disabled, [s.error]: error, [s.active]: active}
-        )}
-      >
-        {iconLeft && <div className={cn(s.icon, s.iconLeft)}>{iconLeft}</div>}
-        {children}
-        {iconRight && <div className={cn(s.icon, s.iconRight)}>{iconRight}</div>}
-      </button>
-      {error && errorText && <p className={s.errorMessage}>{errorText}</p>}
-    </>
-  );
-};
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({
+     children,
+     variant,
+     disabled = false,
+     error = false,
+     active = true,
+     errorText,
+     className,
+     style,
+     iconLeft,
+     iconRight,
+     ...commonButtonProps
+   }, ref) => {
+    return (
+      <>
+        <button
+          {...commonButtonProps}
+          disabled={disabled}
+          style={style}
+          className={cn(
+            s.button,
+            className,
+            s[`variant-${variant}`],
+            {[s.disabled]: disabled, [s.error]: error, [s.active]: active}
+          )}
+          ref={ref}
+        >
+          {iconLeft && <div className={cn(s.icon, s.iconLeft)}>{iconLeft}</div>}
+          {children}
+          {iconRight && <div className={cn(s.icon, s.iconRight)}>{iconRight}</div>}
+        </button>
+        {error && errorText && <p className={s.errorMessage}>{errorText}</p>}
+      </>
+    );
+  }
+);
