@@ -7,7 +7,7 @@ import cn from "classnames";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import Store from '@/store/create-trip';
+import Store from '@/store/createTripStore';
 
 import s from './DateTime.module.scss'
 import { ModalPageWindow } from "@/components/kit/ModalPageWindow";

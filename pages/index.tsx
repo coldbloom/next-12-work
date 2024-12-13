@@ -1,19 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import { TypeAnimation } from 'react-type-animation';
-import axios from "axios";
+import { Main } from 'src/components/shared/Main';
 
 const Home: NextPage = () => {
-  const testController = () => {
-    axios.get('http://localhost:3233/api/test') // Убедитесь, что URL совпадает с маршрутом на сервере
-      .then(res => {
-        console.log('Ответ сервера:', res.data); // Логируем только данные ответа
-      })
-      .catch(err => {
-        console.error('Ошибка при запросе:', err); // Логируем ошибку
-      });
-  };
 
   return (
     <div>
@@ -33,45 +22,11 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <h1 style={{color: 'violet'}}>Next js 12.3.4</h1>
-        <button onClick={testController}>test controller</button>
-        <TypeAnimation
-          sequence={[
-            "Вотс ап?",
-            3000, // задержка в 3 секунду
-            "Как дела?",
-            3000,
-            "Нужна помощь?",
-            3000,
-            "Capex или Opex?",
-            3000,
-            "На квасе или кефире?",
-            3000,
-            "Красное или белое?",
-            3000,
-          ]}
-          speed={1} // скорость печати
-          repeat={Infinity} // бесконечный повтор
-          style={{ fontSize: '2em' }}
-        />
-        {[...Array(100).keys()].map((_, index) => (
-          <div key={index} style={{ height: '100px', color: 'red' }}>
-            <h1>Content = {index}</h1>
-          </div>
-        ))}
+        <Main />
       </main>
 
       <footer>
-        {/*<a*/}
-        {/*  href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"*/}
-        {/*  target="_blank"*/}
-        {/*  rel="noopener noreferrer"*/}
-        {/*>*/}
-        {/*  Powered by{' '}*/}
-        {/*  <span >*/}
-        {/*    <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />*/}
-        {/*  </span>*/}
-        {/*</a>*/}
+
       </footer>
     </div>
   )

@@ -1,28 +1,25 @@
 import { useContext } from 'react';
-import s from "../Register.module.scss";
+import s from "../../register/Register.module.scss";
 import { HeadingText } from "@/components/kit/HeadingText/HeadingText";
 import { MainLayout } from "src/components/layouts/MainLayout";
 import { Input } from "@/components/kit/Input";
-import { AuthContext } from "@/context/AuthContext";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import AuthFooter from "@/components/shared/AuthFooter";
+import { AuthContext } from "@/context/AuthContext";
 
 type Inputs = {
-  name: string,
   email: string,
   password: string,
 };
 
 const defaultValues = {
-  name: '',
   email: '',
   password: '',
 }
 
-const RegisterEmail = () => {
-  const { handleSignUp } = useContext(AuthContext);
-
+const LoginEmail = () => {
+  const { handleSignIn } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -38,23 +35,16 @@ const RegisterEmail = () => {
   const currentValues = watch();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await handleSignUp({ login: data.email, password: data.password, name: data.name });
-  }
+    await handleSignIn({ login: data.email, password: data.password });
+  };
 
   return (
     <MainLayout>
       <div className={s.wrapper}>
         <div className={s.contentContainer}>
-          <HeadingText variant="dark">Регистрация</HeadingText>
-          <p>Создайте аккаунт чтобы бронировать и создавать поездки</p>
+          <HeadingText variant="dark">Войти по email</HeadingText>
+          <p>Войдите в свой аккаунт чтобы бронировать и создавать поездки</p>
           <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
-            <Input
-              type="text"
-              placeholder="Имя"
-              value={currentValues.name}
-              error={errors.name?.message}
-              {...register('name', { required: 'Имя обязательно' })}
-            />
             <Input
               type="text"
               placeholder="Email"
@@ -82,14 +72,14 @@ const RegisterEmail = () => {
               })}
             />
 
-            <input type="submit" value="Создать учётную запись" className={s.submitButton}/>
+            <input type="submit" value="Войти" className={s.submitButton}/>
           </form>
         </div>
 
-        <AuthFooter variant="login" />
+        <AuthFooter variant="register" />
       </div>
     </MainLayout>
   );
 };
 
-export default RegisterEmail;
+export default LoginEmail;

@@ -1,22 +1,43 @@
-import React, { useState } from 'react';
-import s from './Header.module.scss'
-import Link from "next/link";
-import { pages } from '@/utils/const';
-
-import Icon from '@mdi/react';
 import { mdiCarLimousine, mdiBellOutline, mdiMenu, mdiClose } from '@mdi/js';
-import {ModalPageWindow} from "@/components/kit/ModalPageWindow";
+import Icon from '@mdi/react';
 
-export const Header = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+import { useEffect, useMemo } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
-  const onCloseModal = () => {
-    setMenuOpen(false);
-  }
+import { ModalPageWindow } from '@/components/kit/ModalPageWindow';
+import { Menu } from '@/components/shared/Menu';
+
+import { observer } from 'mobx-react-lite';
+import { menuStore } from '@/store/menuStore';
+
+import s from './Header.module.scss'
+
+export const Header = observer(() => {
+  const {isOpen} = menuStore;
+
+  const isAuthNow = useMemo(() => localStorage.getItem('isAuthNow'), []);
+
+  const pathName = usePathname();
+
+  const setMenuOpen = (isOpen: boolean) => menuStore.setOpenMenu(isOpen);
+  const onCloseMenu = () => menuStore.setOpenMenu(false);
 
   const notification = () => {
     console.log('notification');
   }
+
+  useEffect(() => {
+    menuStore.setOpenMenu(false);
+  }, [pathName]);
+
+  useEffect(() => {
+    if (isAuthNow === '1') {
+      setTimeout(() => setMenuOpen(true), 300)
+      localStorage.setItem('isAuthNow', '0');
+    }
+  }, [isAuthNow]);
+
   return (
     <>
       <header className={s.headerWrapper}>
@@ -24,8 +45,7 @@ export const Header = () => {
           <Icon path={mdiBellOutline} size="24px" className={s.iconButton} />
         </button>
 
-        {/*@fixme изменить урл на главную в будущем*/}
-        <Link href={pages.profile.link} className={s.logoWrapper}>
+        <Link href="/" className={s.logoWrapper}>
           {/*<span>доедешь-пиши.рф</span>*/}
           <span>БлаБлаАвто</span>
           <div className={s.iconWrapper}>
@@ -33,22 +53,21 @@ export const Header = () => {
           </div>
         </Link>
 
-        <button onClick={() => setMenuOpen(prev => !prev)} className={s.burger}>
-          <Icon path={menuOpen ? mdiClose : mdiMenu} size="32px" />
+        <button onClick={() => setMenuOpen(!isOpen)} className={s.burger}>
+          <Icon path={isOpen ? mdiClose : mdiMenu} size="32px" />
         </button>
       </header>
 
       <ModalPageWindow
-        isOpen={menuOpen}
-        onClose={onCloseModal}
+        isOpen={isOpen}
+        onClose={onCloseMenu}
         className={s.modalPage}
         backdropClassName={s.backdrop}
         slidePosition="x"
+        exitActiveFast={true}
       >
-        <div className={s.modalWrapper}>
-          <h1>menu</h1>
-        </div>
+        <Menu />
       </ModalPageWindow>
     </>
   );
-};
+});

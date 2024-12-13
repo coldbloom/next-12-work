@@ -1,11 +1,23 @@
 import Link from "next/link";
 import s from './AuthFooter.module.scss';
 
-const AuthFooter = () => {
+type AuthFooterProps = {
+  variant: 'login' | 'register';
+};
+
+const AuthFooter = ({ variant }: AuthFooterProps) => {
 
   return (
     <div className={s.footer}>
-      Уже есть учётная запись? <Link href="/auth/login" className={s.link}>Войти</Link>
+      {variant === 'login' ? (
+        <>
+          Уже есть учётная запись? <Link href="/auth/login" className={s.link}>Войти</Link>
+        </>
+      ) : (
+        <>
+          Нет учётной записи? <Link href="/auth/register" className={s.link}>Зарегистрироваться</Link>
+        </>
+      )}
     </div>
   );
 };

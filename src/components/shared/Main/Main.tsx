@@ -1,17 +1,11 @@
+import React from 'react';
+import {MainForm} from "@/components/shared/MainForm";
+import s from './Main.module.scss';
 import Link from "next/link";
+import {pages} from "@/utils/const";
+import {MainLayout} from "@/components/layouts/MainLayout";
 
-import { MainLayout } from "src/components/layouts/MainLayout";
-import { MainForm } from "@/components/shared/MainForm";
-import { pages } from '@/utils/const';
-
-import s from './profile.module.scss'
-
-const Profile = () => {
-
-  const handleBot = (user: any) => {
-    console.log(user);
-  }
-
+export const Main = () => {
   return (
     <MainLayout>
       <MainForm />
@@ -26,5 +20,3 @@ const Profile = () => {
     </MainLayout>
   );
 };
-
-export default Profile;

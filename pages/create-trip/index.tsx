@@ -7,7 +7,7 @@ import { LocationSelect } from "@/components/shared/LocationSelect";
 import { Location } from "@/utils/types";
 import { observer } from "mobx-react-lite";
 
-import Store from '@/store/create-trip';
+import Store from '@/store/createTripStore';
 import {LocationCreateForm} from "@/components/shared/LocationCreateForm";
 
 type LayoutContainerProps = {

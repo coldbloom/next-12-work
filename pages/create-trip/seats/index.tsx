@@ -8,7 +8,7 @@ import s from './Seats.module.scss';
 import Icon from "@mdi/react";
 import {mdiMinusCircleOutline, mdiPlusCircleOutline} from "@mdi/js";
 import {observer} from "mobx-react-lite";
-import Store from "@/store/create-trip";
+import Store from "@/store/createTripStore";
 
 // seats = места, сидения
 const Seats = observer(() => {

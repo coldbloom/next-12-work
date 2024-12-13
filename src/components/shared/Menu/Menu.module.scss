@@ -1,0 +1,83 @@
+@use '@/utils/variables' as variables;
+
+.modalWrapper {
+  height: 100%;
+  background-color: whitesmoke;
+  top: variables.$header-height;
+  display: flex;
+  flex-direction: column;
+
+  border-top: 1px solid variables.$color-disabled;
+
+  .loginButton {
+    margin-top: 40px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 10px 20px;
+
+    span {
+      font-size: 18px;
+      font-weight: 400;
+    }
+  }
+
+  hr {
+    margin: 0;
+    border: none; /* Убираем стандартные границы */
+    height: 1px; /* Задаем высоту линии */
+    background-color: variables.$color-disabled; /* Цвет линии */
+  }
+
+  .userInfoWrapper {
+    display: flex;
+    flex-direction: row;
+    padding: 16px;
+    gap: 8px;
+
+    .textWrapper {
+      display: flex;
+      flex-direction: column;
+
+      span:first-of-type {
+        color: variables.$color-theme-one;
+      }
+
+      span:last-of-type {
+        color: #6C737D;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .tabsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 16px 0;
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &.tabWrapper {
+        padding: 12px 24px;
+        color: variables.$color-theme-one;
+
+        span {
+          margin-left: 8px;
+        }
+
+        &:active {
+          background-color: variables.$color-theme-third;
+
+          .chevronIcon {
+            transition: transform 0.3s ease;
+            transform: translateX(5px);
+          }
+        }
+      }
+    }
+  }
+}

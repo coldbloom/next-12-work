@@ -1,73 +1,37 @@
-import React, {forwardRef, HTMLProps} from 'react';
-import { MainLayout2 } from "@/components/MainLayout2";
-import s from './Login.module.scss';
-import { useForm, SubmitHandler } from "react-hook-form";
+import { mdiEmailOutline } from "@mdi/js";
+import Icon from "@mdi/react";
 
-type Inputs = {
-  email: string,
-  password: string,
-}
+import {useRouter} from "next/router";
 
-const defaultValues = {
-  email: '',
-  password: '',
-}
+import { MainLayout } from "src/components/layouts/MainLayout";
+import { HeadingText } from "@/components/kit/HeadingText/HeadingText";
+import {GoogleAuthButton} from "@/components/shared/GoogleAuthButton";
+import {AuthSeparator} from "@/components/shared/AuthSeparator/AuthSeparator";
+import {AuthButton} from "@/components/shared/AuthButton";
+import AuthFooter from "@/components/shared/AuthFooter";
 
-type InputProps = {
-
-} & HTMLProps<HTMLInputElement>
-
-const Input = forwardRef<HTMLInputElement, InputProps>(({ ...props }, ref) => {
-  return (
-    <div>
-      <input ref={ref} {...props} />
-      <p>input</p>
-    </div>
-  );
-});
+import s from '../register/Register.module.scss';
 
 const Login = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: formState,
-    reset, // Добавляем метод reset
-  } = useForm<Inputs>({
-    defaultValues: defaultValues,
-    mode: "onBlur" // режим валидации ошибок - на onBlur (популярный)
-  });
-
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
-  }
+  const router = useRouter();
 
   return (
-    <MainLayout2>
+    <MainLayout>
       <div className={s.wrapper}>
-        <h1>Войдите в аккаунт чтобы бронировать и создавать поездки</h1>
+        <div className={s.contentContainer}>
+          <HeadingText variant="dark">Вход</HeadingText>
+          <p>Войдите в аккаунт чтобы бронировать и создавать поездки</p>
+          <AuthButton onClick={() => router.push("/auth/login/email")} variant="local">
+            <Icon path={mdiEmailOutline} size="24px" style={{ marginRight: "4px" }} />
+            Email и пароль
+          </AuthButton>
+          <AuthSeparator />
+          <GoogleAuthButton />
+        </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            type="rext"
-            placeholder="электронная почта"
-            {...register("email", {
-              required: "Введите логин!",
-            })}
-            onBlur={() => console.log('onBlur')}
-            onFocus={() => console.log('onFocus')}
-          />
-          <Input
-            type="password"
-            placeholder="пароль"
-            {...register("password", {
-              required: "Введите пароль!",
-            })}
-          />
-          <button type="submit">войти</button>
-        </form>
+        <AuthFooter variant="register" />
       </div>
-    </MainLayout2>
+    </MainLayout>
   );
 };
 

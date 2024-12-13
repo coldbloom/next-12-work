@@ -1,0 +1,93 @@
+@use '../../../utils/colors-additional' as colorsAdditional;
+
+$sizeS: 28px;
+$sizeM: 36px;
+$sizeL: 44px;
+$sizeXXL: 88px;
+$sizeXXXL: 132px;
+
+$textColors: (
+        purple: colorsAdditional.$color-additional-violet-100,
+        teal: colorsAdditional.$color-additional-cyan-100,
+        indigo: colorsAdditional.$color-additional-indigo-100,
+        green: colorsAdditional.$color-additional-green-100,
+        pink: colorsAdditional.$color-additional-pink-100,
+        orange: colorsAdditional.$color-additional-orange-100,
+        brown: colorsAdditional.$color-additional-brown-100,
+        bluegray: colorsAdditional.$color-additional-blue-grey-100,
+);
+
+@each $textColor, $value in $textColors {
+  .#{'' + $textColor} {
+    color: $value;
+  }
+}
+
+$colors: (
+        purple: colorsAdditional.$color-additional-violet-20,
+        teal: colorsAdditional.$color-additional-cyan-20,
+        indigo: colorsAdditional.$color-additional-indigo-20,
+        green: colorsAdditional.$color-additional-green-20,
+        pink: colorsAdditional.$color-additional-pink-20,
+        orange: colorsAdditional.$color-additional-orange-20,
+        brown: colorsAdditional.$color-additional-brown-20,
+        bluegray: colorsAdditional.$color-additional-blue-grey-20,
+);
+
+@each $color, $value in $colors {
+  .#{'' + $color} {
+    background-color: $value;
+  }
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: map-get($colors, 'purple');
+  border-radius: 50%;
+  color: map-get($textColors, 'purple');
+  font-weight: 500;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  &::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    border: 2px solid white;
+  }
+}
+
+.s {
+  width: $sizeS;
+  height: $sizeS;
+}
+
+.m {
+  width: $sizeM;
+  height: $sizeM;
+}
+
+.l {
+  width: $sizeL;
+  height: $sizeL;
+}
+
+.xxl {
+  width: $sizeXXL;
+  height: $sizeXXL;
+}
+
+.xxxl {
+  width: $sizeXXXL;
+  height: $sizeXXXL;
+}
+
+.disabled {
+  background-color: #e1e5eb;
+  color: white;
+}
