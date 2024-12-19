@@ -1,26 +1,13 @@
 @use '@/utils/variables' as variables;
 
-.createTravelWrapper {
-  width: 100%;
-  padding: 36px 24px;
-  display: flex;
+.wrapper {
+  padding: 24px;
 
-  .createTravelLink {
-    width: 100%;
-    border-radius: variables.$rounded;
-    border: none;
-    padding: 24px;
-
-    text-align: center;
-    color: white;
-    font-size: 16px;
+  h1 {
+    font-size: 24px;
     font-weight: 500;
-    background-color: #FF6443;
-    box-shadow: 0 1px 8px hsla(0, 0, 0, 0.16);
-
-    &:active {
-      border-radius: calc(10px - 1px);
-      transform: scale(0.990);
-    }
+    color: variables.$color-theme-one;
+    margin: 0;
+    text-align: center;
   }
 }

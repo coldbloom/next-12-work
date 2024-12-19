@@ -1,7 +1,7 @@
 import { mdiAccountOutline, mdiAccountPlusOutline, mdiChevronRight, mdiLogout, mdiRoutes} from "@mdi/js";
 import Icon from "@mdi/react";
 
-import {useContext} from 'react';
+import {PropsWithChildren, ReactNode, useContext} from 'react';
 
 import {Avatar} from "@/components/kit/Avatar";
 import {AuthContext} from "@/context/AuthContext";
@@ -9,6 +9,7 @@ import {useRouter} from "next/router";
 
 import cn from 'classnames';
 import s from './Menu.module.scss';
+import Link from "next/link";
 
 const ChevronIcon = ({ isLarge }: { isLarge?: boolean }) => <Icon path={mdiChevronRight} size={ isLarge ? 1.2 : 1} className={s.chevronIcon} />;
 
@@ -22,27 +23,66 @@ const UserInfo = ({ name, login }: { name: string; login: string }) => (
   </div>
 );
 
-const Unauthorized = () => {
+type TabProps = {
+  icon: ReactNode;
+  onClick: () => void;
+  chevronIconLarge?: boolean;
+} & PropsWithChildren;
+
+const Tab = ({ icon, onClick, children, chevronIconLarge = true }: TabProps) => (
+  <div className={cn(s.row, s.tabWrapper)} onClick={onClick}>
+    <div className={s.row}>
+      {icon}
+      {children}
+    </div>
+    <ChevronIcon isLarge={chevronIconLarge} />
+  </div>
+);
+
+type LinkTabProps = {
+  text: string;
+  icon: string;
+  url: string;
+};
+
+const LinkTab = ({text, icon, url}: LinkTabProps) => (
+  <Link className={cn(s.row, s.tabWrapper)} href={url}>
+    <div className={s.row}>
+    <Icon path={icon} size={1}/>
+      <span>{text}</span>
+    </div>
+    <ChevronIcon/>
+  </Link>
+)
+
+const AuthorizedTabs = () => {
+  const { handleLogOut } = useContext(AuthContext);
+
+  return (
+    <div className={s.tabsWrapper}>
+      <LinkTab text="Мои поездки" icon={mdiRoutes} url="/" />
+      <LinkTab text="Профиль" icon={mdiAccountOutline} url="/profile" />
+      <hr/>
+      <Tab icon={<Icon path={mdiLogout} size={1} />} onClick={handleLogOut} chevronIconLarge={false} >
+        <span>Выйти</span>
+      </Tab>
+    </div>
+  )
+}
+
+const UnauthorizedTabs = () => {
   const router = useRouter();
   const handleLogin = () => router.push("/auth/login");
   const handleRegister = () => router.push("/auth/register");
 
   return (
     <div className={s.tabsWrapper}>
-      <div className={cn(s.row, s.tabWrapper)} onClick={handleRegister}>
-        <div className={s.row}>
-          <Icon path={mdiAccountPlusOutline} size={1.2}/>
-          <span style={{fontSize: '18px', fontWeight: '500'}}>Зарегистрироваться</span>
-        </div>
-        <ChevronIcon isLarge={true}/>
-      </div>
-      <div className={cn(s.row, s.tabWrapper)} onClick={handleLogin}>
-        <div className={s.row}>
-          <Icon path={mdiAccountOutline} size={1.2}/>
-          <span style={{fontSize: '18px', fontWeight: '500'}}>Войти</span>
-        </div>
-        <ChevronIcon isLarge={true}/>
-      </div>
+      <Tab icon={<Icon path={mdiAccountPlusOutline} size={1.2} />} onClick={handleRegister}>
+        <span style={{fontSize: '18px', fontWeight: '500'}}>Зарегистрироваться</span>
+      </Tab>
+      <Tab icon={<Icon path={mdiAccountOutline} size={1.2}/>} onClick={handleLogin}>
+        <span style={{fontSize: '18px', fontWeight: '500'}}>Войти</span>
+      </Tab>
     </div>
   )
 }
@@ -57,33 +97,10 @@ export const Menu = () => {
           <>
             {userInfo && <UserInfo name={userInfo.name} login={userInfo.login}/>}
             <hr/>
-            <div className={s.tabsWrapper}>
-              <div className={cn(s.row, s.tabWrapper)}>
-                <div className={s.row}>
-                  <Icon path={mdiRoutes} size={1}/>
-                  <span>Мои поездки</span>
-                </div>
-                <ChevronIcon/>
-              </div>
-              <div className={cn(s.row, s.tabWrapper)}>
-                <div className={s.row}>
-                  <Icon path={mdiAccountOutline} size={1}/>
-                  <span>Профиль</span>
-                </div>
-                <ChevronIcon/>
-              </div>
-              <hr/>
-              <div className={cn(s.row, s.tabWrapper)} onClick={handleLogOut}>
-                <div className={s.row}>
-                  <Icon path={mdiLogout} size={1}/>
-                  <span>Выйти</span>
-                </div>
-                <ChevronIcon/>
-              </div>
-            </div>
+            <AuthorizedTabs />
           </>
         ) : (
-          <Unauthorized />
+          <UnauthorizedTabs />
         )}
       </>
     </div>

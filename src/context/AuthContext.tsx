@@ -87,7 +87,7 @@ const AuthProvider = ({children}: {children: ReactNode}) => {
         inMemoryJWT.deleteToken();
         setIsUserLogged(false);
 
-        router.push("/profile");  //@FIXME поменять адрес на валидный после переезда на главную
+        router.push("/");
       })
       .catch(showErrorMessage);
   };
@@ -101,7 +101,7 @@ const AuthProvider = ({children}: {children: ReactNode}) => {
         oauthNow('local');
 
         setIsUserLogged(true);
-        router.push("/profile");  //@FIXME поменять адрес на валидный после переезда на главную
+        router.push("/");
       })
       .catch(error => showErrorMessage(error));
   };
@@ -114,7 +114,7 @@ const AuthProvider = ({children}: {children: ReactNode}) => {
       oauthNow('local');
       setIsUserLogged(true);
 
-      router.push("/profile");  //@FIXME поменять адрес на валидный после переезда на главную
+      router.push("/");
     })
     .catch(showErrorMessage);
   };
@@ -125,9 +125,9 @@ const AuthProvider = ({children}: {children: ReactNode}) => {
 
       inMemoryJWT.setToken(accessToken, accessTokenExpiration);
       oauthNow('google');
-      setIsUserLogged(true); //@FIXME поменять адрес на валидный после переезда на главную
+      setIsUserLogged(true);
 
-      router.push("/profile")
+      router.push("/")
     })
     .catch(showErrorMessage);
   }
@@ -144,6 +144,11 @@ const AuthProvider = ({children}: {children: ReactNode}) => {
         setIsAppReady(true); // для лоадера
       }
     };
+
+    // Если пользователь вышел, обнуляем информацию о нем в памяти приложения
+    if (!isUserLogged && userInfo) {
+      setUserInfo(null);
+    }
 
     // Если пользователь авторизован, пытаемся получить информацию о нем
     if (isUserLogged && !userInfo) {
