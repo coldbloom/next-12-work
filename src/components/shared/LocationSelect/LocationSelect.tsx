@@ -1,92 +1,52 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 
 import s from './LocationSelect.module.scss';
 import axios from 'axios';
+import useSWR from "swr";
 import { InputModal } from './InputModal';
 import { Loader } from '@/components/kit/Loader';
 import { Plug } from "@/components/kit/Plug";
 import { OptionField } from './OptionField';
 
 import { useDebounce } from '@/utils/hooks/useDebounce';
-import { Location, LocationReqParams } from '@/utils/types';
+import { Location, locationField, LocationReqParams } from '@/utils/types';
+
+const getCacheKey = (query: string, params: LocationReqParams) => {
+  const { location, limit, region, city, streetId } = params;
+  if (!query) return null; // Если запрос пуст, возвращаем null
+  return `/api/address?query=${encodeURIComponent(query)}&location=${location}&limit=${limit}` +
+    `${region ? `&region=${encodeURIComponent(region)}` : ''}` +
+    `${city ? `&city=${encodeURIComponent(city)}` : ''}` +
+    `${streetId ? `&streetId=${encodeURIComponent(streetId)}` : ''}`;
+};
+
+const createApiParams = (query: string, params: LocationReqParams) => ({
+  query,
+  limit: params.limit,
+  location: params.location,
+  ...(params.region && { region: params.region }),
+  ...(params.city && { city: params.city }),
+  ...(params.streetId && { streetId: params.streetId }),
+});
 
 type LocationSelectProps = {
-  fieldName: string;
+  fieldName: locationField;
   onClose: () => void;
-  handleFormChange: (value: Location, name: string) => void;
+  handleFormChange: (value: Location, name: locationField) => void;
   initialValue?: string;
   params: LocationReqParams;
 };
-
-const cache: { [key: string]: Location[] } = {};
 
 export const LocationSelect = ({
                                  fieldName,
                                  onClose,
                                  initialValue,
                                  handleFormChange,
-                                 params = { contentType: 'city' }
+                                 params = { location: 'city' }
                                }: LocationSelectProps) => {
   const [value, setValue] = useState(initialValue || '');
-  const [options, setOptions] = useState<Location[]>([]);
-  const [loading, setLoading] = useState(false);
   const [inputError, setInputError] = useState(false);
   const debouncedValue = useDebounce(value, 500);
-
-  const { contentType, withParent, limit, cityId, streetId} = params;
-
-  // Формируем cacheKey, добавляя cityId и streetId только если они определены
-  const cacheKey = `${debouncedValue}-${contentType}-${cityId || ''}-${streetId || ''}`;
-
-  const fetchOptions = useCallback(async () => {
-    // Проверка на наличие ошибки ввода
-    if (inputError) {
-      setOptions([]);
-      return;
-    }
-
-    if (!debouncedValue) {
-      setOptions([]);
-      return;
-    }
-
-    // Проверка кэша
-    if (cache[cacheKey]) {
-      setOptions(cache[cacheKey]);
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const response = await axios.get(`http://localhost:3233/api/search`, {
-        params: {
-          query: debouncedValue,
-          contentType,
-          ...(withParent && { withParent }),
-          ...(limit && { limit }),
-          ...(cityId && { cityId }),
-          ...(streetId && { streetId }),
-        },
-      });
-      setOptions(response.data.result);
-
-      // Сохранение ответа в кэш
-      cache[cacheKey] = response.data.result;
-    } catch (error) {
-      console.error("Error fetching options:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [debouncedValue]);
-
-  useEffect(() => {
-    fetchOptions();
-  }, [fetchOptions, inputError]);
-
-  useEffect(() => {
-    console.log(options, ' options');
-  }, [options]);
 
   const onChangeValue = useCallback((newValue: string) => {
     setValue(newValue);
@@ -95,6 +55,34 @@ export const LocationSelect = ({
     const hasLatinLetter = /[a-zA-Z]/.test(newValue);
     setInputError(hasLatinLetter); // Устанавливаем error в true, если есть латинская буква (false, если нет)
   }, []);
+
+  // Generate cache key
+  const cacheKey = useMemo(
+    () => getCacheKey(debouncedValue, params),
+    [debouncedValue, params]
+  );
+
+  // Fetch Data with SWR
+  const { data, error, isValidating } = useSWR<Location[]>(
+    debouncedValue.trim() ? cacheKey : null,
+    () => axios.get(`http://localhost:3233/api/address`, {
+      params: createApiParams(debouncedValue, params),
+    }).then(res => res.data)
+      .catch(error => {
+        throw error.response?.data || error;
+      }),
+    {
+      dedupingInterval: 600000, // Интервал в миллисекундах, через который можно повторно отправить запрос с таким же кэшем
+      revalidateOnFocus: false, // Определяет, будет ли запрос автоматически обновляться при переключении вкладки
+      shouldRetryOnError: false, // Определяет, нужно ли перезапускать запрос, если он завершился ошибкой
+    }
+  );
+
+  // Handle Loading State
+  const loading = isValidating && !data && !error;
+
+  // Handle Options
+  const options = data || [];
 
   return (
     <div className={s.wrapper}>
@@ -105,7 +93,7 @@ export const LocationSelect = ({
         </div>
       ) : (
         <>
-          {options.length > 0 ? (
+          {options?.length > 0 ? (
             <div className={s.optionsWrapper}>
               {options.map((option: Location) => (
                 <OptionField key={option.id} option={option} fieldName={fieldName} handleFormChange={handleFormChange} />
@@ -124,115 +112,3 @@ export const LocationSelect = ({
     </div>
   );
 };
-
-
-// export const LocationSelect = ({
-//   fieldName,
-//   onClose,
-//   initialValue,
-//   handleFormChange,
-//   params = { contentType: 'city' }
-// }: LocationSelectProps) => {
-//   const [value, setValue] = useState(initialValue || '');
-//   const [options, setOptions] = useState<Location[]>([]);
-//   const [loading, setLoading] = useState(false);
-//   const [inputError, setInputError] = useState(false);
-//   const debouncedValue = useDebounce(value, 500);
-//
-//   const { contentType, withParent, limit, cityId, streetId} = params;
-//
-//   // Формируем cacheKey, добавляя cityId и streetId только если они определены
-//   const cacheKey = `${debouncedValue}-${contentType}-${cityId || ''}-${streetId || ''}`;
-//   // const cacheKey = [
-//   //   debouncedValue ? debouncedValue : '',
-//   //   debouncedValue,
-//   //   !!cityId ? cityId : '',
-//   //   !!streetId ? streetId : ''
-//   // ].filter(Boolean).join('-');
-//
-//   const fetchOptions = useCallback(async () => {
-//     // Проверка на наличие ошибки ввода
-//     if (inputError) {
-//       setOptions([]);
-//       return;
-//     }
-//
-//     if (!debouncedValue) {
-//       setOptions([]);
-//       return;
-//     }
-//
-//     // Проверка кэша
-//     if (cache[cacheKey]) {
-//       setOptions(cache[cacheKey]);
-//       return;
-//     }
-//
-//     setLoading(true);
-//
-//     try {
-//       const response = await axios.get(`http://localhost:3233/api/search`, {
-//         params: {
-//           query: debouncedValue,
-//           contentType,
-//           ...(withParent && { withParent }),
-//           ...(limit && { limit }),
-//           ...(cityId && { cityId }),
-//           ...(streetId && { streetId }),
-//         },
-//       });
-//       setOptions(response.data.result);
-//
-//       // Сохранение ответа в кэш
-//       cache[cacheKey] = response.data.result;
-//     } catch (error) {
-//       console.error("Error fetching options:", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   }, [debouncedValue]);
-//
-//   useEffect(() => {
-//     fetchOptions();
-//   }, [fetchOptions, inputError]);
-//
-//   useEffect(() => {
-//     console.log(options, ' options');
-//   }, [options]);
-//
-//   const onChangeValue = useCallback((newValue: string) => {
-//     setValue(newValue);
-//
-//     // Проверка на наличие хотя бы одной буквы латинского алфавита
-//     const hasLatinLetter = /[a-zA-Z]/.test(newValue);
-//     setInputError(hasLatinLetter); // Устанавливаем error в true, если есть латинская буква (false, если нет)
-//   }, []);
-//
-//   return (
-//     <div className={s.wrapper}>
-//       <InputModal name="from" value={value} onChange={onChangeValue} onClose={onClose} isError={inputError} />
-//       {loading ? (
-//         <div className={s.centerWrapper}>
-//           <Loader />
-//         </div>
-//       ) : (
-//         <>
-//           {options.length > 0 ? (
-//             <div className={s.optionsWrapper}>
-//               {options.map((option: Location) => (
-//                 <OptionField key={option.id} option={option} fieldName={fieldName} handleFormChange={handleFormChange} />
-//               ))}
-//             </div>
-//           ) : (
-//             debouncedValue !== '' && (
-//               <div className={s.centerWrapper}>
-//                 <Plug title="Ничего не найдено : ("
-//                       text="Попробуйте уточнить название города или проверьте написание запроса" />
-//               </div>
-//             )
-//           )}
-//         </>
-//       )}
-//     </div>
-//   );
-// };

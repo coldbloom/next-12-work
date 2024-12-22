@@ -60,10 +60,10 @@ export const LocationCreateForm = ({ mode, city, street, building, setActiveFiel
           onClick={() => setActiveField(1)}
           error={arrivalCityError}
           errorText="Город прибытия совпадает с городом отправления! Выберетие другой город прибытия."
-          className={cn({[s.filled]: city})}
           iconLeft={<Icon path={mdiMapMarkerRadiusOutline} size="24px"/>}
         >
-          {city?.name ?? (isFromMode ? 'Город отправления' : 'Город прибытия')}
+          {city && <span>{city?.type}.&nbsp;</span>}
+          <span className={cn({[s.filled]: city})}>{city?.name ?? (isFromMode ? 'Город отправления' : 'Город прибытия')}</span>
         </Button>
         <Button
           variant="input"
@@ -73,7 +73,7 @@ export const LocationCreateForm = ({ mode, city, street, building, setActiveFiel
           errorText="Укажите город перед выбором улицы!"
           iconLeft={<Icon path={mdiMapSearchOutline} size="24px"/>}
         >
-          {street && <span>{street?.typeShort}.&nbsp;</span>}
+          {street && <span>{street?.type}.&nbsp;</span>}
           <span className={cn({[s.filled]: street})}>{street?.name ?? 'Улица'}</span>
         </Button>
         <Button
@@ -84,7 +84,7 @@ export const LocationCreateForm = ({ mode, city, street, building, setActiveFiel
           errorText="Укажите улицу перед выбором дома!"
           iconLeft={<Icon path={mdiHomeSearchOutline} size="24px"/>}
         >
-          {building && <span>{building?.typeShort}.&nbsp;</span>}
+          {building && <span>{building?.type}.&nbsp;</span>}
           <span className={cn({[s.filled]: building})}>{building?.name ?? 'Дом'}</span>
         </Button>
       </div>

@@ -1,13 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { Location } from "@/utils/types";
-
-type locationField =
-  | 'cityFrom'
-  | 'streetFrom'
-  | 'buildingFrom'
-  | 'cityTo'
-  | 'streetTo'
-  | 'buildingTo';
+import { Location, locationField } from "@/utils/types";
 
 class CreateTripStore {
   cityFrom: Location | null = null;
@@ -43,9 +35,21 @@ class CreateTripStore {
   }
 
   // Метод для обновления местоположения
-  updateLocation(location: Location, field: string): void {
-    // @ts-ignore
-    this[field] = location; // Отдельное обновление местоположения
+  updateLocation(location: Location, field: locationField): void {
+    const currentLocation = this[field];
+    if (!currentLocation || currentLocation.id !== location.id) {
+      this[field] = location;
+
+      if (field === 'cityFrom') {
+        // Reset dependent fields when cityFrom changes
+        this.streetFrom = null;
+        this.buildingFrom = null;
+      }
+      if (field === 'cityTo') {
+        this.streetTo = null;
+        this.buildingTo = null;
+      }
+    }
     console.log('updateLocation store method = ' ,this, `\n${field}`)
   };
 }

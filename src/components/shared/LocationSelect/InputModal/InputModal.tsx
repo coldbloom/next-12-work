@@ -1,7 +1,8 @@
-import s from './InputModal.module.scss';
-import cn from 'classnames';
-import Icon from "@mdi/react";
 import {mdiArrowLeft, mdiClose} from "@mdi/js";
+import Icon from "@mdi/react";
+import { useRef } from "react";
+import cn from 'classnames';
+import s from './InputModal.module.scss';
 
 type InputModalProps = {
   name: string;
@@ -13,12 +14,19 @@ type InputModalProps = {
 }
 
 export const InputModal = ({ name, value, onChange, onClose, placeholder, isError }: InputModalProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handleClear = () => {
+    onChange('');
+    inputRef.current?.focus();
+  };
+
   return (
     <div className={cn(s.fieldWrapper, {[s.error]: isError})}>
       <button onClick={onClose}>
         <Icon path={mdiArrowLeft} size={"24px"} className={s.icon}/>
       </button>
       <input
+        ref={inputRef}
         name={name}
         type="text"
         autoFocus={true}
@@ -27,7 +35,7 @@ export const InputModal = ({ name, value, onChange, onClose, placeholder, isErro
         placeholder={placeholder}
       />
       {value.length > 0 && (
-        <button onClick={() => onChange('')}>
+        <button onClick={handleClear}>
           <Icon path={mdiClose} size={"24px"} className={s.icon}/>
         </button>
       )}

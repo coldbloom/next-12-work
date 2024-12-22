@@ -1,24 +1,30 @@
-export type BaseLocation = {
-  id: string;
-  zip: number;
+export type Location = {
+  id: string; // postal code
   type: string;
-  typeShort: string;
-  contentType: string;
   name: string;
-};
-
-// Тип для родительского местоположения
-export type ParentLocation = BaseLocation;  //@fixme проверить и привести в вид
-
-// Тип для основного местоположения, расширяющий базовый тип
-export type Location = BaseLocation & {
-  parents: BaseLocation[];
-};
-
-export type LocationReqParams = {
-  contentType?: 'city' | 'street' | 'building'; // на сервере по умолчанию значение 'city'
-  limit?: number; // на сервере по умолчанию значение '10'
-  withParent?: number; // на сервере по умолчанию значение '1'
-  cityId?: string;
+  parents?: string;
+  //# параметры для города #//
+  region?: string;
+  city?: string;
+  //# параметры для улицы #//
   streetId?: string;
 };
+
+export type LocationTypes = 'city' | 'street' | 'house';
+
+export type LocationReqParams = {
+  query?: string;
+  location?: LocationTypes;
+  limit?: number;
+  region?: string;
+  city?: string;
+  streetId?: string;
+};
+
+export type locationField =
+  | 'cityFrom'
+  | 'streetFrom'
+  | 'buildingFrom'
+  | 'cityTo'
+  | 'streetTo'
+  | 'buildingTo';

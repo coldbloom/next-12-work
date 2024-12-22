@@ -5,7 +5,7 @@ import { ModalPageWindow } from '@/components/kit/ModalPageWindow';
 import { LocationSelect } from '@/components/shared/LocationSelect';
 import { observer } from 'mobx-react-lite';
 import Store from '@/store/createTripStore';
-import { Location } from '@/utils/types';
+import { Location, locationField } from '@/utils/types';
 
 import s from '../Create.module.scss';
 import { useRouter } from "next/router";
@@ -16,7 +16,7 @@ const To = observer(() => {
 
   const closeModal = () => setActiveField(null);
 
-  const handleLocation = (value: Location, fieldName: string) => {
+  const handleLocation = (value: Location, fieldName: locationField) => {
     Store.updateLocation(value, fieldName);
     closeModal();
   };
@@ -49,7 +49,7 @@ const To = observer(() => {
               initialValue={city?.name}
               onClose={closeModal}
               handleFormChange={handleLocation}
-              params={{ limit: 25 }}
+              params={{ limit: 15 }}
             />
           )}
           {activeField === 2 && (
@@ -58,7 +58,7 @@ const To = observer(() => {
               initialValue={street?.name}
               onClose={closeModal}
               handleFormChange={handleLocation}
-              params={{ contentType: 'street', limit: 50, cityId: city?.id }}
+              params={{ location: 'street', limit: 50, region: city?.region, city: city?.city }}
             />
           )}
           {activeField === 3 && (
@@ -67,7 +67,7 @@ const To = observer(() => {
               initialValue={building?.name}
               onClose={closeModal}
               handleFormChange={handleLocation}
-              params={{ contentType: 'building', limit: 10, streetId: street?.id, withParent: 0 }}
+              params={{ location: 'house', limit: 15, streetId: street?.id }}
             />
           )}
         </div>

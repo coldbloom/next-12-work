@@ -1,14 +1,14 @@
-import React, {FC, PropsWithChildren, useEffect, useState} from 'react';
+import { FC, PropsWithChildren, useState } from 'react';
 
 import cn from 'classnames';
 import s from './Create.module.scss';
 import { ModalPageWindow } from "@/components/kit/ModalPageWindow";
 import { LocationSelect } from "@/components/shared/LocationSelect";
-import { Location } from "@/utils/types";
+import { Location, locationField } from "@/utils/types";
 import { observer } from "mobx-react-lite";
 
 import Store from '@/store/createTripStore';
-import {LocationCreateForm} from "@/components/shared/LocationCreateForm";
+import { LocationCreateForm } from "@/components/shared/LocationCreateForm";
 
 type LayoutContainerProps = {
   className?: string;
@@ -28,7 +28,7 @@ const CreateTrip = observer(() => {
 
   const closeModal = () => setActiveField(null);
 
-  const handleLocation = (value: Location, fieldName: string) => {
+  const handleLocation = (value: Location, fieldName: locationField) => {
     Store.updateLocation(value, fieldName);
     closeModal();
   };
@@ -52,7 +52,7 @@ const CreateTrip = observer(() => {
               initialValue={city?.name}
               onClose={closeModal}
               handleFormChange={handleLocation}
-              params={{ limit: 25 }}
+              params={{ limit: 15 }}
             />
           )}
           {activeField === 2 && (
@@ -61,7 +61,7 @@ const CreateTrip = observer(() => {
               initialValue={street?.name}
               onClose={closeModal}
               handleFormChange={handleLocation}
-              params={{ contentType: 'street', limit: 50, cityId: city?.id }}
+              params={{ location: 'street', limit: 50, region: city?.region, city: city?.city }}
             />
           )}
           {activeField === 3 && (
@@ -70,7 +70,7 @@ const CreateTrip = observer(() => {
               initialValue={building?.name}
               onClose={closeModal}
               handleFormChange={handleLocation}
-              params={{ contentType: 'building', limit: 10, streetId: street?.id, withParent: 0 }}
+              params={{ location: 'house', limit: 15, streetId: street?.id }}
             />
           )}
         </div>
