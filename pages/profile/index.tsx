@@ -1,3 +1,6 @@
+import { mdiChevronRight, mdiAccountEditOutline, mdiImagePlusOutline } from "@mdi/js";
+import Icon from "@mdi/react";
+
 import { MainLayout } from "@/components/layouts/MainLayout";
 import { withAuth } from '@/components/hoc/WithAuth';
 
@@ -6,11 +9,7 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { Avatar } from "@/components/kit/Avatar";
 import { AuthContext } from "@/context/AuthContext";
-import Icon from "@mdi/react";
-import { mdiChevronRight, mdiAccountEditOutline, mdiPlusCircleOutline, mdiImagePlusOutline } from "@mdi/js";
 import {ModalPageWindow} from "@/components/kit/ModalPageWindow";
-
-// import 'react-dadata/dist/react-dadata.css';
 
 const Profile = () => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
