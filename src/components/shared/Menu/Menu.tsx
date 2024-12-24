@@ -1,7 +1,7 @@
 import { mdiAccountOutline, mdiAccountPlusOutline, mdiChevronRight, mdiLogout, mdiRoutes} from "@mdi/js";
 import Icon from "@mdi/react";
 
-import {PropsWithChildren, ReactNode, useContext} from 'react';
+import { PropsWithChildren, ReactNode, useContext } from 'react';
 
 import {Avatar} from "@/components/kit/Avatar";
 import {AuthContext} from "@/context/AuthContext";

@@ -22,13 +22,6 @@
     }
   }
 
-  hr {
-    margin: 0;
-    border: none; /* Убираем стандартные границы */
-    height: 1px; /* Задаем высоту линии */
-    background-color: variables.$color-disabled; /* Цвет линии */
-  }
-
   .userInfoWrapper {
     display: flex;
     flex-direction: row;

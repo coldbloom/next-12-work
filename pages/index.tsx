@@ -7,9 +7,9 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>доедешь-пиши</title>
+        <title>Сервис поиска автомобильных попутчиков без комиссии</title>
         {/*FIXME заполнить мета теги*/}
-        <meta property="og:site_name" content="доедешь-пиши.рф"/>
+        <meta property="og:site_name" content="блаблаавто.рф"/>
         <meta property="og:title" content="Page Title"/>
         <meta property="og:description" content="Page description"/>
         <meta property="og:image" content="https://example.com/image.jpg"/>
