@@ -16,8 +16,8 @@ import { Location } from '@/utils/types';
 import { Passengers } from '../Passengers';
 
 export type TravelSearchFormData = {
-  from: Location | null;
-  to: Location | null;
+  cityFrom: Location | null;
+  cityTo: Location | null;
   date: Date;
   passengers: number;
 };
@@ -48,8 +48,8 @@ const ButtonInput = ({ iconPath, placeholder, onClick, className, value, error =
 export const MainForm = () => {
   const [activeField, setActiveField] = useState<number | null>(null);
   const [formData, setFormData] = useState<TravelSearchFormData>({
-    from: null,
-    to: null,
+    cityFrom: null,
+    cityTo: null,
     date: new(Date),
     passengers: 1,
   });
@@ -57,7 +57,7 @@ export const MainForm = () => {
   const [errorFrom, setErrorFrom] = useState(false);
   const [errorTo, setErrorTo] = useState(false);
 
-  const { from, to, date, passengers} = formData;
+  const { cityFrom: from, cityTo: to, date, passengers} = formData;
 
   const swapVisible = !errorTo && !errorFrom && (!!from || !!to);
 
@@ -82,8 +82,8 @@ export const MainForm = () => {
   const swap = () => {
     setFormData(prevFormData => ({
       ...prevFormData,
-      from: prevFormData.to,
-      to: prevFormData.from,
+      cityFrom: prevFormData.cityTo,
+      cityTo: prevFormData.cityFrom,
     }));
   };
 
@@ -170,7 +170,7 @@ export const MainForm = () => {
         <div className={s.modalWrapper}>
           {activeField === 1 && (
             <LocationSelect
-              fieldName="from"
+              fieldName="cityFrom"
               initialValue={from?.name}
               onClose={() => closeModal()}
               handleFormChange={handleLocation}
@@ -180,7 +180,7 @@ export const MainForm = () => {
           )}
           {activeField === 2 && (
             <LocationSelect
-              fieldName="to"
+              fieldName="cityTo"
               initialValue={to?.name}
               onClose={() => closeModal()}
               handleFormChange={handleLocation}
