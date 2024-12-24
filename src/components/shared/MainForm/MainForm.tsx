@@ -174,7 +174,7 @@ export const MainForm = () => {
               initialValue={from?.name}
               onClose={() => closeModal()}
               handleFormChange={handleLocation}
-              params={{ contentType: 'city', limit: 25 }}
+              params={{ location: 'city', limit: 25 }}
               // handleClear={handleClearInput}
             />
           )}
@@ -184,7 +184,7 @@ export const MainForm = () => {
               initialValue={to?.name}
               onClose={() => closeModal()}
               handleFormChange={handleLocation}
-              params={{ contentType: 'city', limit: 25 }}
+              params={{ location: 'city', limit: 25 }}
             />
           )}
           {activeField === 3 && (
