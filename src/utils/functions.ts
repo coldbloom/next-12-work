@@ -33,6 +33,17 @@ export function formatDate(date: Date): string {
 }
 
 
+type TPhone = string | null | undefined;
+
+export function formatPhone(phone: string | null | undefined): string | null | undefined {
+  // Форматируем номер
+  if (phone) {
+    return `+7 ${phone.slice(2, 5)} ${phone.slice(5, 8)} ${phone.slice(8, 10)} ${phone.slice(10, 12)}`;
+  } else {
+    return undefined;
+  }
+}
+
 
 // export const lowerCaseFirstLetter = (str: string): string => str[0].toLowerCase() + str.slice(1);
 //

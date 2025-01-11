@@ -8,14 +8,13 @@ type InputProps = {
   value?: string;
   onFocus?: () => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  type?: 'text' | 'password' | 'email';
   error?: string;
   placeholder?: string;
   isLabel?: boolean;
+  autoFocus?: boolean;
   className?: string;
   classNameWrapper?: string;
   style?: CSSProperties;
-  ref?: Ref<HTMLInputElement>
 } & HTMLProps<HTMLInputElement>;
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(({
@@ -26,20 +25,27 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
   type = "text",
   error,
   placeholder,
+  autoFocus,
   className,
   classNameWrapper,
   style,
   ...props
 }, ref) => {
 
+  if (type === "submit") {
+    return (
+      <input type={type} value={value} className={cn(s.submitButton, className)} />
+    )
+  }
+
   const [isFocused, setIsFocused] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const onPasswordVisible = () => setPasswordVisible(prev => !prev);
 
-  const handleFocus = () => {
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     setIsFocused(true);
-    onFocus?.();
+    onFocus?.(e);
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -58,6 +64,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
           onFocus={handleFocus}
           onBlur={handleBlur}
           placeholder={placeholder}
+          autoFocus={autoFocus}
           ref={ref}
           {...props}
         />

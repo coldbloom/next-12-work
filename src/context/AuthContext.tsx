@@ -1,29 +1,20 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import axios, {AxiosInstance, InternalAxiosRequestConfig} from "axios";
+import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
 
 import inMemoryJWT from "@/utils/services/inMemoryJWT";
 import showErrorMessage from "@/utils/services/showErrorMessage";
 import { Loader } from "@/components/kit/Loader";
 import { useRouter, Router } from "next/router";
-import useSWR from "swr";
 
-const fetcher = (url: string) => resourceClient.get(url).then(res => res.data);
+import { observer } from "mobx-react-lite";
+import { userInfoStore } from "@/store/userInfoStore";
+
 const oauthNow = (authMethod: 'local' | 'google') => {
   localStorage.setItem('isAuthNow', '1'); // Необходимо для открытия меню после авторизации
   localStorage.setItem('lastAuthMethod', authMethod);
 };
 
-type UserInfo = {
-  id: number;
-  login: string;
-  name: string;
-  phone: null | string;
-}
-
 type ContextProps = {
-  data: string | null; // Заменить на тип данных, который вы ожидаете хранить в контексте
-  userInfo: UserInfo | null;
-  handleFetchProtected: () => void;
   handleLogOut: () => void;
   handleSignUp: (data: { login: string; password: string; name: string; }) => Promise<void>;
   handleSignIn: (data: { login: string; password: string }) => Promise<void>;
@@ -33,9 +24,6 @@ type ContextProps = {
 }
 
 export const AuthContext = createContext<ContextProps>({
-  data: null,
-  userInfo: null,
-  handleFetchProtected: () => {},
   handleLogOut: () => {},
   handleSignUp: async () => {},
   handleSignIn: async () => {},
@@ -61,25 +49,22 @@ resourceClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+export const fetcher = (url: string) => resourceClient.get(url).then(res => res.data);
+export const poster = (url: string, data: any) => resourceClient.post(url, data).then(res => res.data);
+
 export const instanceAxios: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true, // запросы, отправляемые с помощью этого экземпляра Axios, будут отправлять куки (cookies) при кросс-доменных запросах.
 });
 
-const AuthProvider = ({children}: {children: ReactNode}) => {
+const AuthProvider = observer(({children}: {children: ReactNode}) => {
   const [isAppReady, setIsAppReady] = useState(false); // отвечает за готовность приложения к работе
   const [isUserLogged, setIsUserLogged] = useState(false); // является ли пользователь авторизованным
-  const [data, setData] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const router = useRouter();
-  console.log('render');
 
-  const handleFetchProtected = () => {
-    resourceClient.get("/resource/protected")
-      .then(res => setData(res.data))
-      .catch(showErrorMessage);
-  };
+  const { userInfo } = userInfoStore;
+  console.log('render');
 
   const handleLogOut = () => {
     instanceAxios.post('/auth/logout')
@@ -120,6 +105,7 @@ const AuthProvider = ({children}: {children: ReactNode}) => {
   };
 
   const handleGoogleSign = async (data: { token: string }) => {
+    setIsAppReady(false);
     await instanceAxios.post('/auth/gmail-login', data).then(res => {
       const { accessToken, accessTokenExpiration } = res.data;
 
@@ -129,7 +115,8 @@ const AuthProvider = ({children}: {children: ReactNode}) => {
 
       router.push("/")
     })
-    .catch(showErrorMessage);
+    .catch(showErrorMessage)
+    .finally(() => setIsAppReady(true));
   }
 
   useEffect(() => {
@@ -137,7 +124,7 @@ const AuthProvider = ({children}: {children: ReactNode}) => {
     const fetchUserInfo = async () => {
       try {
         const data = await fetcher('user-info');
-        setUserInfo(data);
+        userInfoStore.setUserInfoStore(data);
       } catch (error) {
         showErrorMessage(error);
       } finally {
@@ -147,7 +134,7 @@ const AuthProvider = ({children}: {children: ReactNode}) => {
 
     // Если пользователь вышел, обнуляем информацию о нем в памяти приложения
     if (!isUserLogged && userInfo) {
-      setUserInfo(null);
+      userInfoStore.setUserInfoStore(null);
     }
 
     // Если пользователь авторизован, пытаемся получить информацию о нем
@@ -202,6 +189,8 @@ const AuthProvider = ({children}: {children: ReactNode}) => {
       }
     };
 
+    // Добавляем обработчик события storage к объекту window. Это означает, что каждый раз, когда происходит событие storage
+    // события storage это когда происходит изменение в localStorage или sessionStorage в одном из открытых вкладок или окон браузера. Это событие позволяет различным вкладкам или окнам взаимодействовать друг с другом, когда они используют одно и то же хранилище.
     window.addEventListener("storage", handlePersistedLogout);
     return () => window.removeEventListener("storage", handlePersistedLogout);
   }, []);
@@ -209,9 +198,6 @@ const AuthProvider = ({children}: {children: ReactNode}) => {
   return (
     <AuthContext.Provider
       value={{
-        data,
-        userInfo,
-        handleFetchProtected,
         handleLogOut,
         handleSignUp,
         handleSignIn,
@@ -226,6 +212,6 @@ const AuthProvider = ({children}: {children: ReactNode}) => {
       }
     </AuthContext.Provider>
   );
-};
+});
 
 export default AuthProvider;

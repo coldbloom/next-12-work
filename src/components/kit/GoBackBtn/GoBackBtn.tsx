@@ -10,7 +10,7 @@ export const GoBackBtn = () => {
 
   return (
     <div onClick={handleGoBack} className={s.goBackWrapper} tabIndex={0}>
-      <Icon path={mdiArrowLeftCircle} size="36px"/>
+      <Icon path={mdiArrowLeftCircle} size="36px" />
     </div>
   );
 };

@@ -14,7 +14,7 @@ import { menuStore } from '@/store/menuStore';
 import s from './Header.module.scss'
 
 export const Header = observer(() => {
-  const {isOpen} = menuStore;
+  const { isOpen } = menuStore;
 
   const isAuthNow = useMemo(() => localStorage.getItem('isAuthNow'), []);
 

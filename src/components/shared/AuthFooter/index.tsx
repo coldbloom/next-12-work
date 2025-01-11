@@ -5,7 +5,7 @@ type AuthFooterProps = {
   variant: 'login' | 'register';
 };
 
-const AuthFooter = ({ variant }: AuthFooterProps) => {
+export const AuthFooter = ({ variant }: AuthFooterProps) => {
 
   return (
     <div className={s.footer}>
@@ -21,5 +21,3 @@ const AuthFooter = ({ variant }: AuthFooterProps) => {
     </div>
   );
 };
-
-export default AuthFooter;

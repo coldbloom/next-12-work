@@ -1,0 +1,13 @@
+@use '@/utils/variables' as variables;
+
+.infoWrapper {
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+  gap: 8px;
+  color: variables.$color-theme-five;
+
+  p {
+    margin: 0;
+  }
+}

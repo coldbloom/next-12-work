@@ -1,18 +1,28 @@
 import { mdiEmailOutline } from '@mdi/js';
 import Icon from "@mdi/react";
 
+import { useContext, useEffect } from "react";
+import { useRouter } from "next/router";
+import { AuthContext } from "@/context/AuthContext";
+
 import { MainLayout } from "src/components/layouts/MainLayout";
 import { HeadingText } from "@/components/kit/HeadingText/HeadingText";
-import {useRouter} from "next/router";
+import { AuthFooter } from "@/components/shared/AuthFooter";
+import { AuthButton } from "@/components/shared/AuthButton";
+import { GoogleAuthButton } from "@/components/shared/GoogleAuthButton";
+import { AuthSeparator } from "@/components/shared/AuthSeparator/AuthSeparator";
 
 import s from './Register.module.scss';
-import AuthFooter from "@/components/shared/AuthFooter";
-import {AuthButton} from "@/components/shared/AuthButton";
-import {GoogleAuthButton} from "@/components/shared/GoogleAuthButton";
-import {AuthSeparator} from "@/components/shared/AuthSeparator/AuthSeparator";
 
 const Register = () => {
   const router = useRouter();
+  const { isUserLogged } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (isUserLogged) {
+      router.push("/");
+    }
+  },[isUserLogged]);
 
   return (
     <MainLayout>
