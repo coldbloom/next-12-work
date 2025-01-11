@@ -6,7 +6,7 @@ import { Input } from "@/components/kit/Input";
 import { AuthContext } from "@/context/AuthContext";
 
 import { useForm, SubmitHandler } from "react-hook-form";
-import AuthFooter from "@/components/shared/AuthFooter";
+import { AuthFooter } from "@/components/shared/AuthFooter";
 
 type Inputs = {
   name: string,
