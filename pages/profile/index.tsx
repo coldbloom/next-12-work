@@ -16,6 +16,7 @@ import { formatPhone } from "@/utils/functions"
 import { PhoneForm } from '@/components/shared/profileForms/PhoneForm';
 import { NameForm } from '@/components/shared/profileForms/NameForm';
 import { BirthDateForm } from "@/components/shared/profileForms/BirthDateForm";
+import { Input } from '@/components/kit/Input';
 
 const Profile = observer(() => {
   const [editModalOpen, setEditModalOpen] = useState<'info' | 'avatar' | null>(null);

@@ -8,15 +8,16 @@ import {MainLayout} from "@/components/layouts/MainLayout";
 export const Main = () => {
   return (
     <MainLayout>
-      <MainForm />
+      <MainForm/>
       <div className={s.createTravelWrapper}>
         <Link href={pages.createTrip.link} className={s.createTravelLink}>
           Создать поездку
         </Link>
       </div>
-      <div className={s.createTravelWrapper}>
+      <input type="file"/>
+      {/*<div className={s.createTravelWrapper}>*/}
 
-      </div>
+      {/*</div>*/}
     </MainLayout>
   );
 };

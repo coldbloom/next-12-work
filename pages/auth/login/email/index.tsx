@@ -1,12 +1,13 @@
 import { useContext } from 'react';
-import s from "../../register/Register.module.scss";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { HeadingText } from "@/components/kit/HeadingText/HeadingText";
-import { MainLayout } from "src/components/layouts/MainLayout";
+import { MainLayout } from "@/components/layouts/MainLayout";
 import { Input } from "@/components/kit/Input";
 
-import { useForm, SubmitHandler } from "react-hook-form";
-import AuthFooter from "@/components/shared/AuthFooter";
+import { AuthFooter } from "@/components/shared/AuthFooter";
 import { AuthContext } from "@/context/AuthContext";
+
+import s from "../../register/Register.module.scss";
 
 type Inputs = {
   email: string,
@@ -25,7 +26,6 @@ const LoginEmail = () => {
     handleSubmit,
     watch,
     formState: { errors },
-    reset, // Добавляем метод reset
   } = useForm<Inputs>({
     defaultValues: defaultValues,
     mode: "onBlur" // режим валидации ошибок - на onBlur (популярный)
