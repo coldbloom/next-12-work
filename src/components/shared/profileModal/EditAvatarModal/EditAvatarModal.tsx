@@ -1,8 +1,9 @@
-import { useState, useRef } from 'react';
+import {useState, useRef, useEffect} from 'react';
 import s from "../../../../../pages/profile/profile.module.scss";
 import Icon from "@mdi/react";
 import {mdiClose, mdiImagePlusOutline} from "@mdi/js";
 import {ModalPageWindow} from "@/components/kit/ModalPageWindow";
+import { AvatarZoomSlider } from "@/components/kit/AvatarZoomSlider";
 import {observer} from "mobx-react-lite";
 import { Input } from "@/components/kit/Input";
 import AvatarEditor from 'react-avatar-editor';
@@ -18,7 +19,8 @@ export const EditAvatarModal = observer(({ isOpen, onClose }: EditAvatarModalPro
   const [error, setError] = useState<string>('');
   const [image, setImage] = useState<string | null>(null);
   const editorRef = useRef<AvatarEditor | null>(null);
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(1.4);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -57,6 +59,26 @@ export const EditAvatarModal = observer(({ isOpen, onClose }: EditAvatarModalPro
     }
   };
 
+  useEffect(() => {
+    // Функция для обновления ширины экрана
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    // Добавляем обработчик события resize
+    window.addEventListener('resize', handleResize);
+    console.log(screenWidth, 'screenWidth');
+
+    // Убираем обработчик при размонтировании компонента
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log(scale, ' scale');
+  }, [scale]);
+
   return (
     <ModalPageWindow isOpen={isOpen} onClose={onClose}>
       <div className={s.modalWrapper}>
@@ -89,23 +111,29 @@ export const EditAvatarModal = observer(({ isOpen, onClose }: EditAvatarModalPro
 
           {/* Компонент обрезки изображения */}
           {image && (
-            <>
+            <div className={s.trimEditAvatar}>
               <AvatarEditor
                 ref={editorRef}
                 image={image}
-                width={250}
-                height={250}
+                width={screenWidth - 100}
+                height={screenWidth - 100}
                 border={50}
-                borderRadius={125}
+                borderRadius={(screenWidth - 100) * 50 / 100}
                 scale={scale}
                 rotate={0}
               />
               <div style={{ display: 'flex' }}>
-                <button onClick={() => setScale(prev => prev + 0.1)}>+</button>
-                <p>{scale}</p>
-                <button onClick={() => setScale(prev => prev - 0.1)}>-</button>
+                {/*<button onClick={() => setScale(prev => Number((prev + 0.1).toFixed(1)))}>+</button>*/}
+                {/*<p>{scale}</p>*/}
+                {/*<button onClick={() => setScale(prev => Number((prev - 0.1).toFixed(1)))}>-</button>*/}
+                <AvatarZoomSlider
+                  initialValue={scale}
+                  onZoomChange={(newScale) => setScale(newScale)}
+                  min={1.0}
+                  max={6.0}
+                />
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>
