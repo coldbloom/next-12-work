@@ -17,14 +17,16 @@ import { PhoneForm } from '@/components/shared/profileForms/PhoneForm';
 import { NameForm } from '@/components/shared/profileForms/NameForm';
 import { BirthDateForm } from "@/components/shared/profileForms/BirthDateForm";
 import { Input } from '@/components/kit/Input';
+import {EditInfoModal} from "@/components/shared/profileModal/EditInfoModal";
+import {EditAvatarModal} from "@/components/shared/profileModal/EditAvatarModal";
 
 const Profile = observer(() => {
   const [editModalOpen, setEditModalOpen] = useState<'info' | 'avatar' | null>(null);
-  const [editFieldModalOpen, setEditFieldModalOpen] = useState<number>(0);
-  const {userInfo} = userInfoStore;
+  const { userInfo } = userInfoStore;
 
   const handleClose = () => setEditModalOpen(null);
-  const handleCloseClose = () => setEditFieldModalOpen(0);
+
+  console.log('render Profile page')
 
   return (
     <MainLayout>
@@ -56,49 +58,8 @@ const Profile = observer(() => {
         </div>
         <hr/>
       </div>
-      <ModalPageWindow isOpen={editModalOpen === 'info'} onClose={handleClose}>
-        <div className={s.modalWrapper}>
-          <div onClick={handleClose} className={s.closeBtn}>
-            <Icon path={mdiClose} size="36px"/>
-          </div>
-
-          <h1>Информация о себе</h1>
-
-          <div className={s.inputBtn} onClick={() => setEditFieldModalOpen(1)}>
-            <span>Имя</span>
-            <span>{userInfo?.name}</span>
-          </div>
-          <div className={s.inputBtn} onClick={() => setEditFieldModalOpen(2)}>
-            <span>Дата рождения</span>
-            <span>{userInfo?.birthDate || 'Не указано'}</span>
-          </div>
-          <div className={s.inputBtn} onClick={() => setEditFieldModalOpen(3)}>
-            <span>Номер телефона</span>
-            <span>{formatPhone(userInfo?.phone) || 'Не указано'}</span>
-          </div>
-        </div>
-        <ModalPageWindow isOpen={!!editFieldModalOpen} onClose={handleCloseClose}>
-          <div className={s.modalWrapper}>
-            <div onClick={handleCloseClose} className={s.closeBtn}>
-              <Icon path={mdiClose} size="36px"/>
-            </div>
-            { editFieldModalOpen === 1 && <NameForm onClose={handleCloseClose} /> }
-            { editFieldModalOpen === 2 && <BirthDateForm onClose={handleCloseClose} /> }
-            { editFieldModalOpen === 3 && <PhoneForm onClose={handleCloseClose} /> }
-          </div>
-        </ModalPageWindow>
-      </ModalPageWindow>
-      <ModalPageWindow isOpen={editModalOpen === 'avatar'} onClose={handleClose}>
-        <div className={s.modalWrapper}>
-          <div onClick={handleClose} className={s.closeBtn}>
-            <Icon path={mdiClose} size="36px"/>
-
-            <h1>Фото профиля</h1>
-
-            <input type="file" />
-          </div>
-        </div>
-      </ModalPageWindow>
+      <EditInfoModal isOpen={editModalOpen === 'info'} onClose={handleClose} />
+      <EditAvatarModal isOpen={editModalOpen === 'avatar'} onClose={handleClose} />
     </MainLayout>
   );
 });

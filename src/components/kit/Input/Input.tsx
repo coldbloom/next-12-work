@@ -34,7 +34,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
 
   if (type === "submit") {
     return (
-      <input type={type} value={value} className={cn(s.submitButton, className)} />
+      <input type={type} value={value} className={cn(s.submitButton, className)} {...props} />
     )
   }
 
