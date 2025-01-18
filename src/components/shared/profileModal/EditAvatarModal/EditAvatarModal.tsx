@@ -8,6 +8,7 @@ import {observer} from "mobx-react-lite";
 import { Input } from "@/components/kit/Input";
 import AvatarEditor from 'react-avatar-editor';
 import Avatar from 'react-avatar-edit';
+import {Button} from "@/components/kit/Button";
 
 type EditAvatarModalProps = {
   isOpen: boolean;
@@ -86,7 +87,7 @@ export const EditAvatarModal = observer(({ isOpen, onClose }: EditAvatarModalPro
           <Icon path={mdiClose} size="36px"/>
         </div>
 
-        <h1>Фото профиля</h1>
+        {!image && <h1>Фото профиля</h1>}
 
         <div className={s.editAvatarWrapper}>
           {/* Скрытый input */}
@@ -122,7 +123,7 @@ export const EditAvatarModal = observer(({ isOpen, onClose }: EditAvatarModalPro
                 scale={scale}
                 rotate={0}
               />
-              <div style={{ display: 'flex' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center' }}>
                 {/*<button onClick={() => setScale(prev => Number((prev + 0.1).toFixed(1)))}>+</button>*/}
                 {/*<p>{scale}</p>*/}
                 {/*<button onClick={() => setScale(prev => Number((prev - 0.1).toFixed(1)))}>-</button>*/}
@@ -132,6 +133,7 @@ export const EditAvatarModal = observer(({ isOpen, onClose }: EditAvatarModalPro
                   min={1.0}
                   max={6.0}
                 />
+                <Button variant="continue">Сохранить</Button>
               </div>
             </div>
           )}
