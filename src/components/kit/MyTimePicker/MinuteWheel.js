@@ -13,7 +13,7 @@ function MinuteWheel({ height, value, setValue }) {
       parseInt(
          initialNumbersValue(height, 60, parseInt(value.slice(3, 6))).filter(
             (item) => item.number === value.slice(3, 6) && item.selected === true,
-         )[0].translatedValue,
+         )[0]?.translatedValue,
       ),
    );
    const [startCapture, setStartCapture] = useState(false);

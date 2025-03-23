@@ -3,7 +3,7 @@ import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
 
 import inMemoryJWT from "@/utils/services/inMemoryJWT";
 import showErrorMessage from "@/utils/services/showErrorMessage";
-import { Loader } from "@/components/kit/Loader";
+import { FullScreenLoader } from "@/components/shared/FullScreenLoader";
 import { useRouter, Router } from "next/router";
 
 import { observer } from "mobx-react-lite";
@@ -49,7 +49,7 @@ resourceClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export const fetcher = (url: string) => resourceClient.get(url).then(res => res.data);
+export const fetcher = (url: string, params?: Record<string, any>) => resourceClient.get(url, { params }).then(res => res.data);
 export const poster = (url: string, data: any) => resourceClient.post(url, data).then(res => res.data);
 
 export const instanceAxios: AxiosInstance = axios.create({
@@ -143,6 +143,7 @@ const AuthProvider = observer(({children}: {children: ReactNode}) => {
       fetchUserInfo();
     }
   }, [isUserLogged, userInfo]);
+  //@FIXME проверить баг при запросе на изменение userInfo (edit-запросы в профиле) дублируется ли запрос fetchUserInfo
 
   useEffect(() => {
     const handleStart = () => setIsAppReady(false);
@@ -208,7 +209,7 @@ const AuthProvider = observer(({children}: {children: ReactNode}) => {
     >
       {isAppReady
         ? children
-        : <Loader style={{ marginLeft: '50%', marginTop: '100%', transform: 'translate(-50%, -50%)'}} />
+        : <FullScreenLoader />
       }
     </AuthContext.Provider>
   );

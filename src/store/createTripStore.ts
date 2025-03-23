@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { Location, locationField } from "@/utils/types";
+import { Location, locationField, TripData } from "@/utils/types";
 
 class CreateTripStore {
   cityFrom: Location | null = null;
@@ -11,7 +11,7 @@ class CreateTripStore {
   date: Date | null = null;
   time: string | null = null;
   passengers: number = 4;
-  price: number | null = null;
+  price: string | null = null;
   description: string = '';
 
   constructor() {
@@ -34,6 +34,10 @@ class CreateTripStore {
     this.passengers = value;
   }
 
+  updatePrice(value: string): void {
+    this.price = value;
+  }
+
   // Метод для обновления местоположения
   updateLocation(location: Location, field: locationField): void {
     const currentLocation = this[field];
@@ -50,8 +54,39 @@ class CreateTripStore {
         this.buildingTo = null;
       }
     }
-    console.log('updateLocation store method = ' ,this, `\n${field}`)
   };
+
+  getRequestData(): TripData {
+    if (!this.cityFrom || !this.cityTo || !this.date || !this.time || !this.passengers || !this.price) {
+      throw new Error("Пожалуйста, заполните все поля перед публикацией.");
+    }
+    const [hours, minutes] = this.time.split(':');
+    if (!hours || !minutes) {
+      throw new Error("Неверный формат времени. Используйте HH:MM.");
+    }
+
+    const dateTime = this.date;
+    dateTime.setHours(Number(hours));
+    dateTime.setMinutes(Number(minutes))
+    const localDateTime = dateTime.toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' });
+
+    return {
+      locationFrom: {
+        city: this.cityFrom,
+        street: this.streetFrom ?? null,
+        building: this.buildingFrom ?? null,
+      },
+      locationTo: {
+        city: this.cityTo,
+        street: this.streetTo ?? null,
+        building: this.buildingTo ?? null,
+      },
+      dateTime: localDateTime,
+      passengers: this.passengers,
+      price: this.price,
+      description: this.description !== '' ? this.description : null,
+    }
+  }
 }
 
-export default new CreateTripStore();
+export const tripStore = new CreateTripStore();

@@ -47,7 +47,7 @@ export const NameForm = observer(({ onClose }: NameFormProps) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           placeholder="Имя"
-          error={errors.name?.message}
+          errorText={errors.name?.message}
           autoFocus={true}
           {...register('name', {
             required: 'Имя обязательно'

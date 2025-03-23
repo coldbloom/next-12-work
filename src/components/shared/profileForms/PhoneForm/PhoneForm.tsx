@@ -1,5 +1,5 @@
 import {observer} from "mobx-react-lite";
-import {userInfoStore} from "@/store/userInfoStore";
+import { userInfoStore } from "@/store/userInfoStore";
 import {formatPhone} from "@/utils/functions";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {poster} from "@/context/AuthContext";
@@ -74,7 +74,7 @@ export const PhoneForm = observer(({ onClose }: PhoneFormProps) => {
               {...inputProps}
               type="tel"
               placeholder="+7 *** *** ** **"
-              error={errors.phone?.message}
+              errorText={errors.phone?.message}
               autoFocus={true}
             />
           )}
@@ -83,7 +83,7 @@ export const PhoneForm = observer(({ onClose }: PhoneFormProps) => {
       </form>
       <div className={s.infoWrapper}>
         <div>
-          <Icon path={mdiInformationOutline} size={1} />
+          <Icon path={mdiInformationOutline} size="16px" />
         </div>
         <p>Ваш номер телефона будет виден другим пользователям и может быть использован для связи с вами</p>
       </div>

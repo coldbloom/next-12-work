@@ -1,24 +1,11 @@
 @use '@/utils/variables' as variables;
 
-.wrapper {
+.formWrapper {
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 
-  .formWrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-
-    h1 {
-      font-size: 30px;
-      color: variables.$color-theme-one;
-    }
-
-    .filled {
-      color: variables.$color-theme-one;
-    }
+  .filled {
+    color: variables.$color-theme-one;
   }
 }

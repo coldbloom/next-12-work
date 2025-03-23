@@ -1,7 +1,7 @@
 @use '@/utils/variables' as variables;
 
 .react-ios-time-picker {
-  border-radius: 10px;
+  border-radius: variables.$rounded;
   overflow: hidden;
   box-shadow: 0 11px 15px #0005;
   width: fit-content;
@@ -73,7 +73,7 @@
 
 .react-ios-time-picker-selected-overlay {
   position: absolute;
-  border-radius: 6px;
+  border-radius: variables.$rounded; //@FIXME было 6px
   //background-color: #2c2c2f; //base bg overlay
   background-color: variables.$color-theme-one;
   pointer-events: none;

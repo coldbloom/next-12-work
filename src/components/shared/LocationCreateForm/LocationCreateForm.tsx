@@ -1,13 +1,15 @@
 import { mdiHomeSearchOutline, mdiMapMarkerRadiusOutline, mdiMapSearchOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Location } from "@/utils/types";
+import { useRouter } from "next/router";
+import { GoBackBtn } from "@/components/kit/GoBackBtn";
+import { Button } from "@/components/kit/Button";
+
 import cn from "classnames";
-import {useRouter} from "next/router";
-import {Location} from "@/utils/types";
-import {GoBackBtn} from "@/components/kit/GoBackBtn";
 import s from './LocationCreateForm.module.scss';
-import {Button} from "@/components/kit/Button";
+import {Heading} from "@/components/kit/Heading/Heading";
 
 type LocationCreateFormProps = {
   mode: 'from' | 'to';
@@ -26,6 +28,7 @@ export const LocationCreateForm = ({ mode, city, street, building, setActiveFiel
 
   const router = useRouter();
   const handleContinue = () => router.push(isFromMode ? '/create-trip/to' : '/create-trip/date-time');
+  const handleGoBack = () => router.push(isFromMode? '/' : '/create-trip');
 
   const handleStreet = () => {
     if (!city) {
@@ -48,19 +51,19 @@ export const LocationCreateForm = ({ mode, city, street, building, setActiveFiel
     buildingError && setBuildingError(false);
   }, [city, street]);
 
-  console.log(arrivalCityError, ' arrivalCityError')
-
   return (
-    <div className={s.wrapper}>
+    <>
       <div className={s.formWrapper}>
-        <GoBackBtn />
-        <h1>{isFromMode ? 'Откуда вы выезжаете?' : 'Куда вы едете?'}</h1>
+        <GoBackBtn onClick={handleGoBack} />
+        {/*<h1 style={{ fontSize: '24px' }}>{isFromMode ? 'Откуда вы выезжаете?' : 'Куда вы едете?'}</h1>*/}
+        <Heading variant="dark">{isFromMode ? 'Откуда вы выезжаете?' : 'Куда вы едете?'}</Heading>
         <Button
           variant="input"
           onClick={() => setActiveField(1)}
           error={arrivalCityError}
           errorText="Город прибытия совпадает с городом отправления! Выберетие другой город прибытия."
           iconLeft={<Icon path={mdiMapMarkerRadiusOutline} size="24px"/>}
+          // style={{ marginTop: '30px' }}
         >
           {city && <span>{city?.type}.&nbsp;</span>}
           <span className={cn({[s.filled]: city})}>{city?.name ?? (isFromMode ? 'Город отправления' : 'Город прибытия')}</span>
@@ -91,6 +94,6 @@ export const LocationCreateForm = ({ mode, city, street, building, setActiveFiel
       <Button variant="continue" disabled={!city || arrivalCityError} onClick={handleContinue}>
         Далее
       </Button>
-    </div>
+    </>
   );
 };

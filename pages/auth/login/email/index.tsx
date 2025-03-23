@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
-import { HeadingText } from "@/components/kit/HeadingText/HeadingText";
+import { Heading } from "@/components/kit/Heading/Heading";
 import { MainLayout } from "@/components/layouts/MainLayout";
 import { Input } from "@/components/kit/Input";
 
@@ -42,14 +42,14 @@ const LoginEmail = () => {
     <MainLayout>
       <div className={s.wrapper}>
         <div className={s.contentContainer}>
-          <HeadingText variant="dark">Войти по email</HeadingText>
+          <Heading variant="dark">Войти по email</Heading>
           <p>Войдите в свой аккаунт чтобы бронировать и создавать поездки</p>
           <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
             <Input
               type="text"
               placeholder="Email"
               value={currentValues.email}
-              error={errors.email?.message}
+              errorText={errors.email?.message}
               {...register('email', {
                 required: 'Email обязателен',
                 pattern: {
@@ -62,7 +62,7 @@ const LoginEmail = () => {
               type="password"
               placeholder="Пароль"
               value={currentValues.password}
-              error={errors.password?.message}
+              errorText={errors.password?.message}
               {...register('password', {
                 required: 'Пароль обязателен',
                 minLength: {

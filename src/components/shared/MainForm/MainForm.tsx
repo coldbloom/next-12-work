@@ -7,7 +7,7 @@ import cn from 'classnames';
 import { useEffect, useState } from 'react';
 
 import { ModalPageWindow } from '@/components/kit/ModalPageWindow';
-import { HeadingText } from "@/components/kit/HeadingText/HeadingText";
+import { Heading } from "@/components/kit/Heading/Heading";
 import { DatePicker } from "@/components/kit/Calendar";
 import { LocationSelect } from '../LocationSelect';
 
@@ -119,7 +119,7 @@ export const MainForm = () => {
         <div className={s.backgroundColorWrapper}/>
         {/*Проработать заголовок главной*/}
         {/*<HeadingText style={{ zIndex: 2 }}>Находите попутчиков и путешествуйте по самым выгодным ценам!</HeadingText>*/}
-        <HeadingText style={{ zIndex: 2 }}>Сервис поиска автомобильных попутчиков без комиссии!</HeadingText>
+        <Heading className={s.heading} >Сервис поиска автомобильных попутчиков без комиссии!</Heading>
         <div className={s.paddingWrapper}>
           <div className={s.formWrapper}>
             <ButtonInput

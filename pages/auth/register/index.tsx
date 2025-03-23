@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { AuthContext } from "@/context/AuthContext";
 
 import { MainLayout } from "src/components/layouts/MainLayout";
-import { HeadingText } from "@/components/kit/HeadingText/HeadingText";
+import { Heading } from "@/components/kit/Heading/Heading";
 import { AuthFooter } from "@/components/shared/AuthFooter";
 import { AuthButton } from "@/components/shared/AuthButton";
 import { GoogleAuthButton } from "@/components/shared/GoogleAuthButton";
@@ -28,7 +28,7 @@ const Register = () => {
     <MainLayout>
       <div className={s.wrapper}>
         <div className={s.contentContainer}>
-          <HeadingText variant="dark">Регистрация</HeadingText>
+          <Heading variant="dark">Регистрация</Heading>
           <p>Создайте аккаунт чтобы бронировать и создавать поездки</p>
           <AuthButton onClick={() => router.push("/auth/register/email")} variant="local">
             <Icon path={mdiEmailOutline} size="24px" style={{ marginRight: "4px" }}/>

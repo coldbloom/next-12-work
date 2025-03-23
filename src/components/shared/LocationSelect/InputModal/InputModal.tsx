@@ -23,7 +23,7 @@ export const InputModal = ({ name, value, onChange, onClose, placeholder, isErro
   return (
     <div className={cn(s.fieldWrapper, {[s.error]: isError})}>
       <button onClick={onClose}>
-        <Icon path={mdiArrowLeft} size={"24px"} className={s.icon}/>
+        <Icon path={mdiArrowLeft} size="24px" className={s.icon}/>
       </button>
       <input
         ref={inputRef}
@@ -36,7 +36,7 @@ export const InputModal = ({ name, value, onChange, onClose, placeholder, isErro
       />
       {value.length > 0 && (
         <button onClick={handleClear}>
-          <Icon path={mdiClose} size={"24px"} className={s.icon}/>
+          <Icon path={mdiClose} size="24px" className={s.icon}/>
         </button>
       )}
     </div>

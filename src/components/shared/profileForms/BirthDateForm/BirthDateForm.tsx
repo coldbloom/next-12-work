@@ -106,7 +106,7 @@ export const BirthDateForm = observer(({ onClose }: BirthDateFormProps) => {
                 <Input
                   {...inputProps}
                   placeholder="ДД/ММ/ГГГГ"
-                  error={errors.birthDate?.message}
+                  errorText={errors.birthDate?.message}
                   autoFocus={true}
                 />
               )}

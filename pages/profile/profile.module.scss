@@ -16,21 +16,6 @@
     }
   }
 
-  .profileWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    font-size: 20px;
-    color: variables.$color-theme-one;
-
-    div {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-  }
-
   .btnWrapper {
     display: flex;
     align-items: center;
@@ -38,6 +23,10 @@
 
     font-size: 14px;
     color: variables.$main-color;
+
+    &:active {
+      transform: scale(variables.$scale-value);
+    }
 
     .chevronIcon {
       margin-right: 5px;
@@ -112,7 +101,6 @@
 .editAvatarWrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
 
   .hiddenInput {
     display: none;
@@ -141,4 +129,43 @@
   z-index: 100;
   background-color: white;
   padding-top: 20px;
+}
+
+.avatarPreview {
+  border-radius: 50%;
+  outline: 3px solid variables.$color-base-grey-A20;
+}
+
+.avatarWrapper {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.noPhotoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 18px;
+
+  .circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid variables.$color-base-grey-A20;
+    border-radius: 50%;
+
+    svg {
+      color: variables.$color-base-grey-40;
+    }
+
+    span {
+      color: variables.$text-light-grey;
+      margin-left: 4px;
+    }
+
+    &:active {
+      transform: scale(0.990);
+    }
+  }
 }

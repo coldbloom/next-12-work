@@ -42,10 +42,17 @@
     }
   }
 
-  &.disabled {
-    opacity: 0.6; // Уменьшение яркости
-    color: #a1a1a1;
-    //background-color: variables.$color-disabled;
+  //&.disabled {
+  //  opacity: 0.6; // Уменьшение яркости
+  //  color: #a1a1a1;
+  //  //background-color: variables.$color-disabled;
+  //}
+
+  &.disabled,
+  &.disabled:hover {
+    background-color: variables.$color-base-grey-A20;
+    color: variables.$color-base-grey-40;
+    cursor: not-allowed;
   }
 
   &.error {
@@ -71,3 +78,4 @@
   background-color: variables.$main-color;
   margin-bottom: 20px;
 }
+

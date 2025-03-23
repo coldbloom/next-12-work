@@ -24,3 +24,66 @@
     }
   }
 }
+
+
+.testWrapper {
+  width: 100%;
+  height: 100px;
+  background-color: #1976d2;
+
+  .wrapper {
+    width: 20%;
+    height: 40px;
+    background-color: #1a6800;
+
+    display: flex;
+    flex-direction: row;
+
+    .spanWrapper {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .icon {
+      min-width: 16px;
+      min-height: 16px;
+    }
+  }
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+
+  .thead {
+    display: flex;
+    flex-direction: row;
+
+    tr {
+      display: flex;
+      width: 100%;
+    }
+
+    th {
+      // Убедитесь, что th работает как контейнер flex
+      display: flex;
+      align-items: center; // Вертикальное выравнивание по центру
+    }
+  }
+
+  .spanWrapper {
+    max-width: 100%; // Ограничивает ширину до 100% родителя
+    background-color: darkcyan;
+    overflow: hidden; // Убирает переполнение
+    text-overflow: ellipsis; // Добавляет многоточие при переполнении
+    white-space: nowrap; // Запрещает перенос строки
+    width: 100%; // Позволяет span весить всю ширину контейнера
+  }
+
+  .icon {
+    min-width: 16px;
+    min-height: 16px;
+  }
+}

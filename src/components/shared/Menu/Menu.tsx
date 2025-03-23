@@ -3,7 +3,6 @@ import Icon from "@mdi/react";
 
 import { PropsWithChildren, ReactNode, useContext } from 'react';
 
-import { Avatar } from "@/components/kit/Avatar";
 import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/router";
 
@@ -12,19 +11,9 @@ import s from './Menu.module.scss';
 import Link from "next/link";
 
 import { observer } from 'mobx-react-lite';
-import { userInfoStore } from '@/store/userInfoStore';
+import { UserInfo } from './UserInfo';
 
 const ChevronIcon = ({ isLarge }: { isLarge?: boolean }) => <Icon path={mdiChevronRight} size={ isLarge ? 1.2 : 1} className={s.chevronIcon} />;
-
-const UserInfo = ({ name, login }: { name: string; login: string }) => (
-  <div className={s.userInfoWrapper}>
-    <Avatar size="m">{name}</Avatar>
-    <div className={s.textWrapper}>
-      <span>{name}</span>
-      <span>{login}</span>
-    </div>
-  </div>
-);
 
 type TabProps = {
   icon: ReactNode;
@@ -92,14 +81,13 @@ const UnauthorizedTabs = () => {
 
 export const Menu = observer(() => {
   const { isUserLogged, handleLogOut } = useContext(AuthContext);
-  const { userInfo } = userInfoStore;
 
   return (
     <div className={s.modalWrapper}>
       <>
         {isUserLogged ? (
           <>
-            {userInfo && <UserInfo name={userInfo.name} login={userInfo.login}/>}
+            <UserInfo />
             <hr/>
             <AuthorizedTabs />
           </>

@@ -1,17 +1,20 @@
-import React, { forwardRef, Ref, CSSProperties, useRef, useState, ChangeEvent, HTMLProps} from 'react';
+import React, { forwardRef, useRef, useState, HTMLProps, CSSProperties } from 'react';
 import s from './Input.module.scss'
 import cn from 'classnames';
 import Icon from "@mdi/react";
-import { mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js';
+import {mdiEyeOutline, mdiEyeOffOutline, mdiClose} from '@mdi/js';
 
 type InputProps = {
   value?: string;
   onFocus?: () => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  error?: string;
+  errorText?: string;
   placeholder?: string;
   isLabel?: boolean;
   autoFocus?: boolean;
+  /** свойство disabled для input типа submit */
+  disabled?: boolean;
+  handleClear?: () => void;
   className?: string;
   classNameWrapper?: string;
   style?: CSSProperties;
@@ -23,9 +26,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
   onBlur,
   isLabel = true,
   type = "text",
-  error,
+  errorText,
   placeholder,
   autoFocus,
+  disabled = false,
+  handleClear,
   className,
   classNameWrapper,
   style,
@@ -34,12 +39,23 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
 
   if (type === "submit") {
     return (
-      <input type={type} value={value} className={cn(s.submitButton, className)} {...props} />
+      <input
+        type="submit"
+        value={value}
+        disabled={disabled}
+        className={cn(s.submitButton, className, {[s.disabled]: disabled})}
+        {...props}
+      />
     )
   }
 
   const [isFocused, setIsFocused] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const inputId = `input-${Math.random().toString(36).substr(2, 9)}`;
+  // @FIXME clear or edit
+  // const inputId = useRef(`input-${Math.random().toString(36).substr(2, 9)}`).current;
 
   const onPasswordVisible = () => setPasswordVisible(prev => !prev);
 
@@ -53,25 +69,29 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
     onBlur?.(e);
   };
 
-  const inputId = useRef(`input-${Math.random().toString(36).substr(2, 9)}`).current;
+  const onClear = () =>  {
+    handleClear?.();
+    inputRef?.current?.focus();
+  };
 
   return (
     <div className={cn(s.wrapper, classNameWrapper)}>
-      <div className={cn(s.formInput, className, {[s.error]: error})}>
+      <div className={cn(s.formInput, className, {[s.error]: errorText})}>
         <input
           id={inputId}
+          value={value}
           type={passwordVisible ? "text" : type}
           onFocus={handleFocus}
           onBlur={handleBlur}
           placeholder={placeholder}
           autoFocus={autoFocus}
-          ref={ref}
+          ref={ref || inputRef}
           {...props}
         />
         {isLabel &&
           <label
             htmlFor={inputId}
-            className={cn({[s.focus]: isFocused && value?.length !== 0, [s.error]: error && value?.length !== 0})}
+            className={cn({[s.focus]: isFocused && value?.length !== 0, [s.error]: errorText && value?.length !== 0})}
           >
             {placeholder}
           </label>
@@ -82,11 +102,16 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
             aria-label={passwordVisible ? "Скрыть пароль" : "Показать пароль"}
             className={s.eyesButton}
           >
-            <Icon path={passwordVisible ? mdiEyeOffOutline : mdiEyeOutline} size="24px"/>
+            <Icon path={passwordVisible ? mdiEyeOffOutline : mdiEyeOutline} size="24px" />
+          </div>
+        )}
+        {handleClear && value?.length !== 0 && (
+          <div onClick={onClear} className={s.eyesButton}>
+            <Icon path={mdiClose} size="24px" />
           </div>
         )}
       </div>
-      {error && <span className={s.errorMessage}>{error}</span>}
+      {errorText && <span className={s.errorMessage}>{errorText}</span>}
     </div>
   );
 });

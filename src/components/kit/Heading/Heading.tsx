@@ -8,7 +8,7 @@ type HeadingTextProps = {
   variant?: 'dark' // отвечает за цвет текста
 } & PropsWithChildren;
 
-export const HeadingText = ({ children, className, style, variant }: HeadingTextProps) => {
+export const Heading = ({ children, className, style, variant }: HeadingTextProps) => {
   return (
     <h1 className={cn(s.headingText, className, { [s.dark]: !!variant })} style={style}>
       {children}

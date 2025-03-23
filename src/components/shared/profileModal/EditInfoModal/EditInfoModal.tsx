@@ -7,7 +7,7 @@ import {ModalPageWindow} from "@/components/kit/ModalPageWindow";
 import {NameForm} from "@/components/shared/profileForms/NameForm";
 import {BirthDateForm} from "@/components/shared/profileForms/BirthDateForm";
 import {PhoneForm} from "@/components/shared/profileForms/PhoneForm";
-import {userInfoStore} from "@/store/userInfoStore";
+import { userInfoStore } from "@/store/userInfoStore";
 import { observer } from "mobx-react-lite";
 
 type EditInfoModalProps = {

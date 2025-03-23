@@ -16,7 +16,7 @@ function HourWheel({ height, value, setValue }) {
       parseInt(
          initialNumbersValue(height, hourLength, parseInt(value.slice(0, 2))).filter(
             (item) => item.number === value.slice(0, 2) && item.selected === true,
-         )[0].translatedValue,
+         )[0]?.translatedValue,
       ),
    );
    const [startCapture, setStartCapture] = useState(false);

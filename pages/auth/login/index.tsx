@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { AuthContext } from "@/context/AuthContext";
 
 import { MainLayout } from "src/components/layouts/MainLayout";
-import { HeadingText } from "@/components/kit/HeadingText/HeadingText";
+import { Heading } from "@/components/kit/Heading/Heading";
 import { GoogleAuthButton } from "@/components/shared/GoogleAuthButton";
 import { AuthSeparator } from "@/components/shared/AuthSeparator/AuthSeparator";
 import { AuthButton } from "@/components/shared/AuthButton";
@@ -28,7 +28,7 @@ const Login = () => {
     <MainLayout>
       <div className={s.wrapper}>
         <div className={s.contentContainer}>
-          <HeadingText variant="dark">Вход</HeadingText>
+          <Heading variant="dark">Вход</Heading>
           <p>Войдите в аккаунт чтобы бронировать и создавать поездки</p>
           <AuthButton onClick={() => router.push("/auth/login/email")} variant="local">
             <Icon path={mdiEmailOutline} size="24px" style={{ marginRight: "4px" }} />

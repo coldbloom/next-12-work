@@ -1,0 +1,22 @@
+@use '@/utils/variables' as variables;
+
+.userInfoWrapper {
+  display: flex;
+  flex-direction: row;
+  padding: 16px;
+  gap: 8px;
+
+  .textWrapper {
+    display: flex;
+    flex-direction: column;
+
+    span:first-of-type {
+      color: variables.$color-theme-one;
+    }
+
+    span:last-of-type {
+      color: variables.$text-light-grey;
+      font-size: 14px;
+    }
+  }
+}

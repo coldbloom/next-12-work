@@ -5,7 +5,13 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
     dirs: ['src']
-  }
+  },
+  images: {
+    domains: [
+      //@FIXME здесь должен быть мой домен для продакшена
+      'localhost',
+    ],
+  },
 }
 
 module.exports = nextConfig

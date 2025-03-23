@@ -6,6 +6,9 @@ export type Location = {
   //# параметры для города #//
   region?: string;
   city?: string;
+  cityTypeFull?: string;
+  settlement?: string;
+  settlementTypeFull?: string;
   //# параметры для улицы #//
   streetId?: string;
 };
@@ -19,6 +22,7 @@ export type LocationReqParams = {
   region?: string;
   city?: string;
   streetId?: string;
+  settlement?: string;
 };
 
 export type locationField =
@@ -28,3 +32,21 @@ export type locationField =
   | 'cityTo'
   | 'streetTo'
   | 'buildingTo';
+
+/** Данные о поездке*/
+export type TripData = {
+  locationFrom: {
+    city: Location;
+    street?: Location | null;
+    building?: Location | null;
+  };
+  locationTo: {
+    city: Location;
+    street?: Location | null;
+    building?: Location | null;
+  };
+  dateTime: string;
+  passengers: number;
+  price: string;
+  description: string | null;
+};

@@ -6,6 +6,7 @@ type UserInfo = {
   name: string;
   phone: null | string;
   birthDate: null | string;
+  avatarPath: null | string;
 };
 
 class UserInfoStore {

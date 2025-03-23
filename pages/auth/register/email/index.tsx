@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import s from "../Register.module.scss";
-import { HeadingText } from "@/components/kit/HeadingText/HeadingText";
+import { Heading } from "@/components/kit/Heading/Heading";
 import { MainLayout } from "src/components/layouts/MainLayout";
 import { Input } from "@/components/kit/Input";
 import { AuthContext } from "@/context/AuthContext";
@@ -45,21 +45,21 @@ const RegisterEmail = () => {
     <MainLayout>
       <div className={s.wrapper}>
         <div className={s.contentContainer}>
-          <HeadingText variant="dark">Регистрация</HeadingText>
+          <Heading variant="dark">Регистрация</Heading>
           <p>Создайте аккаунт чтобы бронировать и создавать поездки</p>
           <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
             <Input
               type="text"
               placeholder="Имя"
               value={currentValues.name}
-              error={errors.name?.message}
+              errorText={errors.name?.message}
               {...register('name', { required: 'Имя обязательно' })}
             />
             <Input
               type="text"
               placeholder="Email"
               value={currentValues.email}
-              error={errors.email?.message}
+              errorText={errors.email?.message}
               {...register('email', {
                 required: 'Email обязателен',
                 pattern: {
@@ -72,7 +72,7 @@ const RegisterEmail = () => {
               type="password"
               placeholder="Пароль"
               value={currentValues.password}
-              error={errors.password?.message}
+              errorText={errors.password?.message}
               {...register('password', {
                 required: 'Пароль обязателен',
                 minLength: {

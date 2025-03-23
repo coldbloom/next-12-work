@@ -1,4 +1,5 @@
-import React, {ReactNode, CSSProperties, ButtonHTMLAttributes, forwardRef} from 'react';
+import { ReactNode, CSSProperties, ButtonHTMLAttributes, forwardRef } from 'react';
+import { Loader } from '../Loader';
 
 import cn from 'classnames';
 import s from './Button.module.scss';
@@ -14,6 +15,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   style?: CSSProperties;
   iconLeft?: ReactNode;
   iconRight?: ReactNode;
+  loading?: boolean;
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -28,13 +30,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
      style,
      iconLeft,
      iconRight,
+     loading,
      ...commonButtonProps
    }, ref) => {
     return (
       <>
         <button
           {...commonButtonProps}
-          disabled={disabled}
+          disabled={loading || disabled}
           style={style}
           className={cn(
             s.button,
@@ -45,7 +48,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           ref={ref}
         >
           {iconLeft && <div className={cn(s.icon, s.iconLeft)}>{iconLeft}</div>}
-          {children}
+          {!loading ? children : <Loader size="m" color="light" />}
           {iconRight && <div className={cn(s.icon, s.iconRight)}>{iconRight}</div>}
         </button>
         {error && errorText && <p className={s.errorMessage}>{errorText}</p>}

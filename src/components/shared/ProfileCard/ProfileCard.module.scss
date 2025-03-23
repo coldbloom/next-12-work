@@ -1,0 +1,39 @@
+@use '@/utils/variables' as variables;
+
+.profileWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:active {
+    .chevronIcon {
+      transform: translateX(4px);
+    }
+  }
+
+  .content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .row {
+      display: flex;
+      flex-direction: column;
+
+      span {
+        font-size: 20px;
+        color: variables.$color-theme-one;
+
+        &:last-child {
+          font-size: 14px;
+          color: variables.$text-light-grey;
+        }
+      }
+    }
+  }
+
+  .chevronIcon {
+    color: variables.$color-theme-one;
+    transition: transform 0.2s ease-in-out;
+  }
+}

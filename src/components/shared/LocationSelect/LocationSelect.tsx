@@ -27,6 +27,7 @@ const createApiParams = (query: string, params: LocationReqParams) => ({
   ...(params.region && { region: params.region }),
   ...(params.city && { city: params.city }),
   ...(params.streetId && { streetId: params.streetId }),
+  ...(params.settlement && { settlement: params.settlement }),
 });
 
 type LocationSelectProps = {
@@ -65,7 +66,7 @@ export const LocationSelect = ({
   // Fetch Data with SWR
   const { data, error, isValidating } = useSWR<Location[]>(
     debouncedValue.trim() ? cacheKey : null,
-    () => axios.get(`http://localhost:3233/api/address`, {
+    () => axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/address`, {
       params: createApiParams(debouncedValue, params),
     }).then(res => res.data)
       .catch(error => {

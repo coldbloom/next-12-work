@@ -1,0 +1,94 @@
+@use '@/utils/variables' as variables;
+
+.formWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .inputWrapper {
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: end;
+  }
+
+  .inputPrice {
+    max-width: 120px;
+    input {
+      text-align: right;
+    }
+  }
+
+  .pr {
+    input {
+      padding-right: 44px;
+    }
+  }
+
+  .contentWrapper {
+    min-height: 72px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+
+    .currencyWrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      .empty {
+        width: 18px;
+      }
+
+      .currency {
+        width: 18px;
+        text-align: right;
+        position: absolute;
+        top: 15px;
+        right: 0;
+      }
+    }
+  }
+
+  .label {
+    margin-top: 10px;
+
+    &.first {
+      margin-top: 5px;
+    }
+
+    &.error {
+      margin-top: 0;
+    }
+  }
+}
+
+.loaderWrapper {
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottomWrapper {
+  display: flex;
+  flex-direction: column;
+
+  .infoWrapper {
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+    gap: 8px;
+    color: variables.$color-theme-five;
+
+    p {
+      font-size: 12px;
+      margin: 0;
+    }
+  }
+}

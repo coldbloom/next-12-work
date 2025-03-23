@@ -5,6 +5,7 @@ type AvatarZoomSliderProps = {
   initialValue?: number; // Начальное значение слайдера
   min?: number; // Минимальное значение
   max?: number; // Максимальное значение
+  step?: number;
   onZoomChange: (value: number) => void; // Функция обратного вызова для изменения масштаба
 };
 
@@ -12,6 +13,7 @@ export const AvatarZoomSlider: React.FC<AvatarZoomSliderProps> = ({
    initialValue = 10,
    min = 10,
    max = 50,
+   step = 5,
    onZoomChange,
  }) => {
   const [slideValue, setSlideValue] = useState<number>(initialValue);
@@ -28,7 +30,7 @@ export const AvatarZoomSlider: React.FC<AvatarZoomSliderProps> = ({
         type="range"
         min={min}
         max={max}
-        step={0.1}
+        step={step}
         value={slideValue}
         onChange={handleChange}
         className={s.range}

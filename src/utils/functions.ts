@@ -32,6 +32,32 @@ export function formatDate(date: Date): string {
   return formatter.format(date);
 }
 
+export function secondsToHoursMinutes(seconds: number): string {
+  // Вычисляем часы
+  const hours = Math.floor(seconds / 3600);
+  // Вычисляем оставшиеся секунды после вычисления часов
+  const remainingSeconds = seconds % 3600;
+  // Вычисляем минуты
+  const minutes = Math.floor(remainingSeconds / 60);
+
+  // Формируем строку в формате "X ч Y мин"
+  let result = '';
+  if (hours > 0) {
+    result += `${hours} ч`;
+  }
+  if (minutes > 0) {
+    if (result !== '') result += ' '; // Добавляем пробел, если есть часы
+    result += `${minutes} мин`;
+  }
+  // Если и часы, и минуты равны нулю, возвращаем "0 мин"
+  if (result === '') {
+    result = '0 мин';
+  }
+
+  return result;
+}
+
+
 
 type TPhone = string | null | undefined;
 
