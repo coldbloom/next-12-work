@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
+import { RouteDetails } from "@/utils/types";
 
 const FUEL_PRICE_PER_LITER = 52;
 const TIME_COST_PER_HOUR = 300;
-const PRICE_FACTORS = { min: 0.85, max: 1.15 };
-
-export type RouteDetails = {
-  duration: number;
-  distance: number;
-};
+const PRICE_FACTORS = { min: 0.85, max: 1.35 };
 
 type RecommendedPrice = {
   min: string;

@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
-import { Location, locationField, TripData } from "@/utils/types";
+import { Location, locationField, TripData, RouteDetails } from "@/utils/types";
+import { secondsToHoursMinutes } from "@/utils/functions";
 
 class CreateTripStore {
   cityFrom: Location | null = null;
@@ -12,6 +13,8 @@ class CreateTripStore {
   time: string | null = null;
   passengers: number = 4;
   price: string | null = null;
+  duration: string | null = null;
+  distance: number | null = null;
   description: string = '';
 
   constructor() {
@@ -38,6 +41,12 @@ class CreateTripStore {
     this.price = value;
   }
 
+  getDetails(details: RouteDetails): void {
+    const { duration, distance } = details;
+    this.distance = Math.round(distance / 1000);
+    this.duration = secondsToHoursMinutes(duration);
+  }
+
   // Метод для обновления местоположения
   updateLocation(location: Location, field: locationField): void {
     const currentLocation = this[field];
@@ -57,7 +66,7 @@ class CreateTripStore {
   };
 
   getRequestData(): TripData {
-    if (!this.cityFrom || !this.cityTo || !this.date || !this.time || !this.passengers || !this.price) {
+    if (!this.cityFrom || !this.cityTo || !this.date || !this.time || !this.passengers || !this.price || !this.duration || !this.distance) {
       throw new Error("Пожалуйста, заполните все поля перед публикацией.");
     }
     const [hours, minutes] = this.time.split(':');
@@ -67,7 +76,8 @@ class CreateTripStore {
 
     const dateTime = this.date;
     dateTime.setHours(Number(hours));
-    dateTime.setMinutes(Number(minutes))
+    dateTime.setMinutes(Number(minutes));
+    dateTime.setSeconds(0);
     const localDateTime = dateTime.toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' });
 
     return {
@@ -84,6 +94,8 @@ class CreateTripStore {
       dateTime: localDateTime,
       passengers: this.passengers,
       price: this.price,
+      duration: this.duration,
+      distance: this.distance,
       description: this.description !== '' ? this.description : null,
     }
   }

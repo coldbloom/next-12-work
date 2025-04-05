@@ -37,16 +37,23 @@ export type locationField =
 export type TripData = {
   locationFrom: {
     city: Location;
-    street?: Location | null;
-    building?: Location | null;
+    street: Location | null;
+    building: Location | null;
   };
   locationTo: {
     city: Location;
-    street?: Location | null;
-    building?: Location | null;
+    street: Location | null;
+    building: Location | null;
   };
   dateTime: string;
   passengers: number;
   price: string;
+  duration: string;
+  distance: number;
   description: string | null;
+};
+
+export type RouteDetails = {
+  duration: number;
+  distance: number;
 };

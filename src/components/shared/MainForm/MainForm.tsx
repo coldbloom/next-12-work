@@ -58,6 +58,8 @@ export const MainForm = () => {
   const [errorTo, setErrorTo] = useState(false);
 
   const { cityFrom: from, cityTo: to, date, passengers} = formData;
+  // console.log('from = ', from);
+  // console.log('to = ', to);
 
   const swapVisible = !errorTo && !errorFrom && (!!from || !!to);
 
@@ -118,7 +120,7 @@ export const MainForm = () => {
       <div className={s.wrapper}>
         <div className={s.backgroundColorWrapper}/>
         {/*Проработать заголовок главной*/}
-        {/*<HeadingText style={{ zIndex: 2 }}>Находите попутчиков и путешествуйте по самым выгодным ценам!</HeadingText>*/}
+        {/*Находите попутчиков и путешествуйте по самым выгодным ценам!*/}
         <Heading className={s.heading} >Сервис поиска автомобильных попутчиков без комиссии!</Heading>
         <div className={s.paddingWrapper}>
           <div className={s.formWrapper}>

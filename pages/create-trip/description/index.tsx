@@ -74,8 +74,9 @@ const Description = observer(() => {
       const data: TripData = tripStore.getRequestData();
       const res = await poster('trip/publish', data);
     } catch (error) {
-      console.error(error)
-      router.push('/create-trip')
+      console.error(error);
+      // @FIXME временное решение, так же здесь может быть функция refreshTokenUpdate
+      router.push('/');
     }
   };
   return (

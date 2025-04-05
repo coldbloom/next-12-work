@@ -39,12 +39,12 @@ type LocationSelectProps = {
 };
 
 export const LocationSelect = ({
-                                 fieldName,
-                                 onClose,
-                                 initialValue,
-                                 handleFormChange,
-                                 params = { location: 'city' }
-                               }: LocationSelectProps) => {
+  fieldName,
+  onClose,
+  initialValue,
+  handleFormChange,
+  params = { location: 'city' }
+}: LocationSelectProps) => {
   const [value, setValue] = useState(initialValue || '');
   const [inputError, setInputError] = useState(false);
   const debouncedValue = useDebounce(value, 500);
@@ -96,8 +96,13 @@ export const LocationSelect = ({
         <>
           {options?.length > 0 ? (
             <div className={s.optionsWrapper}>
-              {options.map((option: Location) => (
-                <OptionField key={option.id} option={option} fieldName={fieldName} handleFormChange={handleFormChange} />
+              {options.map((option: Location, index) => (
+                <OptionField
+                  key={option.id ?? `${index}-key`}
+                  option={option}
+                  fieldName={fieldName}
+                  handleFormChange={handleFormChange}
+                />
               ))}
             </div>
           ) : (

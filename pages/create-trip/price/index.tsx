@@ -11,8 +11,7 @@ import { AnimatedRouteCities } from "@/components/shared/AnimatedRouteCities";
 import useSWR from "swr";
 import { observer } from "mobx-react-lite";
 import { tripStore } from '@/store/createTripStore';
-import { Location} from "@/utils/types";
-import { secondsToHoursMinutes } from '@/utils/functions'
+import { Location, RouteDetails } from "@/utils/types";
 import { fetcher } from "@/context/AuthContext";
 import { withAuth } from "@/components/hoc/WithAuth";
 
@@ -20,8 +19,8 @@ import s from './Price.module.scss';
 import cn from 'classnames';
 import Icon from "@mdi/react";
 import { mdiInformationOutline } from "@mdi/js";
-import { useRecommendedPrice, RouteDetails } from "@/utils/hooks/useRecommendedPrice";
-import {Heading} from "@/components/kit/Heading/Heading";
+import { useRecommendedPrice } from "@/utils/hooks/useRecommendedPrice";
+import { Heading } from "@/components/kit/Heading/Heading";
 
 // Constants
 const MAX_PRICE = 100000;
@@ -50,7 +49,7 @@ const getAddress = (city: Location | null, street: Location | null, building: Lo
 
 const Price = observer(() => {
   const [priceError, setPriceError] = useState<string | null>(null);
-  const { cityFrom, streetFrom, buildingFrom, cityTo, streetTo, buildingTo, price } = tripStore;
+  const { cityFrom, streetFrom, buildingFrom, cityTo, streetTo, buildingTo, price, duration, distance } = tripStore;
   const router = useRouter();
 
   // Redirect if no cities selected
@@ -139,6 +138,12 @@ const Price = observer(() => {
     }
   }, [price]);
 
+  useEffect(() => {
+    if (routeDetails) {
+      tripStore.getDetails(routeDetails);
+    }
+  }, [routeDetails]);
+
   if (isLoading) {
     return (
       <div className={s.loaderWrapper}>
@@ -196,8 +201,8 @@ const Price = observer(() => {
         )}
         {routeDetails && (
           <>
-            <Label color="grey" className={s.label}>Расстояние: {Math.round(routeDetails?.distance / 1000)} км</Label>
-            <Label color="grey" className={s.label}>Время в пути: {secondsToHoursMinutes(routeDetails?.duration)}</Label>
+            <Label color="grey" className={s.label}>Расстояние: {distance} км</Label>
+            <Label color="grey" className={s.label}>Время в пути: {duration}</Label>
           </>
         )}
       </div>
