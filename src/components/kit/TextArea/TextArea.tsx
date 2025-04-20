@@ -9,6 +9,7 @@ type TextAreaProps = {
   defaultRows?: number;
   onChange?: (value: string) => void;
   placeholder?: string;
+  disabled?: boolean;
   errorText?: string | boolean;
   size?: 'auto' | 'fixed';
   className?: string;
@@ -22,6 +23,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
      defaultRows = 4,
      onChange,
      placeholder,
+     disabled,
      errorText,
      size = 'auto',
      className,
@@ -86,6 +88,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             className
           )}
           style={style}
+          disabled={disabled}
         />
         {errorText && <span className={s.errorMessage}>{errorText}</span>}
       </div>

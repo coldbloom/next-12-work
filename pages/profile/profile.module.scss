@@ -71,7 +71,6 @@
 .closeBtn {
   margin-top: 20px;
   height: 36px;
-  width: fit-content;
 
   &:active {
     transform: scale(0.970); //@fixme значение
@@ -79,6 +78,7 @@
 
   svg {
     color: variables.$main-color;
+    float: right;
   }
 }
 

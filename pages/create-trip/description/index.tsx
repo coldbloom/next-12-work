@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import s from './Description.module.scss';
 import { observer } from "mobx-react-lite";
 import { tripStore } from '@/store/createTripStore';
-import {Location, TripData} from "@/utils/types";
+import { TripData } from "@/utils/types";
 
 // Массив числительных на русском языке для проверки
 const RUSSIAN_NUMBERS = [
@@ -72,13 +72,22 @@ const Description = observer(() => {
     try {
       setLoading(true);
       const data: TripData = tripStore.getRequestData();
-      const res = await poster('trip/publish', data);
+      const currentDate = new Date();
+      const dateTime = new Date(data.dateTime);
+      if (dateTime <= currentDate) {
+        console.error('Ошибка: указанная дата уже прошла.')
+        // throw new Error('Текущая дата')
+      }
+      await poster('trip/publish', data).then(() => router.push('/'));
     } catch (error) {
       console.error(error);
       // @FIXME временное решение, так же здесь может быть функция refreshTokenUpdate
       router.push('/');
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <LayoutContainer>
       <div className={s.formWrapper}>
@@ -90,9 +99,10 @@ const Description = observer(() => {
           placeholder="Как поедете, планируете ли остановки, правила поведения в машине и т.п."
           errorText={error}
           className={s.textArea}
+          disabled={loading}
         />
       </div>
-      <Button variant="continue" onClick={handlePublish} disabled={!!error}>Опубликовать</Button>
+      <Button variant="continue" onClick={handlePublish} disabled={!!error} loading={loading}>Опубликовать</Button>
     </LayoutContainer>
   );
 });

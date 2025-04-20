@@ -1,4 +1,4 @@
-import { mdiAccountOutline, mdiAccountPlusOutline, mdiChevronRight, mdiLogout, mdiRoutes} from "@mdi/js";
+import { mdiAccountCogOutline, mdiPlusBoxOutline, mdiAccountOutline, mdiAccountPlusOutline, mdiChevronRight, mdiLogout, mdiRoutes, mdiCarSearchOutline, mdiPlus } from "@mdi/js";
 import Icon from "@mdi/react";
 
 import { PropsWithChildren, ReactNode, useContext } from 'react';
@@ -52,8 +52,10 @@ const AuthorizedTabs = () => {
 
   return (
     <div className={s.tabsWrapper}>
+      <LinkTab text="Найти поездку" icon={mdiCarSearchOutline} url="/" />
+      <LinkTab text="Создать поездку" icon={mdiPlusBoxOutline} url="/create-trip" />
       <LinkTab text="Мои поездки" icon={mdiRoutes} url="/" />
-      <LinkTab text="Профиль" icon={mdiAccountOutline} url="/profile" />
+      <LinkTab text="Профиль" icon={mdiAccountCogOutline} url="/profile" />
       <hr/>
       <Tab icon={<Icon path={mdiLogout} size={1} />} onClick={handleLogOut} chevronIconLarge={false} >
         <span>Выйти</span>
@@ -80,7 +82,7 @@ const UnauthorizedTabs = () => {
 }
 
 export const Menu = observer(() => {
-  const { isUserLogged, handleLogOut } = useContext(AuthContext);
+  const { isUserLogged } = useContext(AuthContext);
 
   return (
     <div className={s.modalWrapper}>

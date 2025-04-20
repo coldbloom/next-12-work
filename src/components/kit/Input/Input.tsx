@@ -86,6 +86,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
           placeholder={placeholder}
           autoFocus={autoFocus}
           ref={ref || inputRef}
+          disabled={disabled}
           {...props}
         />
         {isLabel &&

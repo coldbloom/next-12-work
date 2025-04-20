@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { Input } from "@/components/kit/Input";
+import { Button } from "@/components/kit/Button";
 import { AuthContext } from "@/context/AuthContext";
 
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -80,7 +81,7 @@ const RegisterEmail = () => {
           })}
         />
 
-        <Input type="submit" value="Создать учётную запись" />
+        <Button type="submit" style={{ width: '100%', margin: 0 }}>Создать учётную запись</Button>
       </form>
     </AuthLayout>
   );

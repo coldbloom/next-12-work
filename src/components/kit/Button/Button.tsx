@@ -6,7 +6,7 @@ import s from './Button.module.scss';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
-  variant: 'input' | 'continue';
+  variant?: 'input' | 'continue';
   disabled?: boolean;
   error?: boolean;
   active?: boolean; // пропс active отвечает за анимацию при клике на кнопку
@@ -21,7 +21,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({
      children,
-     variant,
+     variant = 'continue',
      disabled = false,
      error = false,
      active = true,

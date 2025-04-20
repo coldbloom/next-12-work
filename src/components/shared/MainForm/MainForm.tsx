@@ -5,13 +5,14 @@ import s from './MainForm.module.scss';
 import cn from 'classnames';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import { ModalPageWindow } from '@/components/kit/ModalPageWindow';
 import { Heading } from "@/components/kit/Heading/Heading";
 import { DatePicker } from "@/components/kit/Calendar";
 import { LocationSelect } from '../LocationSelect';
 
-import { getPassengerString, formatDate } from '@/utils/functions'
+import { getPassengerString, formatDate, formatDateToIso } from '@/utils/functions'
 import { Location } from '@/utils/types';
 import { Passengers } from '../Passengers';
 
@@ -29,6 +30,29 @@ type ButtonInputProps = {
   className?: string;
   value?: string | number;
   error?: boolean;
+};
+
+const updateSearchCitiesHistory = (city: Location): void => {
+  function removeDuplicatesFromStart(list: any[], key = 'id') {
+    const uniqueEntries = new Map();
+
+    // Идём с начала массива, чтобы первые вхождения оставались
+    for (const item of list) {
+      if (!uniqueEntries.has(item[key])) {
+        uniqueEntries.set(item[key], item);
+      }
+    }
+
+    return Array.from(uniqueEntries.values());
+  }
+
+  const history = localStorage.getItem('history');
+  let historyList: Location[] = history ? JSON.parse(history) : [];
+
+  historyList.unshift(city);
+  removeDuplicatesFromStart(historyList.slice(0, 10))
+  const updatedHistoryList = removeDuplicatesFromStart(historyList.slice(0, 10));
+  localStorage.setItem('history', JSON.stringify(updatedHistoryList));
 };
 
 const ButtonInput = ({ iconPath, placeholder, onClick, className, value, error = false }: ButtonInputProps) => {
@@ -56,16 +80,17 @@ export const MainForm = () => {
 
   const [errorFrom, setErrorFrom] = useState(false);
   const [errorTo, setErrorTo] = useState(false);
+  const router = useRouter();
 
   const { cityFrom: from, cityTo: to, date, passengers} = formData;
-  // console.log('from = ', from);
-  // console.log('to = ', to);
 
   const swapVisible = !errorTo && !errorFrom && (!!from || !!to);
 
   const closeModal = (num?: number) => setActiveField(num ?? null);
 
   const handleLocation = (value: Location, fieldName: string) => {
+    // @TODO в этом месте будем сохранять историю поиска
+    updateSearchCitiesHistory(value);
     setFormData((prevData) => ({
       ...prevData,
       [fieldName]: value, // Обновляем только нужное поле
@@ -89,20 +114,20 @@ export const MainForm = () => {
     }));
   };
 
-  // @fixme потребуется ли мне эта функция или выпилить?
-  // const handleClearInput = (name: string) => {
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     [name]: '', // Очищаем значение для конкретного поля
-  //   }));
-  // };
-
   const handleSearchInput = () => {
     if (!from) {
       setErrorFrom(true);
-    }
-    if (!to) {
+    } else if (!to) {
       setErrorTo(true);
+    } else if (from.id === to.id) {
+      setErrorTo(true);
+    } else {
+      const formatedDate = formatDateToIso(date);
+
+      router.push({
+        pathname: '/search',
+        query: { from: from.id, to: to.id, date: formatedDate }
+      });
     }
   };
 
@@ -120,7 +145,7 @@ export const MainForm = () => {
       <div className={s.wrapper}>
         <div className={s.backgroundColorWrapper}/>
         {/*Проработать заголовок главной*/}
-        {/*Находите попутчиков и путешествуйте по самым выгодным ценам!*/}
+        {/*Находите попутчиков и путешествуйте с комфортом!*/}
         <Heading className={s.heading} >Сервис поиска автомобильных попутчиков без комиссии!</Heading>
         <div className={s.paddingWrapper}>
           <div className={s.formWrapper}>
@@ -173,20 +198,23 @@ export const MainForm = () => {
           {activeField === 1 && (
             <LocationSelect
               fieldName="cityFrom"
+              placeholder="Введите город"
               initialValue={from?.name}
               onClose={() => closeModal()}
               handleFormChange={handleLocation}
               params={{ location: 'city', limit: 25 }}
-              // handleClear={handleClearInput}
+              selectedCity={to}
             />
           )}
           {activeField === 2 && (
             <LocationSelect
               fieldName="cityTo"
+              placeholder="Введите город"
               initialValue={to?.name}
               onClose={() => closeModal()}
               handleFormChange={handleLocation}
               params={{ location: 'city', limit: 25 }}
+              selectedCity={from}
             />
           )}
           {activeField === 3 && (

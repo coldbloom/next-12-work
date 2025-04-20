@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Input } from "@/components/kit/Input";
+import { Button } from "@/components/kit/Button";
 
 import { AuthContext } from "@/context/AuthContext";
 import { AuthLayout } from "@/components/layouts/AuthLayout";
@@ -68,8 +69,7 @@ const LoginEmail = () => {
             }
           })}
         />
-
-        <Input type="submit" value="Войти" />
+        <Button type="submit" style={{ width: '100%', margin: 0 }}>Войти</Button>
       </form>
     </AuthLayout>
   );

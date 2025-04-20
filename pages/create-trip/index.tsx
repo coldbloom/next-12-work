@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import s from './Create.module.scss';
+import { withAuth } from '@/components/hoc/WithAuth';
 import { LayoutContainer } from "@/components/layouts/LayoutContainer";
 import { ModalPageWindow } from "@/components/kit/ModalPageWindow";
 import { LocationSelect } from "@/components/shared/LocationSelect";
@@ -37,15 +38,17 @@ const CreateTrip = observer(() => {
           {activeField === 1 && (
             <LocationSelect
               fieldName="cityFrom"
+              placeholder="Введите город"
               initialValue={city?.name}
               onClose={closeModal}
               handleFormChange={handleLocation}
-              params={{ limit: 15 }}
+              params={{ location: 'city', limit: 15 }}
             />
           )}
           {activeField === 2 && (
             <LocationSelect
               fieldName="streetFrom"
+              placeholder="Введите улицу"
               initialValue={street?.name}
               onClose={closeModal}
               handleFormChange={handleLocation}
@@ -61,6 +64,7 @@ const CreateTrip = observer(() => {
           {activeField === 3 && (
             <LocationSelect
               fieldName="buildingFrom"
+              placeholder="Введите дом"
               initialValue={building?.name}
               onClose={closeModal}
               handleFormChange={handleLocation}
@@ -73,4 +77,4 @@ const CreateTrip = observer(() => {
   );
 });
 
-export default CreateTrip;
+export default withAuth(CreateTrip);

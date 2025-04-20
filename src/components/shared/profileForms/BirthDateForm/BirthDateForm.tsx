@@ -5,6 +5,7 @@ import { poster } from "@/context/AuthContext";
 
 import InputMask from "react-input-mask";
 import { Input } from "@/components/kit/Input";
+import { Button } from "@/components/kit/Button";
 
 type TForm = {
   birthDate: string;
@@ -113,7 +114,7 @@ export const BirthDateForm = observer(({ onClose }: BirthDateFormProps) => {
             </InputMask>
           )}
         />
-        <Input type="submit" value="Изменить" />
+        <Button type="submit" style={{ width: '100%', margin: 0 }}>Изменить</Button>
       </form>
     </>
   );

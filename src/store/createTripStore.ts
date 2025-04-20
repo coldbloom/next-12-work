@@ -74,11 +74,10 @@ class CreateTripStore {
       throw new Error("Неверный формат времени. Используйте HH:MM.");
     }
 
-    const dateTime = this.date;
+    const dateTime = new Date(this.date.getTime());
     dateTime.setHours(Number(hours));
     dateTime.setMinutes(Number(minutes));
     dateTime.setSeconds(0);
-    const localDateTime = dateTime.toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' });
 
     return {
       locationFrom: {
@@ -91,12 +90,12 @@ class CreateTripStore {
         street: this.streetTo ?? null,
         building: this.buildingTo ?? null,
       },
-      dateTime: localDateTime,
+      dateTime: dateTime.toISOString(),
       passengers: this.passengers,
       price: this.price,
       duration: this.duration,
       distance: this.distance,
-      description: this.description !== '' ? this.description : null,
+      description: this.description || null,
     }
   }
 }

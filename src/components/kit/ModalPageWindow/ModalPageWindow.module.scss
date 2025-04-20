@@ -47,8 +47,26 @@
   position: fixed;
   left: 0;
   top: 0;
-  z-index: variables.$z-index-modal-page-backdrop;
-  background-color: rgba(#222429, 0.6);
+  z-index: 40;
+  background-color: rgba(34, 36, 41, 0.6);
+}
+
+.backdrop-enter {
+  opacity: 0;
+}
+
+.backdrop-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+
+.backdrop-exit {
+  opacity: 1;
+}
+
+.backdrop-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
 }
 
 .slide-in-enter-x {

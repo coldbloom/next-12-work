@@ -55,7 +55,6 @@ export const LocationCreateForm = ({ mode, city, street, building, setActiveFiel
     <>
       <div className={s.formWrapper}>
         <GoBackBtn onClick={handleGoBack} />
-        {/*<h1 style={{ fontSize: '24px' }}>{isFromMode ? 'Откуда вы выезжаете?' : 'Куда вы едете?'}</h1>*/}
         <Heading variant="dark">{isFromMode ? 'Откуда вы выезжаете?' : 'Куда вы едете?'}</Heading>
         <Button
           variant="input"
@@ -63,7 +62,6 @@ export const LocationCreateForm = ({ mode, city, street, building, setActiveFiel
           error={arrivalCityError}
           errorText="Город прибытия совпадает с городом отправления! Выберетие другой город прибытия."
           iconLeft={<Icon path={mdiMapMarkerRadiusOutline} size="24px"/>}
-          // style={{ marginTop: '30px' }}
         >
           {city && <span>{city?.type}.&nbsp;</span>}
           <span className={cn({[s.filled]: city})}>{city?.name ?? (isFromMode ? 'Город отправления' : 'Город прибытия')}</span>

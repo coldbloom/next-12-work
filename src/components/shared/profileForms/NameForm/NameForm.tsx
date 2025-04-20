@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { userInfoStore } from "@/store/userInfoStore";
 import { poster } from "@/context/AuthContext";
 import { Input } from "@/components/kit/Input";
+import { Button } from "@/components/kit/Button";
 
 type NameFormProps = {
   onClose: () => void;
@@ -53,7 +54,7 @@ export const NameForm = observer(({ onClose }: NameFormProps) => {
             required: 'Имя обязательно'
           })}
         />
-        <Input type="submit" value="Изменить" />
+        <Button type="submit" style={{ width: '100%', margin: 0 }}>Изменить</Button>
       </form>
     </>
   );

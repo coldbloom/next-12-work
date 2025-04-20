@@ -1,15 +1,16 @@
-import { useState, useCallback, useMemo } from 'react';
+import {useCallback, useMemo, useState} from 'react';
 
 import s from './LocationSelect.module.scss';
 import axios from 'axios';
 import useSWR from "swr";
-import { InputModal } from './InputModal';
-import { Loader } from '@/components/kit/Loader';
-import { Plug } from "@/components/kit/Plug";
-import { OptionField } from './OptionField';
+import {InputModal} from './InputModal';
+import {Loader} from '@/components/kit/Loader';
+import {Plug} from "@/components/kit/Plug";
+import {OptionField} from './OptionField';
 
-import { useDebounce } from '@/utils/hooks/useDebounce';
-import { Location, locationField, LocationReqParams } from '@/utils/types';
+import {useDebounce} from '@/utils/hooks/useDebounce';
+import {Location, locationField, LocationReqParams} from '@/utils/types';
+import { CitiesHistory } from '@/components/shared/LocationSelect/CitiesHistory';
 
 const getCacheKey = (query: string, params: LocationReqParams) => {
   const { location, limit, region, city, streetId } = params;
@@ -36,6 +37,8 @@ type LocationSelectProps = {
   handleFormChange: (value: Location, name: locationField) => void;
   initialValue?: string;
   params: LocationReqParams;
+  placeholder?: string;
+  selectedCity?: Location | null;
 };
 
 export const LocationSelect = ({
@@ -43,7 +46,9 @@ export const LocationSelect = ({
   onClose,
   initialValue,
   handleFormChange,
-  params = { location: 'city' }
+  params = { location: 'city' },
+  placeholder,
+  selectedCity
 }: LocationSelectProps) => {
   const [value, setValue] = useState(initialValue || '');
   const [inputError, setInputError] = useState(false);
@@ -87,30 +92,34 @@ export const LocationSelect = ({
 
   return (
     <div className={s.wrapper}>
-      <InputModal name="from" value={value} onChange={onChangeValue} onClose={onClose} isError={inputError} />
+      <InputModal name="from" value={value} onChange={onChangeValue} onClose={onClose} isError={inputError} placeholder={placeholder} />
       {loading ? (
         <div className={s.centerWrapper}>
           <Loader />
         </div>
       ) : (
         <>
-          {options?.length > 0 ? (
-            <div className={s.optionsWrapper}>
-              {options.map((option: Location, index) => (
-                <OptionField
-                  key={option.id ?? `${index}-key`}
-                  option={option}
-                  fieldName={fieldName}
-                  handleFormChange={handleFormChange}
-                />
-              ))}
-            </div>
+          {!value && params.location === 'city' ? (
+            <CitiesHistory fieldName={fieldName} handleFormChange={handleFormChange} selectedCity={selectedCity} />
           ) : (
-            debouncedValue !== '' && (
-              <div className={s.centerWrapper}>
-                <Plug title="Ничего не найдено : ("
-                      text="Попробуйте уточнить название города или проверьте написание запроса" />
+            options?.length > 0 ? (
+              <div className={s.optionsWrapper}>
+                {options.map((option: Location, index) => (
+                  <OptionField
+                    key={option.id ?? `${index}-key`}
+                    option={option}
+                    fieldName={fieldName}
+                    handleFormChange={handleFormChange}
+                  />
+                ))}
               </div>
+            ) : (
+              debouncedValue !== '' && (
+                <div className={s.centerWrapper}>
+                  <Plug title="Ничего не найдено : ("
+                        text="Попробуйте уточнить название города или проверьте написание запроса" />
+                </div>
+              )
             )
           )}
         </>

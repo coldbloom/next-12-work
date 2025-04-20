@@ -65,3 +65,14 @@ export function formatPhone(phone: string | null | undefined): string | null | u
     return undefined;
   }
 }
+
+/**
+ * не преобразует дату в UTC, в отличие от нативного метода date.toISOString()
+ */
+export function formatDateToIso(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}

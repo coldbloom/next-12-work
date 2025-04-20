@@ -1,4 +1,4 @@
-import React, {CSSProperties, ReactNode, useEffect} from 'react';
+import React, { CSSProperties, ReactNode, useEffect } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { usePortalContainer } from '@/utils/hooks/usePortalContainer';
 import { createPortal } from 'react-dom';
@@ -60,7 +60,20 @@ export const ModalPageWindow = ({
     container &&
     createPortal(
       <>
-        {isOpen && <div className={cn(s.backdrop, backdropClassName)} onClick={onClose ?? onClose} />}
+        <CSSTransition
+          in={isOpen}
+          timeout={300}
+          // компонент будет удален из DOM после завершения анимации выхода
+          unmountOnExit
+          classNames={{
+            enter: s['backdrop-enter'],
+            enterActive: s['backdrop-enter-active'],
+            exit: s['backdrop-exit'],
+            exitActive: s['backdrop-exit-active']
+          }}
+        >
+          <div className={cn(s.backdrop, backdropClassName)} onClick={onClose ?? onClose} />
+        </CSSTransition>
         <CSSTransition
           in={isOpen}
           timeout={300}

@@ -44,15 +44,18 @@ const To = observer(() => {
           {activeField === 1 && (
             <LocationSelect
               fieldName="cityTo"
+              placeholder="Введите город"
               initialValue={city?.name}
               onClose={closeModal}
               handleFormChange={handleLocation}
-              params={{ limit: 15 }}
+              params={{ location: 'city', limit: 15 }}
+              selectedCity={cityFrom}
             />
           )}
           {activeField === 2 && (
             <LocationSelect
               fieldName="streetTo"
+              placeholder="Введите улицу"
               initialValue={street?.name}
               onClose={closeModal}
               handleFormChange={handleLocation}
@@ -68,6 +71,7 @@ const To = observer(() => {
           {activeField === 3 && (
             <LocationSelect
               fieldName="buildingTo"
+              placeholder="Введите дом"
               initialValue={building?.name}
               onClose={closeModal}
               handleFormChange={handleLocation}

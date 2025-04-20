@@ -3,8 +3,8 @@ import { userInfoStore } from "@/store/userInfoStore";
 import {formatPhone} from "@/utils/functions";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {poster} from "@/context/AuthContext";
-import React from "react";
 import {Input} from "@/components/kit/Input";
+import {Button} from "@/components/kit/Button";
 import Icon from "@mdi/react";
 import {mdiInformationOutline} from "@mdi/js";
 import InputMask from 'react-input-mask';
@@ -52,15 +52,20 @@ export const PhoneForm = observer(({ onClose }: PhoneFormProps) => {
     }
   };
 
-  console.log('render');
   return (
     <>
       <h1>Введите номер телефона</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <InputMask
           mask="+7 999 999 99 99"
-          maskChar=" "
+          maskChar=""
           value={currentValues.phone}
+          // ограничиваем ввод пробела с клавиатуры
+          onKeyDown={(e) => {
+            if (e.key === ' ') {
+              e.preventDefault();
+            }
+          }}
           {...register('phone', {
             required: 'Номер телефона обязателен',
             pattern: {
@@ -79,7 +84,7 @@ export const PhoneForm = observer(({ onClose }: PhoneFormProps) => {
             />
           )}
         </InputMask>
-        <Input type="submit" value="Изменить" />
+        <Button variant="continue" type="submit" className={s.button}>Изменить</Button>
       </form>
       <div className={s.infoWrapper}>
         <div>

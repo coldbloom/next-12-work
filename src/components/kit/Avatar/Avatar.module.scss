@@ -83,6 +83,8 @@ $colors: (
 .s {
   width: $sizeS;
   height: $sizeS;
+  min-width: $sizeS;
+  min-height: $sizeS;
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   line-height: $line-height-sm;
@@ -92,6 +94,8 @@ $colors: (
 .m {
   width: $sizeM;
   height: $sizeM;
+  min-width: $sizeM;
+  min-height: $sizeM;
   font-weight: $font-weight-bold;
   font-size: $font-size-md;
   line-height: $line-height-sm;
