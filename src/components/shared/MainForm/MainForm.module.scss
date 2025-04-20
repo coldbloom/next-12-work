@@ -2,6 +2,7 @@
 
 .wrapper {
   position: relative;
+  margin-top: variables.$header-height; // отступ на высоту header;
   z-index: 1;
   width: 100%;
   display: flex;
@@ -17,10 +18,10 @@
 
   .backgroundColorWrapper {
     position: absolute;
+    top: -56px;
     background-color: variables.$main-color;
     width: 100%;
-    height: calc(100% - 117px);
-    //max-height: calc(100% - 117px);
+    height: calc(100% - 61px);
   }
 
   .formWrapper {

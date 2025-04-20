@@ -1,6 +1,7 @@
 @use '@/utils/variables' as variables;
 
 .wrapper {
+  margin-top: variables.$header-height;
   padding: 0 24px;
 
   .titleWrapper {

@@ -3,6 +3,8 @@ import useSWR from 'swr';
 import axios from 'axios';
 import React, {useEffect} from 'react';
 import {formatDateToIso} from "@/utils/functions";
+import {Meta} from "@/components/layouts/Meta";
+import {MainLayout} from "@/components/layouts/MainLayout";
 
 // Функция для получения данных
 const fetcher = async (url: string) => {
@@ -38,9 +40,20 @@ const Search = () => {
   }, [trips]);
 
   return (
-    <div>
-      <h1>Поездки</h1>
-    </div>
+    <>
+      <Meta
+        title="Поиск title"
+        description="Поиск направлений описание"
+        canonical="https://блаблаавто.рф/search"
+        ogTitle="title для соцсетей"
+        ogDescription="Описание для соц-сетей"
+      />
+      <MainLayout>
+        <main>
+          <h1>Search</h1>
+        </main>
+      </MainLayout>
+    </>
   );
 };
 

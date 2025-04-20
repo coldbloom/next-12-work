@@ -8,12 +8,13 @@ import s from './Main.module.scss';
 export const Main = () => {
   return (
     <MainLayout>
-      <MainForm />
-      <div className={s.createTravelWrapper}>
+      <main className={s.main}>
+        <MainForm />
+
         <Link href={pages.createTrip.link} className={s.createTravelLink}>
           Создать поездку
         </Link>
-      </div>
+      </main>
     </MainLayout>
   );
 };
