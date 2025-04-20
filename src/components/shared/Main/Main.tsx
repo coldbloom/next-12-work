@@ -14,7 +14,6 @@ export const Main = () => {
           Создать поездку
         </Link>
       </div>
-      <h1>fff1</h1>
     </MainLayout>
   );
 };
