@@ -4,6 +4,7 @@
   margin: 8px 24px;
   width: calc(100% - 48px); // -48px так как margin-left: 24px + margin-right: 24px
   height: 48px;
+  min-height: 48px;
   border-radius: v.$rounded;
   background-color: hsla(0, 0%, 93%, 1); //@fixme color
 

@@ -100,7 +100,9 @@ export const LocationSelect = ({
       ) : (
         <>
           {!value && params.location === 'city' ? (
-            <CitiesHistory fieldName={fieldName} handleFormChange={handleFormChange} selectedCity={selectedCity} />
+            <div className={s.optionsWrapper}>
+              <CitiesHistory fieldName={fieldName} handleFormChange={handleFormChange} selectedCity={selectedCity} />
+            </div>
           ) : (
             options?.length > 0 ? (
               <div className={s.optionsWrapper}>
