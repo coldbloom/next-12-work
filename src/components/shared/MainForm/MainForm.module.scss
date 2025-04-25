@@ -1,5 +1,18 @@
 @use '@/utils/variables';
 
+.borderRadius {
+  border-top-left-radius: variables.$rounded;
+  border-top-right-radius: variables.$rounded;
+
+  &.bigHeight {
+    height: calc(100% - 50px);
+  }
+
+  &.smallHeight {
+    height: 380px;
+  }
+}
+
 .wrapper {
   position: relative;
   margin-top: variables.$header-height; // отступ на высоту header;
@@ -135,11 +148,6 @@
   height: 100%;
 
   background-color: white;
-}
-
-.smallHeight {
-  height: 310px!important;
-  max-height: 310px!important;
 }
 
 .swapWrapper {

@@ -4,12 +4,12 @@ import Icon from "@mdi/react";
 import s from './OptioField.module.scss';
 import cn from 'classnames';
 
-import { Location, locationField } from "@/utils/types";
+import { Location, LocationField } from "@/utils/types";
 
 type OptionFieldProps = {
   option: Location;
-  fieldName: locationField;
-  handleFormChange: (value: Location, name: locationField) => void;
+  fieldName: LocationField;
+  handleFormChange: (value: Location, name: LocationField) => void;
   variant?: 'primary' | 'history';
 }
 

@@ -13,15 +13,10 @@ import { DatePicker } from "@/components/kit/Calendar";
 import { LocationSelect } from '../LocationSelect';
 
 import { getPassengerString, formatDate, formatDateToIso } from '@/utils/functions'
-import { Location } from '@/utils/types';
+import { Location, LocationField } from '@/utils/types';
+import { searchTripStore, CitiesField } from '@/store/searchTripStore';
+import { observer } from "mobx-react-lite";
 import { Passengers } from '../Passengers';
-
-export type TravelSearchFormData = {
-  cityFrom: Location | null;
-  cityTo: Location | null;
-  date: Date;
-  passengers: number;
-};
 
 type ButtonInputProps = {
   iconPath?: string;
@@ -69,50 +64,32 @@ const ButtonInput = ({ iconPath, placeholder, onClick, className, value, error =
   )
 };
 
-export const MainForm = () => {
+export const MainForm = observer(() => {
   const [activeField, setActiveField] = useState<number | null>(null);
-  const [formData, setFormData] = useState<TravelSearchFormData>({
-    cityFrom: null,
-    cityTo: null,
-    date: new(Date),
-    passengers: 1,
-  });
 
   const [errorFrom, setErrorFrom] = useState(false);
   const [errorTo, setErrorTo] = useState(false);
   const router = useRouter();
 
-  const { cityFrom: from, cityTo: to, date, passengers} = formData;
+  const { cityFrom: from, cityTo: to, date, passengers } = searchTripStore;
 
   const swapVisible = !errorTo && !errorFrom && (!!from || !!to);
 
   const closeModal = (num?: number) => setActiveField(num ?? null);
 
-  const handleLocation = (value: Location, fieldName: string) => {
-    // @TODO в этом месте будем сохранять историю поиска
+  const handleLocation = (value: Location, fieldName: LocationField) => {
+    //обновляем историю поиска
     updateSearchCitiesHistory(value);
-    setFormData((prevData) => ({
-      ...prevData,
-      [fieldName]: value, // Обновляем только нужное поле
-    }));
+    searchTripStore.updateLocation(fieldName as CitiesField, value);
     closeModal();
   }
 
   const handleDate = (selectedDate: Date) => {
-    setFormData(prevState => ({
-      ...prevState,
-      date: selectedDate,
-    }));
+    searchTripStore.updateDate(selectedDate);
     closeModal(0);
   }
 
-  const swap = () => {
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      cityFrom: prevFormData.cityTo,
-      cityTo: prevFormData.cityFrom,
-    }));
-  };
+  const swap = () => searchTripStore.swapLocation();
 
   const handleSearchInput = () => {
     if (!from) {
@@ -191,7 +168,16 @@ export const MainForm = () => {
       <ModalPageWindow
         isOpen={!!activeField}
         onClose={() => closeModal(0)}
-        style={{ ...((activeField === 3 || activeField === 4 || activeField === 0) && { height: '380px' }) }}
+        // style={{ ...((activeField === 3 || activeField === 4 || activeField === 0) && {
+        //     height: '380px',
+        //     borderTopLeftRadius: '12px',
+        //     borderTopRightRadius: '12px',
+        //   })
+        // }}
+        className={cn(s.borderRadius, {
+          [s.smallHeight]: activeField === 3 || activeField === 4 || activeField === 0,
+          [s.bigHeight]: activeField === 1 || activeField === 2
+        })}
         exitActiveFast={(activeField === 3 || activeField === 4 || activeField === 0) && true}
       >
         <div className={s.modalWrapper}>
@@ -219,18 +205,13 @@ export const MainForm = () => {
           )}
           {activeField === 3 && (
             <DatePicker
-              selectedDate={formData.date}
+              selectedDate={date}
               onChangeDate={handleDate}
             />
           )}
-          {activeField === 4 && (
-            <Passengers
-              value={formData.passengers}
-              setFormData={setFormData}
-            />
-          )}
+          {activeField === 4 && <Passengers />}
         </div>
       </ModalPageWindow>
     </>
   );
-};
+});

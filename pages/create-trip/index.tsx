@@ -5,7 +5,7 @@ import { withAuth } from '@/components/hoc/WithAuth';
 import { LayoutContainer } from "@/components/layouts/LayoutContainer";
 import { ModalPageWindow } from "@/components/kit/ModalPageWindow";
 import { LocationSelect } from "@/components/shared/LocationSelect";
-import { Location, locationField } from "@/utils/types";
+import { Location, LocationField } from "@/utils/types";
 import { observer } from "mobx-react-lite";
 
 import { tripStore } from '@/store/createTripStore';
@@ -16,7 +16,7 @@ const CreateTrip = observer(() => {
 
   const closeModal = () => setActiveField(null);
 
-  const handleLocation = (value: Location, fieldName: locationField) => {
+  const handleLocation = (value: Location, fieldName: LocationField) => {
     console.log(value, fieldName);
     tripStore.updateLocation(value, fieldName);
     closeModal();

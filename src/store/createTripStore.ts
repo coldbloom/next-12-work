@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { Location, locationField, TripData, RouteDetails } from "@/utils/types";
+import { Location, LocationField, TripData, RouteDetails } from "@/utils/types";
 import { secondsToHoursMinutes } from "@/utils/functions";
 
 class CreateTripStore {
@@ -48,7 +48,7 @@ class CreateTripStore {
   }
 
   // Метод для обновления местоположения
-  updateLocation(location: Location, field: locationField): void {
+  updateLocation(location: Location, field: LocationField): void {
     const currentLocation = this[field];
     if (!currentLocation || currentLocation.id !== location.id) {
       this[field] = location;
@@ -100,4 +100,5 @@ class CreateTripStore {
   }
 }
 
+// экземпляры классов обычно именуются с маленькой буквы
 export const tripStore = new CreateTripStore();

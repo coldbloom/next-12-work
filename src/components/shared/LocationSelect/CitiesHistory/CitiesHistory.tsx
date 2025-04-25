@@ -1,11 +1,11 @@
 import React from 'react';
-import {Location, locationField} from "@/utils/types";
+import {Location, LocationField} from "@/utils/types";
 import {OptionField} from "@/components/shared/LocationSelect/OptionField";
 
 type CitiesHistoryProps = {
   selectedCity?: Location | null;
-  fieldName: locationField;
-  handleFormChange: (value: Location, name: locationField) => void;
+  fieldName: LocationField;
+  handleFormChange: (value: Location, name: LocationField) => void;
 };
 
 const filterHistory = (historyList: Location[], selectedCity?: Location | null): Location[] => {

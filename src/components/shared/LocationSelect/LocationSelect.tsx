@@ -9,7 +9,7 @@ import {Plug} from "@/components/kit/Plug";
 import {OptionField} from './OptionField';
 
 import {useDebounce} from '@/utils/hooks/useDebounce';
-import {Location, locationField, LocationReqParams} from '@/utils/types';
+import {Location, LocationField, LocationReqParams} from '@/utils/types';
 import { CitiesHistory } from '@/components/shared/LocationSelect/CitiesHistory';
 
 const getCacheKey = (query: string, params: LocationReqParams) => {
@@ -32,9 +32,9 @@ const createApiParams = (query: string, params: LocationReqParams) => ({
 });
 
 type LocationSelectProps = {
-  fieldName: locationField;
+  fieldName: LocationField;
   onClose: () => void;
-  handleFormChange: (value: Location, name: locationField) => void;
+  handleFormChange: (value: Location, name: LocationField) => void;
   initialValue?: string;
   params: LocationReqParams;
   placeholder?: string;

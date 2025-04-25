@@ -25,7 +25,7 @@ export type LocationReqParams = {
   settlement?: string;
 };
 
-export type locationField =
+export type LocationField =
   | 'cityFrom'
   | 'streetFrom'
   | 'buildingFrom'

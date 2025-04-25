@@ -5,7 +5,7 @@ import { ModalPageWindow } from '@/components/kit/ModalPageWindow';
 import { LocationSelect } from '@/components/shared/LocationSelect';
 import { observer } from 'mobx-react-lite';
 import { tripStore } from '@/store/createTripStore';
-import { Location, locationField } from '@/utils/types';
+import { Location, LocationField } from '@/utils/types';
 
 import s from '../Create.module.scss';
 import { useRouter } from "next/router";
@@ -24,7 +24,7 @@ const To = observer(() => {
 
   const closeModal = () => setActiveField(null);
 
-  const handleLocation = (value: Location, fieldName: locationField) => {
+  const handleLocation = (value: Location, fieldName: LocationField) => {
     tripStore.updateLocation(value, fieldName);
     closeModal();
   };

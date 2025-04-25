@@ -1,0 +1,5 @@
+@use '@/utils/variables' as variables;
+
+.main {
+  padding: variables.$header-height 24px 0 24px;
+}

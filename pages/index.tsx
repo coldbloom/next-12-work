@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
-import { Main } from 'src/components/shared/Main';
+import { Main } from 'src/components/main/Main';
 import { Meta } from '@/components/layouts/Meta';
+import {MainLayout} from "@/components/layouts/MainLayout";
 
 // Не вкладывайте <header>, <main>, <footer> друг в друга.
 // Внутри <main> используйте <section>, <article>, <aside> для дополнительной структуризации.
@@ -31,7 +32,9 @@ const Home: NextPage = () => {
         ogDescription="Описание для соц-сетей"
       />
 
-      <Main />
+      <MainLayout>
+        <Main />
+      </MainLayout>
     </>
   )
 }
